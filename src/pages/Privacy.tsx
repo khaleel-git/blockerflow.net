@@ -44,32 +44,47 @@ export function Privacy() {
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">AI Coach</h3>
       <p className="mt-3 text-ink-muted">
-        If you choose the AI Coach as your accountability partner, each time you try to disable a
-        blocker the app sends the reason you type and the name of the feature to Blockerflow's
-        server, which forwards it to Google's Gemini API for an approve/reject decision. Your
-        browsing history is never sent. The server does not store your text; it only keeps a
-        per-account daily count of checks to enforce a free daily limit. Google's handling of this
+        If you choose the AI Coach as your accountability partner (requires sign-in), each time
+        you try to disable a blocker the app sends the reason you type and the name of the
+        feature to Blockerflow's server, which forwards it to Google's Gemini API for an
+        approve/reject decision. Your browsing history is never sent. The server does not store
+        your text; it only keeps a per-account daily count of checks to enforce a free daily
+        limit. If Gemini returns an error or an answer the server can't read, that answer — which
+        may quote your reason — is written to the server's error log. Google's handling of this
         text is governed by the Gemini API terms.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">Accountability Partner</h3>
       <p className="mt-3 text-ink-muted">
-        If you set an accountability partner's email address, the app sends that address to
-        Blockerflow's server, which generates a one-time PIN and emails it via Amazon SES. The
-        server keeps only a salted hash of the PIN until it is used or expires after 10 minutes,
-        plus a daily count of emails sent per account to prevent abuse. The sites you visit are
-        never included.
+        If you set an accountability partner's email address (requires sign-in), the app sends
+        that address to Blockerflow's server, which generates a one-time PIN and emails it via
+        Amazon SES. The server keeps only a salted hash of the PIN until it is used or expires
+        after 10 minutes, plus a daily count of emails sent per account to prevent abuse. The
+        sites you visit are never included.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">Cloud settings sync</h3>
       <p className="mt-3 text-ink-muted">
         Signing in with Google is entirely optional — Blockerflow is fully functional offline
-        with no account. If you choose to sign in, your settings (blocking toggles,
-        blocklist/whitelist entries, and similar preferences) sync to a Firestore document scoped
-        to your account. Device-local state (such as whether onboarding is complete) and your
-        browsing history or blocklist match decisions are never synced — only configuration is.
-        This data is stored under your Google account's identity in Firebase and is governed by
-        Firebase's own terms.
+        with no account. If you choose to sign in, Blockerflow stores the following in a
+        Firestore document scoped to your account:
+      </p>
+      <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-muted">
+        <li>
+          <strong className="text-ink">Profile:</strong> the email, display name, and photo URL
+          Google Sign-In returns
+        </li>
+        <li>
+          <strong className="text-ink">Settings:</strong> your blocking toggles,
+          blocklist/whitelist entries, and similar preferences — including your
+          accountability-partner mode and email, if you've set one
+        </li>
+      </ul>
+      <p className="mt-3 text-ink-muted">
+        Device-local state (such as whether onboarding is complete) and your browsing history or
+        blocklist match decisions are never synced. This data is stored under your Google
+        account's identity in Firebase and is governed by Firebase's own terms. Signing out stops
+        further sync; it does not delete what was already written to Firestore.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Permissions</h2>
@@ -114,6 +129,14 @@ export function Privacy() {
       <p className="mt-3 text-ink-muted">
         Blockerflow does not sell your data, does not use third-party advertising SDKs, and does
         not track you across apps or websites.
+      </p>
+
+      <h2 className="mt-10 font-display text-xl font-semibold text-ink">Your choices</h2>
+      <p className="mt-3 text-ink-muted">
+        Every feature that sends data off-device is opt-in — simply not setting an accountability
+        partner, not choosing the AI Coach, and not signing in with Google means nothing leaves
+        your device at all. If you have signed in and want your synced data (profile and
+        settings) deleted from Firebase, contact us using the email below and we'll remove it.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Contact</h2>
