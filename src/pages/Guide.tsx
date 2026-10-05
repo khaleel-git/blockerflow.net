@@ -29,7 +29,7 @@ const STEPS = [
     title: 'Set an Accountability Partner or AI Coach',
     description:
       'In Settings, add a trusted contact as your Accountability Partner. They get a one-time PIN by email whenever you want to unlock something. Prefer not to involve anyone else? Switch to the AI Coach for an honest second opinion instead.',
-    screenshot: '/assets/screenshots/04-settings.png',
+    screenshot: '/assets/screenshots/04-accountability-partner.png',
   },
   {
     number: 5,

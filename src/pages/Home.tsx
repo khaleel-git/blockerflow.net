@@ -27,7 +27,7 @@ const FEATURES = [
     title: 'Accountability Partner',
     description:
       'A trusted contact unlocks blocked features for you, via a one-time PIN sent to their email.',
-    screenshot: '/assets/screenshots/04-settings.png',
+    screenshot: '/assets/screenshots/04-accountability-partner.png',
   },
   {
     title: 'Uninstall Protection',
