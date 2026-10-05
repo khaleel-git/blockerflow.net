@@ -13,12 +13,13 @@ describe('Nav', () => {
     expect(screen.getByRole('link', { name: 'Blockerflow home' })).toHaveAttribute('href', '/')
   })
 
-  it('links to the privacy and terms routes', () => {
+  it('links to the guide, privacy, and terms routes', () => {
     render(
       <MemoryRouter>
         <Nav />
       </MemoryRouter>,
     )
+    expect(screen.getByRole('link', { name: 'Guide' })).toHaveAttribute('href', '/guide')
     expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy')
     expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms')
   })

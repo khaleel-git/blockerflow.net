@@ -4,12 +4,13 @@ import { MemoryRouter } from 'react-router-dom'
 import { Footer } from './Footer'
 
 describe('Footer', () => {
-  it('links to privacy and terms', () => {
+  it('links to guide, privacy, and terms', () => {
     render(
       <MemoryRouter>
         <Footer />
       </MemoryRouter>,
     )
+    expect(screen.getByRole('link', { name: 'Guide' })).toHaveAttribute('href', '/guide')
     expect(screen.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy')
     expect(screen.getByRole('link', { name: 'Terms & Conditions' })).toHaveAttribute('href', '/terms')
   })

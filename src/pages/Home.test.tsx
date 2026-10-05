@@ -45,6 +45,6 @@ describe('Home', () => {
         <Home />
       </MemoryRouter>,
     )
-    expect(document.title).toBe('Blockerflow — Block distractions, stay accountable')
+    expect(document.title).toBe('Blockerflow: Block distractions, stay accountable')
   })
 })

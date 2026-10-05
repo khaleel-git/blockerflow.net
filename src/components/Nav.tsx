@@ -9,6 +9,9 @@ export function Nav() {
           <Wordmark />
         </Link>
         <div className="flex gap-6 text-sm font-medium text-ink-muted">
+          <Link to="/guide" className="hover:text-ink">
+            Guide
+          </Link>
           <Link to="/privacy" className="hover:text-ink">
             Privacy
           </Link>

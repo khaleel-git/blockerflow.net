@@ -17,6 +17,11 @@ describe('AppRoutes', () => {
     expect(screen.getByText('Coming Soon on Google Play')).toBeInTheDocument()
   })
 
+  it('renders Guide at /guide', () => {
+    renderAt('/guide')
+    expect(screen.getByRole('heading', { name: 'How to use Blockerflow' })).toBeInTheDocument()
+  })
+
   it('renders Privacy at /privacy', () => {
     renderAt('/privacy')
     expect(screen.getByRole('heading', { name: 'Privacy Policy' })).toBeInTheDocument()
