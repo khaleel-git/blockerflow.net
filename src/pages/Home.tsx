@@ -32,11 +32,13 @@ const FEATURES = [
   {
     title: 'Uninstall Protection',
     description: 'Stops the app being removed as a shortcut around its own blocks.',
+    screenshot: '/assets/screenshots/05-uninstall-protection.png',
   },
   {
     title: 'AI Coach',
     description:
       "An honest second opinion when you're tempted to disable a blocker, before you talk yourself out of it.",
+    screenshot: '/assets/screenshots/06-ai-coach.png',
   },
 ]
 
@@ -85,25 +87,28 @@ export function Home() {
       </section>
 
       <section className="mx-auto max-w-5xl px-6 pb-20">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="space-y-20">
           {FEATURES.map((feature) => (
             <div
               key={feature.title}
-              className="overflow-hidden rounded-2xl border border-outline bg-surface"
+              className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16"
             >
-              {feature.screenshot && (
-                <div className="flex h-64 items-center justify-center border-b border-outline bg-primary-bg p-8">
+              <div className="text-center lg:flex-1 lg:text-left">
+                <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+                  {feature.title}
+                </h2>
+                <p className="mx-auto mt-4 max-w-md text-ink-muted lg:mx-0">{feature.description}</p>
+              </div>
+
+              <div className="lg:flex-1">
+                <PhoneFrame className="max-w-[240px]">
                   <img
                     src={feature.screenshot}
                     alt={`${feature.title} screenshot`}
                     className="h-full w-full object-contain"
                     loading="lazy"
                   />
-                </div>
-              )}
-              <div className="p-6">
-                <h2 className="font-display text-lg font-semibold text-ink">{feature.title}</h2>
-                <p className="mt-2 text-sm text-ink-muted">{feature.description}</p>
+                </PhoneFrame>
               </div>
             </div>
           ))}
