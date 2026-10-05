@@ -87,31 +87,41 @@ export function Home() {
       </section>
 
       <section className="mx-auto max-w-5xl px-6 pb-20">
-        <div className="space-y-20">
-          {FEATURES.map((feature) => (
-            <div
-              key={feature.title}
-              className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16"
-            >
-              <div className="text-center lg:flex-1 lg:text-left">
-                <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-                  {feature.title}
-                </h2>
-                <p className="mx-auto mt-4 max-w-md text-ink-muted lg:mx-0">{feature.description}</p>
-              </div>
+        <div className="space-y-4">
+          {FEATURES.map((feature, index) => {
+            const reversed = index % 2 === 1
+            return (
+              <div
+                key={feature.title}
+                className={`flex flex-col items-center gap-10 rounded-3xl p-8 sm:p-12 lg:flex-row lg:gap-16 ${
+                  reversed ? 'lg:flex-row-reverse' : ''
+                } ${index % 2 === 0 ? 'bg-surface' : 'bg-transparent'}`}
+              >
+                <div className={`text-center lg:flex-1 ${reversed ? 'lg:text-right' : 'lg:text-left'}`}>
+                  <span className="font-display text-sm font-semibold text-primary">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <h2 className="mt-2 font-display text-2xl font-semibold text-ink sm:text-3xl">
+                    {feature.title}
+                  </h2>
+                  <p className="mx-auto mt-4 max-w-md text-ink-muted lg:mx-0">
+                    {feature.description}
+                  </p>
+                </div>
 
-              <div className="lg:flex-1">
-                <PhoneFrame className="max-w-[240px]">
-                  <img
-                    src={feature.screenshot}
-                    alt={`${feature.title} screenshot`}
-                    className="h-full w-full object-contain"
-                    loading="lazy"
-                  />
-                </PhoneFrame>
+                <div className="lg:flex-1">
+                  <PhoneFrame className="max-w-[240px]">
+                    <img
+                      src={feature.screenshot}
+                      alt={`${feature.title} screenshot`}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                    />
+                  </PhoneFrame>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 
