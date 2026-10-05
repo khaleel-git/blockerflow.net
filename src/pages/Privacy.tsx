@@ -135,8 +135,18 @@ export function Privacy() {
       <p className="mt-3 text-ink-muted">
         Every feature that sends data off-device is opt-in — simply not setting an accountability
         partner, not choosing the AI Coach, and not signing in with Google means nothing leaves
-        your device at all. If you have signed in and want your synced data (profile and
-        settings) deleted from Firebase, contact us using the email below and we'll remove it.
+        your device at all.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Deleting your account</h3>
+      <p className="mt-3 text-ink-muted">
+        If you've signed in with Google, you can permanently delete your account and everything
+        synced to the cloud (your profile and settings document) directly in the app: open
+        Blockerflow, go to Settings, scroll to Danger Zone, and tap Delete Account. Confirming
+        deletes your Firestore data and your Firebase Auth account outright; this cannot be
+        undone. Blocking settings stored only on your device are not affected by this and can be
+        cleared separately with Factory Reset, also in Settings. If you'd rather not use the
+        in-app option, email us at the address below and we'll delete it for you.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Contact</h2>
