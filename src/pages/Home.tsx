@@ -89,7 +89,7 @@ export function Home() {
       <section className="mx-auto max-w-5xl px-6 pb-20">
         <div className="space-y-4">
           {FEATURES.map((feature, index) => {
-            const reversed = index % 2 === 1
+            const reversed = index % 2 === 0
             return (
               <div
                 key={feature.title}
