@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { HeroBackdrop } from '../components/HeroBackdrop'
+import { HeroDemoVideo } from '../components/HeroDemoVideo'
 import { PhoneFrame } from '../components/PhoneFrame'
 
 const FEATURES = [
@@ -78,15 +79,7 @@ export function Home() {
           </div>
 
           <PhoneFrame className="lg:ml-auto">
-            <video
-              className="h-full w-full object-cover"
-              src="/assets/demo-combined.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-            />
+            <HeroDemoVideo />
           </PhoneFrame>
         </div>
       </section>
