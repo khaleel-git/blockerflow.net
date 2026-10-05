@@ -76,7 +76,7 @@ export function Guide() {
                     <img
                       src={step.screenshot}
                       alt={`${step.title} screenshot`}
-                      className="h-full w-full object-cover object-top"
+                      className="h-full w-full object-contain"
                       loading="lazy"
                     />
                   </PhoneFrame>

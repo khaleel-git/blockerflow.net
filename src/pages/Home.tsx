@@ -99,12 +99,14 @@ export function Home() {
               className="overflow-hidden rounded-2xl border border-outline bg-surface"
             >
               {feature.screenshot && (
-                <img
-                  src={feature.screenshot}
-                  alt={`${feature.title} screenshot`}
-                  className="h-40 w-full border-b border-outline object-cover object-top"
-                  loading="lazy"
-                />
+                <div className="flex h-56 items-center justify-center border-b border-outline bg-primary-bg p-4">
+                  <img
+                    src={feature.screenshot}
+                    alt={`${feature.title} screenshot`}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
               )}
               <div className="p-6">
                 <h2 className="font-display text-lg font-semibold text-ink">{feature.title}</h2>
