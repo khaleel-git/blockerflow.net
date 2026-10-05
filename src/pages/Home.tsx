@@ -99,7 +99,7 @@ export function Home() {
               className="overflow-hidden rounded-2xl border border-outline bg-surface"
             >
               {feature.screenshot && (
-                <div className="flex h-56 items-center justify-center border-b border-outline bg-primary-bg p-4">
+                <div className="flex h-64 items-center justify-center border-b border-outline bg-primary-bg p-8">
                   <img
                     src={feature.screenshot}
                     alt={`${feature.title} screenshot`}
