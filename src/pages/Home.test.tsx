@@ -4,13 +4,16 @@ import { MemoryRouter } from 'react-router-dom'
 import { Home } from './Home'
 
 describe('Home', () => {
-  it('shows the Coming Soon badge', () => {
+  it('links the Google Play badge to the store listing', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>,
     )
-    expect(screen.getByText('Coming Soon on Google Play')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Get it on Google Play' })).toHaveAttribute(
+      'href',
+      'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow',
+    )
   })
 
   it('lists all six features', () => {

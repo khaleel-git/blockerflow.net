@@ -14,7 +14,7 @@ function renderAt(path: string) {
 describe('AppRoutes', () => {
   it('renders Home at /', () => {
     renderAt('/')
-    expect(screen.getByText('Coming Soon on Google Play')).toBeInTheDocument()
+    expect(screen.getByText('Get it on Google Play')).toBeInTheDocument()
   })
 
   it('renders Guide at /guide', () => {
