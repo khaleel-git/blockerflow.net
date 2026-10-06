@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Wordmark } from './Wordmark'
+import { GooglePlayBadge } from './GooglePlayBadge'
 
 export function Nav() {
   return (
@@ -8,16 +9,17 @@ export function Nav() {
         <Link to="/" aria-label="Blockerflow home">
           <Wordmark />
         </Link>
-        <div className="flex gap-6 text-sm font-medium text-ink-muted">
-          <Link to="/guide" className="hover:text-ink">
+        <div className="flex items-center gap-4 text-sm font-medium text-ink-muted sm:gap-6">
+          <Link to="/guide" className="hidden hover:text-ink sm:inline">
             Guide
           </Link>
-          <Link to="/privacy" className="hover:text-ink">
+          <Link to="/privacy" className="hidden hover:text-ink sm:inline">
             Privacy
           </Link>
-          <Link to="/terms" className="hover:text-ink">
+          <Link to="/terms" className="hidden hover:text-ink sm:inline">
             Terms
           </Link>
+          <GooglePlayBadge variant="compact" />
         </div>
       </nav>
     </header>

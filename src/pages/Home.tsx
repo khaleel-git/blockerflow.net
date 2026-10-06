@@ -3,6 +3,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { HeroBackdrop } from '../components/HeroBackdrop'
 import { HeroDemoVideo } from '../components/HeroDemoVideo'
 import { PhoneFrame } from '../components/PhoneFrame'
+import { GooglePlayBadge } from '../components/GooglePlayBadge'
 
 const FEATURES = [
   {
@@ -51,14 +52,19 @@ export function Home() {
         <HeroBackdrop />
         <div className="mx-auto grid max-w-5xl gap-12 px-6 pb-16 pt-20 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-8">
           <div className="text-center lg:text-left">
-            <a
-              href="https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full bg-primary-bg px-4 py-1.5 text-sm font-medium text-primary transition hover:bg-primary-bg/80"
-            >
-              Get it on Google Play
-            </a>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-bg px-4 py-1.5 text-sm font-medium text-primary">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" fillOpacity="0.15" />
+                <path
+                  d="M6 10.3l2.4 2.4L14 7"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Available now on Google Play
+            </span>
             <h1 className="mt-6 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl">
               Block distractions.
               <br />
@@ -69,19 +75,16 @@ export function Home() {
               feeds, backed by a real accountability system, not just a toggle you can switch off
               the moment you're tempted.
             </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link
-                to="/guide"
-                className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white shadow-lg shadow-primary/20 transition hover:bg-primary/90"
-              >
-                See how it works
-              </Link>
-              <Link
-                to="/privacy"
-                className="inline-flex items-center justify-center rounded-full border border-outline px-6 py-3 font-medium text-ink transition hover:bg-surface"
-              >
-                Read the privacy policy
-              </Link>
+            <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
+              <GooglePlayBadge />
+              <div className="flex items-center gap-5 text-sm font-medium">
+                <Link to="/guide" className="text-ink transition hover:text-primary">
+                  See how it works &rarr;
+                </Link>
+                <Link to="/privacy" className="text-ink-muted transition hover:text-ink">
+                  Privacy policy
+                </Link>
+              </div>
             </div>
           </div>
 

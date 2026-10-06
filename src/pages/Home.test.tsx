@@ -10,10 +10,18 @@ describe('Home', () => {
         <Home />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'Get it on Google Play' })).toHaveAttribute(
-      'href',
-      'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow',
+    expect(
+      screen.getByRole('link', { name: 'Get Blockerflow on Google Play' }),
+    ).toHaveAttribute('href', 'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow')
+  })
+
+  it('states the app is available now on Google Play', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
     )
+    expect(screen.getByText('Available now on Google Play')).toBeInTheDocument()
   })
 
   it('lists all six features', () => {

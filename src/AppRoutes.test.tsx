@@ -14,7 +14,8 @@ function renderAt(path: string) {
 describe('AppRoutes', () => {
   it('renders Home at /', () => {
     renderAt('/')
-    expect(screen.getByText('Get it on Google Play')).toBeInTheDocument()
+    expect(screen.getByText('Available now on Google Play')).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: 'Get Blockerflow on Google Play' }).length).toBe(2)
   })
 
   it('renders Guide at /guide', () => {

@@ -23,4 +23,15 @@ describe('Nav', () => {
     expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy')
     expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms')
   })
+
+  it('links the Google Play badge to the store listing', () => {
+    render(
+      <MemoryRouter>
+        <Nav />
+      </MemoryRouter>,
+    )
+    expect(
+      screen.getByRole('link', { name: 'Get Blockerflow on Google Play' }),
+    ).toHaveAttribute('href', 'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow')
+  })
 })
