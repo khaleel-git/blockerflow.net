@@ -114,9 +114,9 @@ export function Home() {
             </div>
           </div>
 
-          <PhoneFrame className="!aspect-[280/476] lg:ml-auto">
+          <div className="mx-auto aspect-[9/16] w-full max-w-[300px] overflow-hidden rounded-3xl shadow-2xl lg:ml-auto lg:mr-0">
             <HeroDemoVideo />
-          </PhoneFrame>
+          </div>
         </div>
       </section>
 
