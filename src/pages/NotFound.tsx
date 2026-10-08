@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export function NotFound() {
-  useDocumentTitle('Page not found — Blockerflow')
+  usePageMeta('/404')
 
   return (
     <section className="mx-auto max-w-xl px-6 py-24 text-center">

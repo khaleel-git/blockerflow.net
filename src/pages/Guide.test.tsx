@@ -44,6 +44,6 @@ describe('Guide', () => {
         <Guide />
       </MemoryRouter>,
     )
-    expect(document.title).toBe('How to use Blockerflow: Setup guide')
+    expect(document.title).toBe('How to Set Up Blockerflow: Android Blocker Setup Guide')
   })
 })

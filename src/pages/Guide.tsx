@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { PhoneFrame } from '../components/PhoneFrame'
 
 const STEPS = [
@@ -40,7 +40,7 @@ const STEPS = [
 ]
 
 export function Guide() {
-  useDocumentTitle('How to use Blockerflow: Setup guide')
+  usePageMeta('/guide')
 
   return (
     <>

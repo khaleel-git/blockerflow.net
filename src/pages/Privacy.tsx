@@ -1,7 +1,7 @@
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 export function Privacy() {
-  useDocumentTitle('Privacy Policy — Blockerflow')
+  usePageMeta('/privacy')
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">

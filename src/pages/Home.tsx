@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
-import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { HeroBackdrop } from '../components/HeroBackdrop'
 import { HeroDemoVideo } from '../components/HeroDemoVideo'
+import { DemoVideo } from '../components/DemoVideo'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
+import { JsonLd } from '../components/JsonLd'
+import { ARTICLES } from '../seo/articles'
+import { PLAY_STORE_URL, SITE_NAME, SITE_URL } from '../seo/site'
 
 const FEATURES = [
   {
@@ -43,11 +47,34 @@ const FEATURES = [
   },
 ]
 
+const HOME_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    {
+      '@type': 'MobileApplication',
+      name: SITE_NAME,
+      operatingSystem: 'Android',
+      applicationCategory: 'LifestyleApplication',
+      description:
+        'An Android app that blocks adult content and distracting social video feeds, backed by an accountability system.',
+      url: SITE_URL,
+      downloadUrl: PLAY_STORE_URL,
+      image: `${SITE_URL}/assets/icon-512.png`,
+    },
+  ],
+}
+
 export function Home() {
-  useDocumentTitle('Blockerflow: Block distractions, stay accountable')
+  usePageMeta('/')
 
   return (
     <>
+      <JsonLd data={HOME_SCHEMA} />
       <section className="relative overflow-hidden">
         <HeroBackdrop />
         <div className="mx-auto grid max-w-5xl gap-12 px-6 pb-16 pt-20 sm:pt-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-8">
@@ -91,6 +118,18 @@ export function Home() {
           <PhoneFrame className="lg:ml-auto">
             <HeroDemoVideo />
           </PhoneFrame>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-20">
+        <h2 className="text-center font-display text-2xl font-semibold text-ink sm:text-3xl">
+          See the porn blocker in action
+        </h2>
+        <p className="mx-auto mt-3 max-w-lg text-center text-ink-muted">
+          A 15 second look at how Blockerflow stops adult content on Android. Tap play, sound on.
+        </p>
+        <div className="mt-8">
+          <DemoVideo video="pornBlocker" caption="Blockerflow porn blocker" />
         </div>
       </section>
 
@@ -148,6 +187,24 @@ export function Home() {
           >
             Open the guide &rarr;
           </Link>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-20">
+        <h2 className="text-center font-display text-2xl font-semibold text-ink sm:text-3xl">
+          Guides and video demos
+        </h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {ARTICLES.map((a) => (
+            <Link
+              key={a.slug}
+              to={`/guides/${a.slug}`}
+              className="rounded-2xl border border-outline bg-surface p-6 transition hover:border-primary"
+            >
+              <h3 className="font-display text-lg font-semibold text-ink">{a.h1}</h3>
+              <p className="mt-2 text-sm text-ink-muted">{a.description}</p>
+            </Link>
+          ))}
         </div>
       </section>
 

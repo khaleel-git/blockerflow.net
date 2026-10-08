@@ -10,8 +10,11 @@ export function Nav() {
           <Wordmark />
         </Link>
         <div className="flex items-center gap-4 text-sm font-medium text-ink-muted sm:gap-6">
+          <Link to="/guides" className="hidden hover:text-ink sm:inline">
+            Guides
+          </Link>
           <Link to="/guide" className="hidden hover:text-ink sm:inline">
-            Guide
+            Setup
           </Link>
           <Link to="/privacy" className="hidden hover:text-ink sm:inline">
             Privacy
