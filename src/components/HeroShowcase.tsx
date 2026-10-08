@@ -39,19 +39,17 @@ export function HeroShowcase() {
         </div>
       </div>
 
-      <div className="absolute -left-4 top-[18%] hidden items-center gap-2 rounded-2xl border border-outline bg-surface/90 px-3.5 py-2.5 text-sm font-semibold text-ink shadow-xl backdrop-blur motion-safe:animate-float sm:flex lg:-left-14">
-        <span className="text-primary">
-          <Shield />
-        </span>
-        1.1M+ sites blocked
-      </div>
-
-      <div
-        className="absolute -right-4 bottom-[22%] hidden items-center gap-2 rounded-2xl border border-outline bg-surface/90 px-3.5 py-2.5 text-sm font-semibold text-ink shadow-xl backdrop-blur motion-safe:animate-float sm:flex lg:-right-10"
-        style={{ animationDelay: '-3s' }}
-      >
-        <span className="h-2 w-2 rounded-full bg-emerald-500" />
-        Stays on your device
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+        <div className="flex items-center gap-2 rounded-full border border-outline bg-surface px-3.5 py-2 text-sm font-semibold text-ink shadow-md">
+          <span className="text-primary">
+            <Shield />
+          </span>
+          1.1M+ sites blocked
+        </div>
+        <div className="flex items-center gap-2 rounded-full border border-outline bg-surface px-3.5 py-2 text-sm font-semibold text-ink shadow-md">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          Stays on your device
+        </div>
       </div>
     </div>
   )
