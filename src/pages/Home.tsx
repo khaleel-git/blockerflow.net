@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { HeroBackdrop } from '../components/HeroBackdrop'
 import { HeroDemoVideo } from '../components/HeroDemoVideo'
-import { DemoVideo } from '../components/DemoVideo'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { JsonLd } from '../components/JsonLd'
@@ -118,18 +117,6 @@ export function Home() {
           <PhoneFrame className="lg:ml-auto">
             <HeroDemoVideo />
           </PhoneFrame>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-6 pb-20">
-        <h2 className="text-center font-display text-2xl font-semibold text-ink sm:text-3xl">
-          See the porn blocker in action
-        </h2>
-        <p className="mx-auto mt-3 max-w-lg text-center text-ink-muted">
-          A 15 second look at how Blockerflow stops adult content on Android. Tap play, sound on.
-        </p>
-        <div className="mt-8">
-          <DemoVideo video="pornBlocker" caption="Blockerflow porn blocker" />
         </div>
       </section>
 

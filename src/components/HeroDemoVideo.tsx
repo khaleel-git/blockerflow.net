@@ -36,7 +36,8 @@ export function HeroDemoVideo() {
     <video
       ref={videoRef}
       className="h-full w-full object-cover"
-      src="/assets/demo-combined.mp4"
+      src="/assets/videos/porn-blocker.mp4"
+      poster="/assets/videos/porn-blocker.jpg"
       muted
       loop
       playsInline
