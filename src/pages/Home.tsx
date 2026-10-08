@@ -114,7 +114,7 @@ export function Home() {
             </div>
           </div>
 
-          <PhoneFrame className="lg:ml-auto">
+          <PhoneFrame className="!aspect-[9/16] lg:ml-auto">
             <HeroDemoVideo />
           </PhoneFrame>
         </div>
