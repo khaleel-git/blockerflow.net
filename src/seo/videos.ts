@@ -6,6 +6,8 @@ export interface DemoVideoInfo {
   durationSeconds: number
   /** 16:9 clips render wide instead of in a phone shaped box. */
   landscape?: boolean
+  /** CSS aspect ratio of the file, when it is not the default 9 / 16 or 16 / 9. */
+  aspect?: string
 }
 
 const DATA = {
@@ -16,6 +18,7 @@ const DATA = {
     description:
       'Screen recording of Blockerflow on Android showing the Content Blocked screen the moment an adult website is opened in the browser.',
     durationSeconds: 15,
+    aspect: '9 / 20',
   },
   focusMode: {
     src: '/assets/videos/focus-facebook.mp4',
@@ -24,6 +27,7 @@ const DATA = {
     description:
       'Screen recording of a Blockerflow Focus Mode session: naming and timing a session, then Facebook being blocked while it runs.',
     durationSeconds: 18,
+    aspect: '9 / 20',
   },
   challenge: {
     src: '/assets/videos/self-challenge.mp4',
@@ -32,6 +36,7 @@ const DATA = {
     description:
       'Screen recording of the typing challenge Blockerflow shows when you try to uninstall or disable protection.',
     durationSeconds: 33,
+    aspect: '9 / 20',
   },
   overview: {
     src: '/assets/videos/combined.mp4',
@@ -40,6 +45,7 @@ const DATA = {
     description:
       'A walkthrough of Blockerflow for Android: adult content blocking, social video blocking, Focus Mode and accountability partner options.',
     durationSeconds: 48,
+    aspect: '9 / 20',
   },
   pornBlocker: {
     src: '/assets/videos/porn-blocker.mp4',
