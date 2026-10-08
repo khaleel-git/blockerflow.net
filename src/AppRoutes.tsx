@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Home } from './pages/Home'
 import { Guide } from './pages/Guide'
@@ -8,9 +9,20 @@ import { Privacy } from './pages/Privacy'
 import { Terms } from './pages/Terms'
 import { NotFound } from './pages/NotFound'
 
+/** A new page should open at the top, not at the previous page's scroll position. */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    if (hash) return
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname, hash])
+  return null
+}
+
 export function AppRoutes() {
   return (
     <Layout>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/guide" element={<Guide />} />
