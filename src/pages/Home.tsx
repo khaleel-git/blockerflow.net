@@ -18,7 +18,7 @@ const FEATURES = [
   {
     title: 'Social video blocking',
     description:
-      'Blocks Instagram Reels, Facebook Reels, YouTube Shorts, Snapchat Spotlight, and X/Twitter videos, in both the apps and their websites.',
+      'Separate switches for Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight, WhatsApp channels and X videos. Messages keep working.',
     screenshot: '/assets/screenshots/02-blocklist.png',
   },
   {

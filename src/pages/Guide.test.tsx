@@ -13,17 +13,29 @@ describe('Guide', () => {
     expect(screen.getByRole('heading', { name: 'How to use Blockerflow' })).toBeInTheDocument()
   })
 
-  it('lists all five setup steps', () => {
+  it('lists every setup step', () => {
     render(
       <MemoryRouter>
         <Guide />
       </MemoryRouter>,
     )
-    expect(screen.getByText('Turn on the Accessibility Service')).toBeInTheDocument()
+    expect(screen.getByText('Finish the setup screen')).toBeInTheDocument()
     expect(screen.getByText('Choose what to block')).toBeInTheDocument()
-    expect(screen.getByText('Start a Focus Mode session')).toBeInTheDocument()
-    expect(screen.getByText('Set an Accountability Partner or AI Coach')).toBeInTheDocument()
+    expect(screen.getByText('Add your own apps and sites')).toBeInTheDocument()
+    expect(screen.getByText('Set an Accountability Partner')).toBeInTheDocument()
     expect(screen.getByText('Turn on Uninstall Protection')).toBeInTheDocument()
+    expect(screen.getByText('Start a Focus session')).toBeInTheDocument()
+  })
+
+  it('sends people to the Blocking tab for the feature switches, not the Blocklist tab', () => {
+    render(
+      <MemoryRouter>
+        <Guide />
+      </MemoryRouter>,
+    )
+    expect(
+      screen.getByText(/Everything is on the Blocking tab, the screen the app opens on/),
+    ).toBeInTheDocument()
   })
 
   it('links to the privacy policy', () => {
