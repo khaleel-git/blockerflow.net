@@ -33,13 +33,7 @@ export function HeroShowcase() {
         <div className="h-full w-full rounded-full bg-[conic-gradient(from_0deg,#6366f1,#a855f7,#38bdf8,#6366f1)] opacity-40 blur-3xl" />
       </div>
 
-      <div className="rounded-[2rem] bg-gradient-to-br from-indigo-500 via-violet-500 to-sky-400 p-[3px] shadow-2xl shadow-indigo-500/30">
-        <div className="aspect-[9/16] overflow-hidden rounded-[calc(2rem-3px)] bg-ink">
-          <HeroDemoVideo />
-        </div>
-      </div>
-
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+      <div className="mb-6 flex flex-wrap items-center justify-center gap-2.5">
         <div className="flex items-center gap-2 rounded-full border border-outline bg-surface px-3.5 py-2 text-sm font-semibold text-ink shadow-md">
           <span className="text-primary">
             <Shield />
@@ -51,6 +45,13 @@ export function HeroShowcase() {
           Stays on your device
         </div>
       </div>
+
+      <div className="rounded-[2rem] bg-gradient-to-br from-indigo-500 via-violet-500 to-sky-400 p-[3px] shadow-2xl shadow-indigo-500/30">
+        <div className="aspect-[9/16] overflow-hidden rounded-[calc(2rem-3px)] bg-ink">
+          <HeroDemoVideo />
+        </div>
+      </div>
+
     </div>
   )
 }
