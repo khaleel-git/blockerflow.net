@@ -63,8 +63,19 @@ export function HeroDemoVideo() {
         type="button"
         onClick={toggleSound}
         aria-label={muted ? 'Turn sound on' : 'Turn sound off'}
-        className="absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1.5 text-xs font-medium text-white backdrop-blur transition hover:bg-black/75"
+        className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-black/55 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-black/70"
       >
+        <span aria-hidden="true" className="flex h-3.5 items-end gap-0.5">
+          {[0, 0.2, 0.4].map((delay) => (
+            <span
+              key={delay}
+              className={`h-full w-0.5 origin-bottom rounded-full bg-white ${
+                muted ? 'scale-y-[0.35]' : 'motion-safe:animate-eq'
+              }`}
+              style={{ animationDelay: `${delay}s` }}
+            />
+          ))}
+        </span>
         {muted ? 'Tap for sound' : 'Sound on'}
       </button>
     </div>

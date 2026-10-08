@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { HeroBackdrop } from '../components/HeroBackdrop'
-import { HeroDemoVideo } from '../components/HeroDemoVideo'
+import { HeroShowcase } from '../components/HeroShowcase'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { JsonLd } from '../components/JsonLd'
@@ -114,9 +114,7 @@ export function Home() {
             </div>
           </div>
 
-          <div className="mx-auto aspect-[9/16] w-full max-w-[300px] overflow-hidden rounded-3xl shadow-2xl lg:ml-auto lg:mr-0">
-            <HeroDemoVideo />
-          </div>
+          <HeroShowcase />
         </div>
       </section>
 
