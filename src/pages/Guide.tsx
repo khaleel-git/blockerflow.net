@@ -1,41 +1,43 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { PhoneFrame } from '../components/PhoneFrame'
+import { DemoVideo } from '../components/DemoVideo'
+import type { VideoKey } from '../seo/videos'
 
-const STEPS = [
+const STEPS: { number: number; title: string; description: string; video: VideoKey }[] = [
   {
     number: 1,
     title: 'Turn on the Accessibility Service',
     description:
       "Blocking content means Blockerflow has to see what's on screen. During setup, grant the Accessibility Service permission when prompted. This runs entirely on your device; nothing you browse is ever sent anywhere.",
-    screenshot: '/assets/screenshots/01-blocking.png',
+    video: 'privacy',
   },
   {
     number: 2,
     title: 'Choose what to block',
     description:
       'Open your blocklist and pick categories: adult content, Reels, Shorts, Spotlight, or specific apps and sites. Add exceptions with the allowlist if something gets blocked by mistake.',
-    screenshot: '/assets/screenshots/02-blocklist.png',
+    video: 'reelsShorts',
   },
   {
     number: 3,
     title: 'Start a Focus Mode session',
     description:
       "Give a session a name, optionally set a time limit, and start it. Everything you've chosen to block stays blocked until the session ends, no early exits.",
-    screenshot: '/assets/screenshots/03-focus.png',
+    video: 'focusPromo',
   },
   {
     number: 4,
     title: 'Set an Accountability Partner or AI Coach',
     description:
       'In Settings, add a trusted contact as your Accountability Partner. They get a one-time PIN by email whenever you want to unlock something. Prefer not to involve anyone else? Switch to the AI Coach for an honest second opinion instead.',
-    screenshot: '/assets/screenshots/04-accountability-partner.png',
+    video: 'accountability',
   },
   {
     number: 5,
     title: 'Turn on Uninstall Protection',
     description:
       'Enable Device Admin in Settings so Blockerflow can stop itself being removed as a shortcut around its own blocks.',
+    video: 'urgeTyping',
   },
 ]
 
@@ -70,23 +72,8 @@ export function Guide() {
                 <p className="mt-3 text-ink-muted">{step.description}</p>
               </div>
 
-              <div className="flex-1">
-                {step.screenshot ? (
-                  <PhoneFrame className="max-w-[240px]">
-                    <img
-                      src={step.screenshot}
-                      alt={`${step.title} screenshot`}
-                      className="h-full w-full object-contain"
-                      loading="lazy"
-                    />
-                  </PhoneFrame>
-                ) : (
-                  <div className="mx-auto flex aspect-[9/19.5] w-full max-w-[240px] items-center justify-center rounded-[2.5rem] border border-outline bg-primary-bg">
-                    <span className="px-6 text-center font-display text-sm font-medium text-primary">
-                      Settings &rarr; Device Admin
-                    </span>
-                  </div>
-                )}
+              <div className="w-full flex-1">
+                <DemoVideo video={step.video} />
               </div>
             </div>
           ))}

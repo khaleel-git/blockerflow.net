@@ -78,12 +78,17 @@ export function Article() {
         </Link>
       </nav>
 
-      <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_260px] lg:items-start">
+      <div
+        className={`mt-8 grid gap-12 lg:items-start ${video.landscape ? '' : 'lg:grid-cols-[1fr_260px]'}`}
+      >
         <div>
           <h1 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
             {article.h1}
           </h1>
           <p className="mt-6 text-lg text-ink-muted">{article.intro}</p>
+          {video.landscape && (
+            <DemoVideo video={article.video} caption={article.videoCaption} className="mt-10" />
+          )}
 
           {article.sections.map((section) => (
             <section key={section.heading} className="mt-12">
@@ -147,9 +152,11 @@ export function Article() {
           </section>
         </div>
 
-        <aside className="lg:sticky lg:top-24">
-          <DemoVideo video={article.video} caption={article.videoCaption} />
-        </aside>
+        {!video.landscape && (
+          <aside className="lg:sticky lg:top-24">
+            <DemoVideo video={article.video} caption={article.videoCaption} />
+          </aside>
+        )}
       </div>
     </article>
   )

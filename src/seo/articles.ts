@@ -31,8 +31,8 @@ export const ARTICLES: Article[] = [
     h1: 'How to block porn on Android',
     intro:
       'Switching on SafeSearch is not enough. Adult sites change domains constantly, and a setting you can switch off in ten seconds does not hold up when you are tempted. This guide shows how to block porn on an Android phone in a way that is hard to talk yourself out of.',
-    video: 'websiteBlock',
-    videoCaption: 'Opening an adult website with Blockerflow on. It is blocked straight away.',
+    video: 'pornBlocker',
+    videoCaption: 'Blockerflow blocks adult content again and again, then sends you home.',
     sections: [
       {
         heading: 'Why browser settings and DNS filters fall short',
@@ -105,8 +105,8 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Instagram Reels on Android',
     intro:
       'Plenty of people want Instagram for messages and friends, but lose an hour to Reels without noticing. Deleting the app is blunt, and Instagram offers no real switch to turn Reels off. Here is how to block Reels and keep the rest.',
-    video: 'overview',
-    videoCaption: 'A quick tour of Blockerflow, including the social video blocklist.',
+    video: 'reelsShorts',
+    videoCaption: 'Reels and Shorts blocked, while messages and DMs stay usable.',
     sections: [
       {
         heading: 'Why you cannot turn Reels off in Instagram',
@@ -169,8 +169,8 @@ export const ARTICLES: Article[] = [
     h1: 'How to block YouTube Shorts on Android',
     intro:
       'You open YouTube for one tutorial and surface 40 minutes later, deep in Shorts. YouTube does not let you remove the Shorts shelf. Blockerflow does, and it leaves normal videos alone.',
-    video: 'overview',
-    videoCaption: 'Blockerflow overview. Shorts blocking is one of the options in the Blocklist tab.',
+    video: 'reelsShorts',
+    videoCaption: 'Shorts blocked, while the rest of the app stays usable.',
     sections: [
       {
         heading: 'What makes Shorts hard to avoid',
@@ -226,8 +226,8 @@ export const ARTICLES: Article[] = [
     h1: 'Block social media on Android with Focus Mode',
     intro:
       'Some days you do not want to block one feed, you want everything quiet until the work is done. Focus Mode in Blockerflow is built for that: name a session, set a time, and the distractions stay blocked until it ends.',
-    video: 'focusMode',
-    videoCaption: 'Starting a Focus session and opening a blocked app.',
+    video: 'focusPromo',
+    videoCaption: 'Pick a session, set the time and press start. Distractions stay blocked.',
     sections: [
       {
         heading: 'What Focus Mode blocks',
@@ -284,8 +284,8 @@ export const ARTICLES: Article[] = [
     h1: 'Use an accountability partner with your porn blocker',
     intro:
       'Blockers fail at the moment you decide to turn them off. An accountability partner puts something between the urge and the switch. Blockerflow offers four ways to do that, so you can choose the one that fits your life.',
-    video: 'overview',
-    videoCaption: 'Blockerflow overview, including the accountability partner picker.',
+    video: 'accountability',
+    videoCaption: 'The four ways to hold your blocker: Friend, Myself, Time Delay and AI Coach.',
     sections: [
       {
         heading: 'Why accountability works',
@@ -394,6 +394,129 @@ export const ARTICLES: Article[] = [
       'accountability-partner-porn-blocker',
       'how-to-block-porn-on-android',
       'focus-mode-block-social-media-android',
+    ],
+  },
+  {
+    slug: 'porn-blocker-privacy-on-device',
+    title: 'Is a Porn Blocker Private? On Device Blocking Explained',
+    description:
+      'Does a porn blocker see your browsing? How Blockerflow checks web addresses on your Android phone against 1.1M+ sites, and what it does send off device.',
+    h1: 'Is your porn blocker watching you? How on device blocking works',
+    intro:
+      'Handing a blocker access to your phone is a big ask, especially when the thing you are blocking is private. The reasonable question is where your browsing goes. For Blockerflow the answer for web address checks is that it goes nowhere.',
+    video: 'privacy',
+    videoCaption: 'Every web address is checked on your phone against the blocklist, not on a server.',
+    sections: [
+      {
+        heading: 'Two ways a blocker can check a site',
+        paragraphs: [
+          'Some blockers send each address you visit to a server, which answers allowed or blocked. That is easy to build, but it means a company sees your browsing. Others keep the blocklist on the phone and compare locally, so there is nothing to send.',
+          'Blockerflow does the second. The blocklist of more than 1.1 million adult domains is bundled in the app, and each address is checked against it on your device before the page loads.',
+        ],
+      },
+      {
+        heading: 'What stays on your phone',
+        paragraphs: [
+          'Web addresses read from your browser and checked against the blocklist are never uploaded. Neither is the on screen content the app inspects to spot a Reels or Shorts feed. Your blocklist, allowlist and settings are stored on the device.',
+          'Blockerflow has no analytics SDK, no crash reporter and no telemetry upload path, so there is no background channel reporting what you do.',
+        ],
+      },
+      {
+        heading: 'What can leave your phone, and only if you choose it',
+        paragraphs: [
+          'Three optional features use a server. The AI Coach sends the reason you type and the name of the feature to get an approve or reject answer. An email accountability partner means the app sends that address so a one time PIN can be emailed. Signing in to an account stores your account details and synced settings in the cloud.',
+          'None of these send your browsing history, and each one only runs when you turn it on. The full detail is in the privacy policy.',
+        ],
+      },
+      {
+        heading: 'Why on device is also better for blocking',
+        paragraphs: [
+          'A local check is fast, so a harmful page is stopped before it loads. It also keeps working with a weak connection, because nothing has to be fetched to decide.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Can Blockerflow see which sites I visit?',
+        answer:
+          'Web addresses are checked on your phone and are not uploaded. Blockerflow has no analytics or telemetry that reports your browsing.',
+      },
+      {
+        question: 'Does the blocker need the internet to work?',
+        answer:
+          'No. The blocklist is stored in the app, so address checks work without a connection. Only the optional account, AI Coach and email features need one.',
+      },
+      {
+        question: 'Where can I read exactly what is collected?',
+        answer:
+          'The Privacy Policy page on this site lists what is processed on device, what leaves it and how to delete your data.',
+      },
+    ],
+    related: [
+      'how-to-block-porn-on-android',
+      'accountability-partner-porn-blocker',
+      'how-to-stop-uninstalling-your-porn-blocker',
+    ],
+  },
+  {
+    slug: 'how-to-stop-porn-urges-at-night',
+    title: 'How to Stop Porn Urges at Night: Add Friction on Android',
+    description:
+      'Late night is when most blockers get switched off. Learn how a typing challenge and a delay give an urge time to pass, using Blockerflow on Android.',
+    h1: 'How to get through a late night porn urge on Android',
+    intro:
+      'It is usually late, you are tired, and the phone is in your hand. Urges feel permanent while they last, but they rarely do. The trick is to put a few seconds of friction between the urge and the off switch.',
+    video: 'urgeTyping',
+    videoCaption: 'At 11 PM, switching protection off means typing a full sentence exactly.',
+    sections: [
+      {
+        heading: 'Why late night is the hardest time',
+        paragraphs: [
+          'Tiredness lowers self control, boredom fills the hours, and the phone is within reach in bed. Decisions made at midnight are rarely the ones you would make at noon.',
+        ],
+      },
+      {
+        heading: 'Friction beats willpower',
+        paragraphs: [
+          'Asking yourself to be strong in the moment is a weak plan. Making the harmful choice slower works better, because a pause is often all it takes for an urge to fade.',
+          'In Blockerflow, the Myself option asks you to type a long sentence exactly before any protection can be turned off. Every mistake costs time, and by the end many people have decided not to bother.',
+        ],
+      },
+      {
+        heading: 'Set it up while you feel strong',
+        paragraphs: [
+          'The best time to set a challenge is a calm daytime hour, not during an urge.',
+        ],
+        steps: [
+          'Open Blockerflow and go to Settings, then Accountability Partner.',
+          'Choose Myself for the typing challenge, or Time Delay if you prefer a 24 hour wait.',
+          'Turn on Uninstall Protection so the app cannot just be deleted.',
+          'Keep the phone charging away from your bed at night.',
+        ],
+      },
+      {
+        heading: 'Other habits that help',
+        paragraphs: [
+          'Get up and change your surroundings when an urge hits, drink some water, or message a friend. If the urges feel out of your control, talking to a doctor or counsellor is a good next step.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Will a typing challenge really stop me?',
+        answer:
+          'It does not make it impossible, it makes it slower. For many people that pause is enough for the urge to pass.',
+      },
+      {
+        question: 'What if I want a person involved instead?',
+        answer:
+          'Choose Friend, and a trusted contact gets a one time PIN by email that you need before anything turns off.',
+      },
+    ],
+    related: [
+      'how-to-stop-uninstalling-your-porn-blocker',
+      'accountability-partner-porn-blocker',
+      'how-to-block-porn-on-android',
     ],
   },
 ]

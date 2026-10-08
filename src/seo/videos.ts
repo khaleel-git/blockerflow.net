@@ -4,9 +4,11 @@ export interface DemoVideoInfo {
   name: string
   description: string
   durationSeconds: number
+  /** 16:9 clips render wide instead of in a phone shaped box. */
+  landscape?: boolean
 }
 
-export const VIDEOS = {
+const DATA = {
   websiteBlock: {
     src: '/assets/videos/website-block.mp4',
     poster: '/assets/videos/website-block.jpg',
@@ -47,6 +49,50 @@ export const VIDEOS = {
       'A short promo video showing how Blockerflow blocks porn on Android, in the browser and in apps.',
     durationSeconds: 15,
   },
+  urgeTyping: {
+    src: '/assets/videos/urge-typing.mp4',
+    poster: '/assets/videos/urge-typing.jpg',
+    name: 'Blockerflow typing challenge at 11 PM',
+    description:
+      'A short promo showing the typing challenge Blockerflow asks for before protection can be switched off late at night.',
+    durationSeconds: 15,
+  },
+  reelsShorts: {
+    src: '/assets/videos/reels-shorts.mp4',
+    poster: '/assets/videos/reels-shorts.jpg',
+    name: 'Blockerflow blocking Reels and Shorts',
+    description:
+      'A short promo showing Blockerflow blocking Instagram Reels, YouTube Shorts, Snapchat Spotlight and X videos while messages stay usable.',
+    durationSeconds: 15,
+  },
+  focusPromo: {
+    src: '/assets/videos/focus-promo.mp4',
+    poster: '/assets/videos/focus-promo.jpg',
+    name: 'Blockerflow Focus Mode promo',
+    description:
+      'A short promo of Blockerflow Focus Mode: pick a session, set the time and start, with social apps blocked until it ends.',
+    durationSeconds: 15,
+  },
+  accountability: {
+    src: '/assets/videos/accountability.mp4',
+    poster: '/assets/videos/accountability.jpg',
+    name: 'Blockerflow accountability partner options',
+    description:
+      'The four accountability options in Blockerflow: Friend, Myself, Time Delay and AI Coach.',
+    durationSeconds: 15,
+    landscape: true,
+  },
+  privacy: {
+    src: '/assets/videos/privacy.mp4',
+    poster: '/assets/videos/privacy.jpg',
+    name: 'Blockerflow checks sites on your phone',
+    description:
+      'An explainer showing web addresses checked against a 1.1M+ site blocklist on the phone, not on a server.',
+    durationSeconds: 15,
+    landscape: true,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
-export type VideoKey = keyof typeof VIDEOS
+export type VideoKey = keyof typeof DATA
+
+export const VIDEOS: Record<VideoKey, DemoVideoInfo> = DATA
