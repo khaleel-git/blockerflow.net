@@ -77,9 +77,3 @@ is where the work continues, on the device the problem actually lives on.
 [Blockerflow on Google Play](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
 · [blockerflow.net](https://blockerflow.net) · [hello@khaleel.eu](mailto:hello@khaleel.eu)
 
----
-
-<sub>This repository holds the source of the website: Vite, React and Tailwind, prerendered to
-static HTML and served from Cloudflare Pages. Working on it with an agent, or by hand?
-[CLAUDE.md](CLAUDE.md) carries the context: the build steps, the deploy setup, the domain and
-Worker rules, and how guide content has to be verified against the Android app.</sub>
