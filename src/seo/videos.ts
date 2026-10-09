@@ -11,24 +11,6 @@ export interface DemoVideoInfo {
 }
 
 const DATA = {
-  websiteBlock: {
-    src: '/assets/videos/website-block.mp4',
-    poster: '/assets/videos/website-block.jpg',
-    name: 'Blockerflow blocking an adult website in the browser',
-    description:
-      'Screen recording of Blockerflow on Android showing the Content Blocked screen the moment an adult website is opened in the browser.',
-    durationSeconds: 15,
-    aspect: '9 / 20',
-  },
-  focusMode: {
-    src: '/assets/videos/focus-facebook.mp4',
-    poster: '/assets/videos/focus-facebook.jpg',
-    name: 'Blockerflow Focus Mode blocking Facebook',
-    description:
-      'Screen recording of a Blockerflow Focus Mode session: naming and timing a session, then Facebook being blocked while it runs.',
-    durationSeconds: 18,
-    aspect: '9 / 20',
-  },
   challenge: {
     src: '/assets/videos/self-challenge.mp4',
     poster: '/assets/videos/self-challenge.jpg',
@@ -36,15 +18,6 @@ const DATA = {
     description:
       'Screen recording of the typing challenge Blockerflow shows when you try to uninstall or disable protection.',
     durationSeconds: 33,
-    aspect: '9 / 20',
-  },
-  overview: {
-    src: '/assets/videos/combined.mp4',
-    poster: '/assets/videos/combined.jpg',
-    name: 'Blockerflow app overview',
-    description:
-      'A walkthrough of Blockerflow for Android: adult content blocking, social video blocking, Focus Mode and accountability partner options.',
-    durationSeconds: 48,
     aspect: '9 / 20',
   },
   pornBlocker: {
@@ -61,14 +34,6 @@ const DATA = {
     name: 'Blockerflow typing challenge at 11 PM',
     description:
       'A short promo showing the typing challenge Blockerflow asks for before protection can be switched off late at night.',
-    durationSeconds: 15,
-  },
-  reelsShorts: {
-    src: '/assets/videos/reels-shorts.mp4',
-    poster: '/assets/videos/reels-shorts.jpg',
-    name: 'Blockerflow blocking Reels and Shorts',
-    description:
-      'A short promo showing Blockerflow blocking Instagram Reels, YouTube Shorts, Snapchat Spotlight and X videos while messages stay usable.',
     durationSeconds: 15,
   },
   focusPromo: {

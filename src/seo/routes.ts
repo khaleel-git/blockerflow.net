@@ -32,7 +32,7 @@ export const ROUTE_META: RouteMeta[] = [
     path: '/guides',
     title: 'Guides: Block Porn, Reels and Shorts on Android',
     description:
-      'Practical guides to blocking porn, Instagram Reels, YouTube Shorts and social media on Android, with video demos and an accountability partner.',
+      'Practical guides to blocking porn, Instagram Reels, YouTube Shorts and social media on Android, with the exact switches to use in the app.',
   },
   ...ARTICLES.map((a) => ({
     path: `/guides/${a.slug}`,

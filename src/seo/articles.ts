@@ -6,6 +6,14 @@ export interface ArticleSection {
   steps?: string[]
 }
 
+/**
+ * What sits beside the article: a demo clip, or a screenshot of the app. Guides whose screen
+ * has neither leave `media` off and run full width instead of being given a stand in.
+ */
+export type ArticleMedia =
+  | { kind: 'video'; video: VideoKey; caption: string }
+  | { kind: 'screenshot'; src: string; alt: string; caption: string }
+
 export interface Article {
   slug: string
   /** Text for the browser tab and search result title. Keep under about 60 characters. */
@@ -14,8 +22,7 @@ export interface Article {
   description: string
   h1: string
   intro: string
-  video: VideoKey
-  videoCaption: string
+  media?: ArticleMedia
   sections: ArticleSection[]
   faq: { question: string; answer: string }[]
   /** Slugs of other articles to link to at the bottom. */
@@ -41,8 +48,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block porn on Android',
     intro:
       'SafeSearch is a setting you can switch off in ten seconds, and adult sites move to new domains constantly. This guide shows how to set up a porn blocker on an Android phone so that it covers the whole device and takes a deliberate decision to undo.',
-    video: 'pornBlocker',
-    videoCaption: 'Adult content blocked again and again, then straight back to the home screen.',
+    media: { kind: 'video', video: 'pornBlocker', caption: 'Adult content blocked again and again, then straight back to the home screen.' },
     sections: [
       {
         heading: 'Why browser settings and DNS filters fall short',
@@ -144,8 +150,6 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Instagram Reels on Android',
     intro:
       'Plenty of people want Instagram for messages and friends but lose an hour to Reels without noticing. Deleting the app is blunt, and Instagram offers no switch to turn Reels off. Here is how to block Reels and keep the rest.',
-    video: 'reelsShorts',
-    videoCaption: 'Reels and Shorts blocked, while messages and DMs stay where they are.',
     sections: [
       {
         heading: 'Why you cannot turn Reels off in Instagram',
@@ -222,8 +226,6 @@ export const ARTICLES: Article[] = [
     h1: 'How to block YouTube Shorts on Android',
     intro:
       'You open YouTube for one tutorial and surface forty minutes later, deep in Shorts. YouTube does not let you remove the Shorts shelf. Blockerflow does, and it leaves ordinary videos alone.',
-    video: 'reelsShorts',
-    videoCaption: 'Short video feeds blocked, while the rest of each app carries on working.',
     sections: [
       {
         heading: 'Why Shorts is hard to avoid',
@@ -294,8 +296,6 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Snapchat Spotlight on Android',
     intro:
       'Snapchat is a messaging app with a short video feed bolted on. Spotlight scrolls like any other endless feed, and Snapchat gives you no way to remove it. You can block the feed and keep the messaging.',
-    video: 'reelsShorts',
-    videoCaption: 'Short video feeds blocked while messages stay usable.',
     sections: [
       {
         heading: 'Spotlight is the part that eats the time',
@@ -360,8 +360,7 @@ export const ARTICLES: Article[] = [
     h1: 'Block social media on Android with Focus Mode',
     intro:
       'Some days you do not want to block one feed, you want everything quiet until the work is done. Focus Mode is built for exactly that: name a session, set a length, and the distractions stay shut until it ends.',
-    video: 'focusPromo',
-    videoCaption: 'Pick a session, set the time, press start. Distractions stay blocked.',
+    media: { kind: 'video', video: 'focusPromo', caption: 'Pick a session, set the time, press start. Distractions stay blocked.' },
     sections: [
       {
         heading: 'What a Focus session blocks',
@@ -439,8 +438,7 @@ export const ARTICLES: Article[] = [
     h1: 'Use an accountability partner with your porn blocker',
     intro:
       'Blockers fail at the moment you decide to turn one off. An accountability partner puts something between the urge and the switch. Blockerflow gives you four ways to do that, so you can pick the one that fits your life rather than the one the app prefers.',
-    video: 'accountability',
-    videoCaption: 'The four ways to hold the off switch: Friend, Myself, Time Delay and AI Coach.',
+    media: { kind: 'video', video: 'accountability', caption: 'The four ways to hold the off switch: Friend, Myself, Time Delay and AI Coach.' },
     sections: [
       {
         heading: 'Why a partner works',
@@ -516,8 +514,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to stop yourself uninstalling your porn blocker',
     intro:
       'The easiest way around any blocker is to delete it, and most apps do nothing to stop that. Uninstall Protection turns removal into a deliberate process instead of a two tap impulse.',
-    video: 'challenge',
-    videoCaption: 'The typing challenge that appears when you try to disable protection.',
+    media: { kind: 'video', video: 'challenge', caption: 'The typing challenge that appears when you try to disable protection.' },
     sections: [
       {
         heading: 'Why blockers get deleted',
@@ -595,8 +592,7 @@ export const ARTICLES: Article[] = [
     h1: 'Is your porn blocker watching you? How on device blocking works',
     intro:
       'Handing a blocker access to your screen is a big ask, and the fair question is where your browsing goes. For address checks in Blockerflow, the answer is that it goes nowhere.',
-    video: 'privacy',
-    videoCaption: 'Addresses are checked on the phone against the blocklist, not on a server.',
+    media: { kind: 'video', video: 'privacy', caption: 'Addresses are checked on the phone against the blocklist, not on a server.' },
     sections: [
       {
         heading: 'Two ways a blocker can check a site',
@@ -668,8 +664,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to get through a late night porn urge on Android',
     intro:
       'It is usually late, you are tired, and the phone is already in your hand. Urges feel permanent while they last, and they almost never are. The trick is putting a few seconds of friction between the urge and the off switch.',
-    video: 'urgeTyping',
-    videoCaption: 'At 11 PM, switching protection off means typing a full sentence exactly.',
+    media: { kind: 'video', video: 'urgeTyping', caption: 'At 11 PM, switching protection off means typing a full sentence exactly.' },
     sections: [
       {
         heading: 'Why late night is the hardest time',
@@ -742,8 +737,6 @@ export const ARTICLES: Article[] = [
     h1: 'How to block image and video search on Android',
     intro:
       'Search engines are the front door. You do not need to find a site when the image tab shows you the same thing in a grid, and SafeSearch is one toggle away from being off. Blocking image and video search closes that door properly.',
-    video: 'websiteBlock',
-    videoCaption: 'A blocked page, stopped before it loads, with a way straight back home.',
     sections: [
       {
         heading: 'Why SafeSearch is not enough',
@@ -815,8 +808,12 @@ export const ARTICLES: Article[] = [
     h1: 'How to block any app or website on Android',
     intro:
       'The built in categories cover the usual suspects, but your particular time sink might be a news site, a game or a shopping app. The Blocklist tab is where you add your own, and unblocking goes through the same accountability check as everything else.',
-    video: 'overview',
-    videoCaption: 'A tour of Blockerflow, including the lists you build yourself.',
+    media: {
+      kind: 'screenshot',
+      src: '/assets/screenshots/02-blocklist.png',
+      alt: 'The Blockerflow Blocklist tab, listing blocked apps with a button to add more',
+      caption: 'The Blocklist tab: apps and sites you add yourself, each with its own switch.',
+    },
     sections: [
       {
         heading: 'Blocklist is for the things you choose',

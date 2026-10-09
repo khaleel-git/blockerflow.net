@@ -1,10 +1,11 @@
 import { Link, useParams } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { AppScreenshot } from '../components/AppScreenshot'
 import { DemoVideo } from '../components/DemoVideo'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES, getArticle } from '../seo/articles'
-import { PUBLISHED, SITE_NAME, SITE_URL, absoluteUrl } from '../seo/site'
+import { OG_IMAGE, PUBLISHED, SITE_NAME, SITE_URL, absoluteUrl } from '../seo/site'
 import { VIDEOS } from '../seo/videos'
 import { NotFound } from './NotFound'
 
@@ -17,7 +18,18 @@ export function Article() {
 
   const path = `/guides/${article.slug}`
   const url = absoluteUrl(path)
-  const video = VIDEOS[article.video]
+  const { media } = article
+  const video = media?.kind === 'video' ? VIDEOS[media.video] : null
+  /** Landscape clips run full width above the text; portrait media sits in a side column. */
+  const inline = Boolean(video?.landscape)
+  const aside = Boolean(media) && !inline
+  /** With nothing in the side column, narrow the page so the text keeps a readable measure. */
+  const narrow = !media
+  const image = video
+    ? `${SITE_URL}${video.poster}`
+    : media?.kind === 'screenshot'
+      ? `${SITE_URL}${media.src}`
+      : OG_IMAGE
   const related = article.related
     .map((s) => ARTICLES.find((a) => a.slug === s))
     .filter((a): a is NonNullable<typeof a> => Boolean(a))
@@ -29,22 +41,28 @@ export function Article() {
         '@type': 'Article',
         headline: article.h1,
         description: article.description,
-        image: `${SITE_URL}${video.poster}`,
+        image,
         datePublished: PUBLISHED,
         dateModified: PUBLISHED,
         mainEntityOfPage: url,
         author: { '@type': 'Person', name: 'Khaleel', url: 'https://khaleel.eu' },
         publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
       },
-      {
-        '@type': 'VideoObject',
-        name: video.name,
-        description: video.description,
-        thumbnailUrl: `${SITE_URL}${video.poster}`,
-        contentUrl: `${SITE_URL}${video.src}`,
-        uploadDate: PUBLISHED,
-        duration: `PT${video.durationSeconds}S`,
-      },
+      ...(video
+        ? [
+            {
+              '@type': 'VideoObject',
+              name: video.name,
+              description: video.description,
+              thumbnailUrl: `${SITE_URL}${video.poster}`,
+              contentUrl: `${SITE_URL}${video.src}`,
+              uploadDate: PUBLISHED,
+              duration: `PT${video.durationSeconds}S`,
+            },
+          ]
+        : media?.kind === 'screenshot'
+          ? [{ '@type': 'ImageObject', contentUrl: image, description: media.alt }]
+          : []),
       {
         '@type': 'FAQPage',
         mainEntity: article.faq.map((f) => ({
@@ -65,7 +83,9 @@ export function Article() {
   }
 
   return (
-    <article className="mx-auto max-w-5xl px-6 pb-24 pt-12 sm:pt-16">
+    <article
+      className={`mx-auto ${narrow ? 'max-w-3xl' : 'max-w-5xl'} px-6 pb-24 pt-12 sm:pt-16`}
+    >
       <JsonLd data={schema} />
 
       <nav aria-label="Breadcrumb" className="text-sm text-ink-muted">
@@ -79,15 +99,15 @@ export function Article() {
       </nav>
 
       <div
-        className={`mt-8 grid gap-12 lg:items-start ${video.landscape ? '' : 'lg:grid-cols-[1fr_260px]'}`}
+        className={`mt-8 grid gap-12 lg:items-start ${aside ? 'lg:grid-cols-[1fr_260px]' : ''}`}
       >
         <div>
           <h1 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
             {article.h1}
           </h1>
           <p className="mt-6 text-lg text-ink-muted">{article.intro}</p>
-          {video.landscape && (
-            <DemoVideo video={article.video} caption={article.videoCaption} className="mt-10" />
+          {inline && media?.kind === 'video' && (
+            <DemoVideo video={media.video} caption={media.caption} className="mt-10" />
           )}
 
           {article.sections.map((section) => (
@@ -152,9 +172,13 @@ export function Article() {
           </section>
         </div>
 
-        {!video.landscape && (
+        {aside && media && (
           <aside className="lg:sticky lg:top-24">
-            <DemoVideo video={article.video} caption={article.videoCaption} />
+            {media.kind === 'video' ? (
+              <DemoVideo video={media.video} caption={media.caption} />
+            ) : (
+              <AppScreenshot src={media.src} alt={media.alt} caption={media.caption} />
+            )}
           </aside>
         )}
       </div>

@@ -13,11 +13,31 @@ function renderAt(path: string) {
 }
 
 describe('guide articles', () => {
-  it.each(ARTICLES.map((a) => [a.slug, a.h1]))('renders %s with a demo video', (slug, h1) => {
+  it.each(ARTICLES.map((a) => [a.slug, a.h1]))('renders %s with its media', (slug, h1) => {
     const { container } = renderAt(`/guides/${slug}`)
+    const media = ARTICLES.find((a) => a.slug === slug)!.media
     expect(screen.getByRole('heading', { level: 1, name: h1 })).toBeInTheDocument()
-    expect(container.querySelector('video[src^="/assets/videos/"]')).not.toBeNull()
+    if (media?.kind === 'video') {
+      expect(container.querySelector('video[src^="/assets/videos/"]')).not.toBeNull()
+    } else if (media?.kind === 'screenshot') {
+      expect(screen.getByRole('img', { name: media.alt })).toHaveAttribute('src', media.src)
+    } else {
+      // Guides with no clip and no matching screenshot run full width, with neither.
+      expect(container.querySelector('video')).toBeNull()
+      expect(container.querySelector('img[src^="/assets/screenshots/"]')).toBeNull()
+    }
     expect(container.querySelector('script[type="application/ld+json"]')).not.toBeNull()
+  })
+
+  it('describes every piece of media it does show', () => {
+    for (const a of ARTICLES) {
+      if (!a.media) continue
+      expect(a.media.caption, a.slug).not.toHaveLength(0)
+      if (a.media.kind === 'screenshot') {
+        expect(a.media.src, a.slug).toMatch(/^\/assets\/screenshots\/.+\.png$/)
+        expect(a.media.alt, a.slug).not.toHaveLength(0)
+      }
+    }
   })
 
   it('sets the document title from the route metadata', () => {

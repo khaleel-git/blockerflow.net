@@ -12,7 +12,7 @@ export function Guides() {
           Guides
         </h1>
         <p className="mt-6 text-lg text-ink-muted">
-          How to block porn, Reels, Shorts and social media on Android, with video demos.
+          How to block porn, Reels, Shorts and social media on Android, one screen at a time.
         </p>
       </section>
 
