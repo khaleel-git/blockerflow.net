@@ -20,14 +20,14 @@ accountability system, not just a toggle you can switch off the moment you are t
 ## What blockerflow.net is
 
 The home of Blockerflow. It explains what the app blocks, walks you through setup screen by
-screen, and carries eleven guides with video demos of the real app doing the thing each guide
-describes.
+screen, and carries eleven guides, several with a video demo of the real app doing the thing the
+guide describes.
 
 | | |
 |---|---|
 | [Overview](https://blockerflow.net/) | Every feature, with screenshots |
 | [Setup guide](https://blockerflow.net/guide/) | Five steps from install to a blocker you cannot talk yourself out of |
-| [Guides](https://blockerflow.net/guides/) | Eleven how-tos, each with a video demo |
+| [Guides](https://blockerflow.net/guides/) | Eleven how-tos, most with a demo video or app screenshot |
 | [Privacy policy](https://blockerflow.net/privacy/) | What stays on your device, and what does not |
 | [Terms](https://blockerflow.net/terms/) | The terms that apply to the app and the site |
 
