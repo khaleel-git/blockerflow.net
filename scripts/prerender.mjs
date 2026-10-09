@@ -7,7 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const dist = join(root, 'dist')
 const ssrDir = join(root, 'dist-ssr')
-const SITE_URL = 'https://blockerflow.khaleel.eu'
+const SITE_URL = 'https://blockerflow.net'
 
 const template = await readFile(join(dist, 'index.html'), 'utf-8')
 if (!template.includes('<!--seo-head-->') || !template.includes('<!--app-html-->')) {

@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://blockerflow.khaleel.eu'
+export const SITE_URL = 'https://blockerflow.net'
 export const SITE_NAME = 'Blockerflow'
 export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow'
 export const OG_IMAGE = `${SITE_URL}/assets/feature-graphic.png`
