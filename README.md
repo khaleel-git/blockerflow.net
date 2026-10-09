@@ -14,6 +14,10 @@ npm run build     # production build into dist/
 npm run deploy    # build and ship to Cloudflare Pages by hand
 ```
 
+Working on this repo with an agent? [CLAUDE.md](CLAUDE.md) carries the context: where the code
+came from, the deploy setup, the domain and Worker rules, and how the guide content has to be
+verified against the Android app.
+
 ## How it is built
 
 `npm run build` does four things in order: type checks, builds the client bundle, builds an SSR
