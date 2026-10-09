@@ -10,8 +10,11 @@
 // site when no Worker is present, so directory indexes and the custom 404 keep working.
 const CANONICAL_HOST = 'blockerflow.net'
 
-/** Old address, kept alive so existing links and search results still arrive. */
-const REDIRECT_HOSTS = new Set(['blockerflow.khaleel.eu', 'www.blockerflow.khaleel.eu', 'www.blockerflow.net'])
+// The old blockerflow.khaleel.eu address used to be listed here too. It was detached from the
+// Pages project and its DNS record deleted on 2026-10-09, so requests never reach this Worker
+// and the entry could not fire. Re-add it here if that hostname is ever pointed back at the
+// project, since a redirect is the only thing that would carry its links over.
+const REDIRECT_HOSTS = new Set(['www.blockerflow.net'])
 
 export default {
   async fetch(request, env) {

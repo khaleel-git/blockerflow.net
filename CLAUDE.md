@@ -73,10 +73,9 @@ npx wrangler pages deploy dist --project-name blockerflow-website --branch=test 
 ```
 
 **The old address, `blockerflow.khaleel.eu`, is gone.** It was detached from the project and its
-DNS record removed on 2026-10-09, so it does not resolve and nothing redirects from it. The
-Worker still lists it, which is harmless but does nothing. Any search ranking it had is lost and
-has to be re-earned here. Adding `blockerflow.net` to Google Search Console and submitting
-`https://blockerflow.net/sitemap.xml` is still an open task.
+DNS record removed on 2026-10-09, so it does not resolve and nothing redirects from it. Any
+search ranking it had is lost and has to be re-earned here. Adding `blockerflow.net` to Google
+Search Console and submitting `https://blockerflow.net/sitemap.xml` is still an open task.
 
 ## Guide content: verify against the app, never from memory
 

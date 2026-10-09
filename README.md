@@ -1,50 +1,85 @@
-# blockerflow.net
+<div align="center">
 
-The marketing site for [Blockerflow](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow),
-an Android app that blocks adult content and distracting social video feeds.
+<img src="https://blockerflow.net/assets/icon-512.png" width="96" alt="Blockerflow icon">
 
-Vite + React + Tailwind, prerendered to static HTML and served from Cloudflare Pages.
-It moved here from the `website/` directory of the `blockerflow_apk` repo, with its history.
+# Blockerflow
 
-```bash
-npm install
-npm run dev       # local development
-npm test          # the suite
-npm run build     # production build into dist/
-npm run deploy    # build and ship to Cloudflare Pages by hand
-```
+### Block distractions. Stay accountable.
 
-Working on this repo with an agent? [CLAUDE.md](CLAUDE.md) carries the context: where the code
-came from, the deploy setup, the domain and Worker rules, and how the guide content has to be
-verified against the Android app.
+An Android app that blocks adult content and distracting social video feeds, backed by a real
+accountability system, not just a toggle you can switch off the moment you are tempted.
 
-## How it is built
+**[blockerflow.net](https://blockerflow.net)**
 
-`npm run build` does four things in order: type checks, builds the client bundle, builds an SSR
-bundle, then runs `scripts/prerender.mjs`. That last step renders every route to static HTML and
-writes `sitemap.xml` and `robots.txt`, so crawlers and link previews get real content rather than
-an empty shell. Add a route to `src/seo/routes.ts` and it is prerendered and listed in the
-sitemap automatically.
+[![Get it on Google Play](https://img.shields.io/badge/Google%20Play-Get%20Blockerflow-3DDC84?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
 
-Guide content lives in `src/seo/articles.ts` as data, not JSX. Those guides describe the shipped
-Android app screen by screen, so check a claim against the app before changing it.
+</div>
 
-## Deploying
+---
 
-Pushing to `master` runs `.github/workflows/deploy.yml`, which tests, builds and deploys to the
-`blockerflow-website` Pages project. It needs two repository secrets:
+## What blockerflow.net is
 
-| Secret | What it is |
+The home of Blockerflow. It explains what the app blocks, walks you through setup screen by
+screen, and carries eleven guides with video demos of the real app doing the thing each guide
+describes.
+
+| | |
 |---|---|
-| `CLOUDFLARE_API_TOKEN` | An API token with the **Cloudflare Pages: Edit** permission |
-| `CLOUDFLARE_ACCOUNT_ID` | The account ID the Pages project belongs to |
+| [Overview](https://blockerflow.net/) | Every feature, with screenshots |
+| [Setup guide](https://blockerflow.net/guide/) | Five steps from install to a blocker you cannot talk yourself out of |
+| [Guides](https://blockerflow.net/guides/) | Eleven how-tos, each with a video demo |
+| [Privacy policy](https://blockerflow.net/privacy/) | What stays on your device, and what does not |
+| [Terms](https://blockerflow.net/terms/) | The terms that apply to the app and the site |
 
-The project is a direct-upload one, which Cloudflare cannot convert to a Git-connected project,
-so the workflow deploys to it rather than Cloudflare building this repo itself. That keeps the
-custom domains already attached to the project.
+## What the app does
 
-## Domains
+| Feature | What it means |
+|---|---|
+| **Adult content blocking** | A 1.1M+ domain and keyword blocklist, checked entirely on your device. Nothing you browse is ever uploaded. |
+| **Social video blocking** | Separate switches for Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight, WhatsApp channels and X videos. Messages keep working. |
+| **Focus Mode** | Named, optionally time boxed sessions that block your chosen distractions until the session ends. |
+| **Accountability Partner** | A trusted contact unlocks blocked features for you, via a one time PIN sent to their email. |
+| **Uninstall Protection** | Stops the app being removed as a shortcut around its own blocks. |
+| **AI Coach** | An honest second opinion when you are tempted to disable a blocker, before you talk yourself out of it. |
 
-`blockerflow.net` is canonical. `public/_worker.js` permanently redirects `www.blockerflow.net`
-and the old `blockerflow.khaleel.eu` address to it, because a Pages `_redirects` file matches on
-path only and cannot redirect between hostnames.
+### Privacy first, by design
+
+No analytics SDK, no crash reporter, no telemetry upload path. Your browsing history never leaves
+your device. The full detail is in the [privacy policy](https://blockerflow.net/privacy/).
+
+## The guides
+
+- [How to block porn on Android](https://blockerflow.net/guides/how-to-block-porn-on-android/)
+- [How to block Instagram Reels on Android](https://blockerflow.net/guides/block-instagram-reels-on-android/)
+- [How to block YouTube Shorts and keep YouTube](https://blockerflow.net/guides/block-youtube-shorts-on-android/)
+- [How to block Snapchat Spotlight](https://blockerflow.net/guides/block-snapchat-spotlight-on-android/)
+- [Focus Mode: block social media while you study](https://blockerflow.net/guides/focus-mode-block-social-media-android/)
+- [Accountability partner app for porn blocking](https://blockerflow.net/guides/accountability-partner-porn-blocker/)
+- [Stop uninstalling your porn blocker](https://blockerflow.net/guides/how-to-stop-uninstalling-your-porn-blocker/)
+- [Is a porn blocker private? On device blocking explained](https://blockerflow.net/guides/porn-blocker-privacy-on-device/)
+- [How to stop porn urges at night](https://blockerflow.net/guides/how-to-stop-porn-urges-at-night/)
+- [Block image and video search on Android](https://blockerflow.net/guides/block-image-and-video-search-android/)
+- [How to block any app or website on Android](https://blockerflow.net/guides/block-any-app-or-website-on-android/)
+
+## Where Blockerflow came from
+
+Blockerflow grew out of **[K9 Web Protection](https://github.com/khaleel-git/K9-Web-Protection_BlockerFlow)**,
+a free and open source parental control and web filter for macOS, with a Chrome extension
+alongside it. It filters at the network level across every browser, using a local proxy, a
+firewall rule that stops QUIC slipping past that proxy, forced SafeSearch on Google and Bing, and
+a database of 932,000+ domains across 29 categories.
+
+That project is open source and still available, but it is no longer actively updated. Blockerflow
+is where the work continues, on the device the problem actually lives on.
+
+## Get it
+
+[Blockerflow on Google Play](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
+· [blockerflow.net](https://blockerflow.net) · [hello@khaleel.eu](mailto:hello@khaleel.eu)
+
+---
+
+<sub>This repository holds the source of the website: Vite, React and Tailwind, prerendered to
+static HTML and served from Cloudflare Pages. Working on it with an agent, or by hand?
+[CLAUDE.md](CLAUDE.md) carries the context: the build steps, the deploy setup, the domain and
+Worker rules, and how guide content has to be verified against the Android app.</sub>
