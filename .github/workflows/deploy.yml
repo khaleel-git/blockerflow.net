@@ -1,0 +1,42 @@
+# Builds and ships the site to Cloudflare Pages on every push to master.
+#
+# The Pages project (blockerflow-website) was created as a direct-upload project, which
+# Cloudflare cannot convert to a Git-connected one, so the deploy runs from here instead of
+# Cloudflare building the repo itself. The upside is that the project keeps the custom domains
+# it already serves.
+#
+# Needs two repository secrets:
+#   CLOUDFLARE_API_TOKEN   an API token with the "Cloudflare Pages: Edit" permission
+#   CLOUDFLARE_ACCOUNT_ID  the account the Pages project lives in
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  # Lets you re-run a deploy from the Actions tab without pushing an empty commit.
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # A broken build must not reach the live site, so the suite gates the deploy.
+      - run: npm test
+
+      - run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=blockerflow-website --branch=master
