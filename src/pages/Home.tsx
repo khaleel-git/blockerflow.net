@@ -5,6 +5,7 @@ import { HeroShowcase } from '../components/HeroShowcase'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { MacBadge } from '../components/MacBadge'
+import { SupportSection } from '../components/SupportSection'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES } from '../seo/articles'
 import { PLAY_STORE_URL, SITE_NAME, SITE_URL } from '../seo/site'
@@ -194,6 +195,8 @@ export function Home() {
           ))}
         </div>
       </section>
+
+      <SupportSection />
 
       <section className="mx-auto max-w-3xl px-6 pb-24">
         <div className="rounded-2xl border border-outline bg-surface p-8 text-center">

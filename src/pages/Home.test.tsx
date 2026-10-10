@@ -70,4 +70,40 @@ describe('Home', () => {
       '/guides/how-to-install-blockerflow-on-mac',
     )
   })
+
+  it('has a support section that says the app is free and lists what donations pay for', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('heading', { name: 'Blockerflow is free. Help me keep it that way.' })).toBeInTheDocument()
+    expect(screen.getByText('Apple Developer ID')).toBeInTheDocument()
+    expect(screen.getByText('Windows code signing certificate')).toBeInTheDocument()
+    expect(screen.getByText('Running costs')).toBeInTheDocument()
+    expect(screen.getByText(/Any amount helps/)).toBeInTheDocument()
+  })
+
+  it('links the support section to PayPal and opens it safely in a new tab', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    const link = screen.getByRole('link', { name: 'Donate via PayPal' })
+    expect(link).toHaveAttribute('href', 'https://www.paypal.com/paypalme/Khaleeleu')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'))
+  })
+
+  it('does not use dash punctuation in the support copy', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    const text = container.querySelector('#support')?.textContent ?? ''
+    expect(text.length).toBeGreaterThan(100)
+    expect(text).not.toMatch(/ - | -- |—|–/)
+  })
 })

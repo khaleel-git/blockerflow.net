@@ -23,7 +23,9 @@ export function Nav() {
           <Link to="/terms" className="hidden hover:text-ink sm:inline">
             Terms
           </Link>
-          <MacBadge variant="compact" className="hidden sm:inline-flex" />
+          <span className="hidden sm:inline-flex">
+            <MacBadge variant="compact" />
+          </span>
           <GooglePlayBadge variant="compact" />
         </div>
       </nav>
