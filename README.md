@@ -4,76 +4,56 @@
 
 # Blockerflow
 
-### Block distractions. Stay accountable.
+**Block distractions. Stay accountable.**
 
-An Android app that blocks adult content and distracting social video feeds, backed by a real
-accountability system, not just a toggle you can switch off the moment you are tempted.
+Blocks adult content and distracting social video feeds on Android and Mac, backed by a real
+accountability system.
+
+[![Google Play](https://img.shields.io/badge/Google%20Play-Get%20Blockerflow-3DDC84?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
+[![Download for Mac](https://img.shields.io/badge/Mac-Download%20.dmg-000000?logo=apple&logoColor=white)](https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.0/Blockerflow-mac-1.0.0.dmg)
 
 **[blockerflow.net](https://blockerflow.net)**
 
-[![Get it on Google Play](https://img.shields.io/badge/Google%20Play-Get%20Blockerflow-3DDC84?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
-
 </div>
 
----
+## Blockerflow for Mac
 
-## What blockerflow.net is
+**[Download Blockerflow-mac-1.0.0.dmg](https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.0/Blockerflow-mac-1.0.0.dmg)**
+(macOS 12 or later, Apple silicon and Intel) · [Full install guide](https://blockerflow.net/guides/how-to-install-blockerflow-on-mac/)
 
-The home of Blockerflow. It explains what the app blocks, walks you through setup screen by
-screen, and carries eleven guides, several with a video demo of the real app doing the thing the
-guide describes.
+1. Open the `.dmg` and drag **Blockerflow** onto **Applications**.
+2. Right click the app, choose **Open**, then **Open** again.
+3. Allow the certificate and proxy setup on the first start. HTTPS sites cannot be filtered without it.
 
-| | |
-|---|---|
-| [Overview](https://blockerflow.net/) | Every feature, with screenshots |
-| [Setup guide](https://blockerflow.net/guide/) | Five steps from install to a blocker you cannot talk yourself out of |
-| [Guides](https://blockerflow.net/guides/) | Eleven how-tos, most with a demo video or app screenshot |
-| [Privacy policy](https://blockerflow.net/privacy/) | What stays on your device, and what does not |
-| [Terms](https://blockerflow.net/terms/) | The terms that apply to the app and the site |
+> [!IMPORTANT]
+> **"Blockerflow is damaged and can't be opened"?** The app is not damaged. It is distributed without an
+> Apple Developer licence, so it is not notarized. Run this once in Terminal, then open the app again:
+>
+> ```
+> xattr -cr /Applications/Blockerflow.app
+> ```
 
-## What the app does
+**Supported browsers:** Safari, Google Chrome, Firefox, Opera, Vivaldi, DuckDuckGo, Brave, Microsoft Edge,
+Orion and Yandex. Tor Browser, Maxthon and Arc are not supported.
 
-| Feature | What it means |
-|---|---|
-| **Adult content blocking** | A 1.1M+ domain and keyword blocklist, checked entirely on your device. Nothing you browse is ever uploaded. |
-| **Social video blocking** | Separate switches for Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight, WhatsApp channels and X videos. Messages keep working. |
-| **Focus Mode** | Named, optionally time boxed sessions that block your chosen distractions until the session ends. |
-| **Accountability Partner** | A trusted contact unlocks blocked features for you, via a one time PIN sent to their email. |
-| **Uninstall Protection** | Stops the app being removed as a shortcut around its own blocks. |
-| **AI Coach** | An honest second opinion when you are tempted to disable a blocker, before you talk yourself out of it. |
+**Uninstall:** turn off Uninstall Protection in Settings, then use **Uninstall App**.
 
-### Privacy first, by design
+The release page also lists "Source code" files. Those are this website, not the Mac app. The Mac app source
+is not published: request it at [hello@khaleel.eu](mailto:hello@khaleel.eu).
 
-No analytics SDK, no crash reporter, no telemetry upload path. Your browsing history never leaves
-your device. The full detail is in the [privacy policy](https://blockerflow.net/privacy/).
+## What it blocks
 
-## The guides
+- **Adult content:** a 1.1M+ domain and keyword list, checked on your device. Nothing you browse is uploaded.
+- **Social video:** Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight.
+- **Focus Mode:** timed sessions that block your chosen distractions.
+- **Accountability partner:** Myself, Time Delay, a Friend by email, or an AI Coach.
+- **Uninstall Protection:** stops the app being removed as a shortcut around its own blocks.
 
-- [How to block porn on Android](https://blockerflow.net/guides/how-to-block-porn-on-android/)
-- [How to block Instagram Reels on Android](https://blockerflow.net/guides/block-instagram-reels-on-android/)
-- [How to block YouTube Shorts and keep YouTube](https://blockerflow.net/guides/block-youtube-shorts-on-android/)
-- [How to block Snapchat Spotlight](https://blockerflow.net/guides/block-snapchat-spotlight-on-android/)
-- [Focus Mode: block social media while you study](https://blockerflow.net/guides/focus-mode-block-social-media-android/)
-- [Accountability partner app for porn blocking](https://blockerflow.net/guides/accountability-partner-porn-blocker/)
-- [Stop uninstalling your porn blocker](https://blockerflow.net/guides/how-to-stop-uninstalling-your-porn-blocker/)
-- [Is a porn blocker private? On device blocking explained](https://blockerflow.net/guides/porn-blocker-privacy-on-device/)
-- [How to stop porn urges at night](https://blockerflow.net/guides/how-to-stop-porn-urges-at-night/)
-- [Block image and video search on Android](https://blockerflow.net/guides/block-image-and-video-search-android/)
-- [How to block any app or website on Android](https://blockerflow.net/guides/block-any-app-or-website-on-android/)
+## This repository
 
-## Where Blockerflow came from
+The source of [blockerflow.net](https://blockerflow.net) (Vite, React, Tailwind, deployed to Cloudflare Pages)
+and the home of the Mac app releases. Pages: [setup guide](https://blockerflow.net/guide/),
+[guides](https://blockerflow.net/guides/), [privacy](https://blockerflow.net/privacy/),
+[terms](https://blockerflow.net/terms/).
 
-Blockerflow grew out of **[K9 Web Protection](https://github.com/khaleel-git/K9-Web-Protection_BlockerFlow)**,
-a free and open source parental control and web filter for macOS, with a Chrome extension
-alongside it. It filters at the network level across every browser, using a local proxy, a
-firewall rule that stops QUIC slipping past that proxy, forced SafeSearch on Google and Bing, and
-a database of 932,000+ domains across 29 categories.
-
-That project is open source and still available, but it is no longer actively updated. Blockerflow
-is where the work continues, on the device the problem actually lives on.
-
-## Get it
-
-[Blockerflow on Google Play](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
-· [blockerflow.net](https://blockerflow.net) · [hello@khaleel.eu](mailto:hello@khaleel.eu)
-
+Contact: [hello@khaleel.eu](mailto:hello@khaleel.eu)
