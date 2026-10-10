@@ -915,7 +915,7 @@ export const ARTICLES: Article[] = [
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.0.0, 23 MB, macOS 12 or later, Apple silicon and Intel.',
+      note: 'Version 1.0.1, 23 MB, macOS 12 or later, Apple silicon and Intel.',
     },
     sections: [
       {
@@ -947,7 +947,7 @@ export const ARTICLES: Article[] = [
         heading: 'The first start',
         paragraphs: [
           'Blockerflow installs a certificate called Blockerflow CA in your keychain and sets itself as the system proxy. macOS may ask for your password. Allow it: without the certificate HTTPS sites cannot be filtered. The certificate is created on your Mac and only used to read the address of a few sites, such as YouTube, Instagram and Facebook, so a single Short or Reel can be blocked.',
-          'Blockerflow runs from the menu bar and has no Dock icon. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app.',
+          'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app.',
         ],
       },
       {

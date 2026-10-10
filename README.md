@@ -10,7 +10,7 @@ Blocks adult content and distracting social video feeds on Android and Mac, back
 accountability system.
 
 [![Google Play](https://img.shields.io/badge/Google%20Play-Get%20Blockerflow-3DDC84?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow)
-[![Download for Mac](https://img.shields.io/badge/Mac-Download%20.dmg-000000?logo=apple&logoColor=white)](https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.0/Blockerflow-mac-1.0.0.dmg)
+[![Download for Mac](https://img.shields.io/badge/Mac-Download%20.dmg-000000?logo=apple&logoColor=white)](https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.1/Blockerflow-mac-1.0.1.dmg)
 
 **[blockerflow.net](https://blockerflow.net)**
 
@@ -18,7 +18,7 @@ accountability system.
 
 ## Blockerflow for Mac
 
-**[Download Blockerflow-mac-1.0.0.dmg](https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.0/Blockerflow-mac-1.0.0.dmg)**
+**[Download Blockerflow-mac-1.0.1.dmg](https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.1/Blockerflow-mac-1.0.1.dmg)**
 (macOS 12 or later, Apple silicon and Intel) · [Full install guide](https://blockerflow.net/guides/how-to-install-blockerflow-on-mac/)
 
 1. Open the `.dmg` and drag **Blockerflow** onto **Applications**.
