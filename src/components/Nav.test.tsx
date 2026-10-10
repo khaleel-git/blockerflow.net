@@ -47,4 +47,13 @@ describe('Nav', () => {
       '/guides/how-to-install-blockerflow-on-mac',
     )
   })
+
+  it('has a Support button that jumps to the donation section on the home page', () => {
+    render(
+      <MemoryRouter>
+        <Nav />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('link', { name: 'Support Blockerflow' })).toHaveAttribute('href', '/#support')
+  })
 })

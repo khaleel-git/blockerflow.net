@@ -6,6 +6,7 @@ export const MAC_GUIDE_PATH = '/guides/how-to-install-blockerflow-on-mac'
 export const MAC_DOWNLOAD_URL =
   'https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.0.1/Blockerflow-mac-1.0.1.dmg'
 export const DONATE_URL = 'https://www.paypal.com/paypalme/Khaleeleu'
+export const FUNDING_ISSUE_URL = 'https://github.com/khaleel-git/blockerflow.net/issues/1'
 export const OG_IMAGE = `${SITE_URL}/assets/feature-graphic.png`
 /** Date the guide pages were first published, used for Article schema and the sitemap. */
 export const PUBLISHED = '2026-10-08'

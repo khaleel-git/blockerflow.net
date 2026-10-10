@@ -9,11 +9,15 @@ import { Privacy } from './pages/Privacy'
 import { Terms } from './pages/Terms'
 import { NotFound } from './pages/NotFound'
 
-/** A new page should open at the top, not at the previous page's scroll position. */
+/** A new page should open at the top, not at the previous page's scroll position. A #hash opens at that section. */
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
   useEffect(() => {
-    if (hash) return
+    if (hash) {
+      // Wait a tick so the page behind the link has rendered before looking for the section.
+      const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }), 0)
+      return () => clearTimeout(t)
+    }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [pathname, hash])
   return null

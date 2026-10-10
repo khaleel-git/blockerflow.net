@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes'
 
@@ -42,5 +42,13 @@ describe('AppRoutes', () => {
     renderAt('/this-page-does-not-exist')
     expect(screen.getByRole('link', { name: 'Blockerflow home' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Made by Khaleel' })).toBeInTheDocument()
+  })
+
+  it('scrolls to the section named in the URL hash, so the Support button works from the same page', async () => {
+    const scrollIntoView = vi.fn()
+    Element.prototype.scrollIntoView = scrollIntoView
+    renderAt('/#support')
+    await waitFor(() => expect(scrollIntoView).toHaveBeenCalledTimes(1))
+    expect(scrollIntoView.mock.instances[0]).toBe(document.getElementById('support'))
   })
 })

@@ -178,6 +178,8 @@ export function Home() {
         </div>
       </section>
 
+      <SupportSection />
+
       <section className="mx-auto max-w-5xl px-6 pb-20">
         <h2 className="text-center font-display text-2xl font-semibold text-ink sm:text-3xl">
           Guides
@@ -195,8 +197,6 @@ export function Home() {
           ))}
         </div>
       </section>
-
-      <SupportSection />
 
       <section className="mx-auto max-w-3xl px-6 pb-24">
         <div className="rounded-2xl border border-outline bg-surface p-8 text-center">

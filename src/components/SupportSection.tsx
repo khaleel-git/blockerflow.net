@@ -1,5 +1,5 @@
 import { FUNDING_GOALS } from '../seo/funding'
-import { DONATE_URL } from '../seo/site'
+import { DONATE_URL, FUNDING_ISSUE_URL } from '../seo/site'
 
 /** A drawing of the macOS warning people get today, and the same dialog once the app is signed. */
 function WarningToFix() {
@@ -42,12 +42,13 @@ function WarningToFix() {
   )
 }
 
-export function SupportSection() {
+/** The donation card. It lays out by its own width, so it is two columns on the home page and one inside a guide. */
+export function SupportCard({ className = '' }: { className?: string }) {
   return (
-    <section id="support" className="mx-auto max-w-5xl scroll-mt-24 px-6 pb-20">
+    <div className={`@container ${className}`}>
       <div className="rounded-3xl bg-gradient-to-br from-primary/40 via-primary/10 to-sky-300/40 p-px">
-        <div className="grid gap-10 rounded-[calc(1.5rem-1px)] bg-surface p-6 sm:p-12 lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-14">
-          <div className="text-center lg:text-left">
+        <div className="grid gap-10 rounded-[calc(1.5rem-1px)] bg-surface p-6 sm:p-10 @3xl:grid-cols-[1fr_1.15fr] @3xl:items-center @3xl:gap-14 @3xl:p-12">
+          <div className="text-center @3xl:text-left">
             <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
               Blockerflow is free. Help me keep it that way.
             </h2>
@@ -75,7 +76,7 @@ export function SupportSection() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 text-center lg:text-left">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 @3xl:justify-start">
               <a
                 href={DONATE_URL}
                 target="_blank"
@@ -84,10 +85,26 @@ export function SupportSection() {
               >
                 Donate via PayPal
               </a>
+              <a
+                href={FUNDING_ISSUE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                See the details
+              </a>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+export function SupportSection() {
+  return (
+    <section id="support" className="mx-auto max-w-5xl scroll-mt-24 px-6 pb-20">
+      <SupportCard />
     </section>
   )
 }

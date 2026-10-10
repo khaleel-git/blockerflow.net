@@ -5,6 +5,7 @@ import { DemoVideo } from '../components/DemoVideo'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { DownloadButton } from '../components/DownloadButton'
 import { Notice } from '../components/Notice'
+import { SupportCard } from '../components/SupportSection'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES, getArticle } from '../seo/articles'
 import { OG_IMAGE, PUBLISHED, SITE_NAME, SITE_URL, absoluteUrl } from '../seo/site'
@@ -147,19 +148,7 @@ export function Article() {
             </div>
           </section>
 
-          {article.support && (
-            <aside className="mt-14 flex flex-col items-center gap-4 rounded-2xl border border-outline bg-surface px-6 py-5 text-center sm:flex-row sm:text-left">
-              <p className="flex-1 text-ink-muted">{article.support.message}</p>
-              <a
-                href={article.support.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 rounded-xl border border-primary px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary-bg"
-              >
-                {article.support.label}
-              </a>
-            </aside>
-          )}
+          {article.support && <SupportCard className="mt-14" />}
 
           <section className="mt-14 rounded-3xl border border-outline bg-primary-bg px-8 py-10 text-center">
             <h2 className="font-display text-2xl font-semibold text-ink">Try Blockerflow</h2>

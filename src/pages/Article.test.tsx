@@ -87,9 +87,12 @@ describe('guide articles', () => {
     expect(document.body.textContent?.match(/xattr -cr \/Applications\/Blockerflow\.app/g)?.length).toBe(1)
   })
 
-  it('asks for support on the Mac guide with the PayPal link, and only there', () => {
+  it('shows the same support card as the home page on the Mac guide, with one PayPal link', () => {
     renderAt(MAC_GUIDE_PATH)
+    expect(screen.getByRole('heading', { name: 'Blockerflow is free. Help me keep it that way.' })).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: 'Donate via PayPal' })).toHaveLength(1)
     expect(screen.getByRole('link', { name: 'Donate via PayPal' })).toHaveAttribute('href', DONATE_URL)
+    expect(screen.getByText('Apple Developer ID')).toBeInTheDocument()
     expect(DONATE_URL).toBe('https://www.paypal.com/paypalme/Khaleeleu')
   })
 

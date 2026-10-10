@@ -106,4 +106,27 @@ describe('Home', () => {
     expect(text.length).toBeGreaterThan(100)
     expect(text).not.toMatch(/ - | -- |—|–/)
   })
+
+  it('links the support section to the funding issue for the details', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('link', { name: 'See the details' })).toHaveAttribute(
+      'href',
+      'https://github.com/khaleel-git/blockerflow.net/issues/1',
+    )
+  })
+
+  it('puts the support section above the guides list', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    const support = container.querySelector('#support')!
+    const guides = screen.getByRole('heading', { name: 'Guides' })
+    expect(support.compareDocumentPosition(guides) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
 })
