@@ -36,6 +36,8 @@ accountability system.
 **Supported browsers:** Safari, Google Chrome, Firefox, Opera, Vivaldi, DuckDuckGo, Brave, Microsoft Edge,
 Orion and Yandex. Tor Browser, Maxthon and Arc are not supported.
 
+**Support:** help me get an Apple Developer ID (€99 a year) to sign Blockerflow for macOS and iOS, so it opens without warnings: [Donate via PayPal](https://www.paypal.com/paypalme/Khaleeleu).
+
 **Uninstall:** turn off Uninstall Protection in Settings, then use **Uninstall App**.
 
 The release page also lists "Source code" files. Those are this website, not the Mac app. The Mac app source

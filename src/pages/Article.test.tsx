@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { AppRoutes } from '../AppRoutes'
 import { ARTICLES } from '../seo/articles'
 import { ROUTE_META } from '../seo/routes'
-import { MAC_DOWNLOAD_URL, MAC_GUIDE_PATH } from '../seo/site'
+import { DONATE_URL, MAC_DOWNLOAD_URL, MAC_GUIDE_PATH } from '../seo/site'
 
 function renderAt(path: string) {
   return render(
@@ -85,5 +85,16 @@ describe('guide articles', () => {
     expect(notes[0]).toHaveTextContent('xattr -cr /Applications/Blockerflow.app')
     expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(1)
     expect(document.body.textContent?.match(/xattr -cr \/Applications\/Blockerflow\.app/g)?.length).toBe(1)
+  })
+
+  it('asks for support on the Mac guide with the PayPal link, and only there', () => {
+    renderAt(MAC_GUIDE_PATH)
+    expect(screen.getByRole('link', { name: 'Donate via PayPal' })).toHaveAttribute('href', DONATE_URL)
+    expect(DONATE_URL).toBe('https://www.paypal.com/paypalme/Khaleeleu')
+  })
+
+  it('shows no donation request on the Android guides', () => {
+    renderAt('/guides/how-to-block-porn-on-android')
+    expect(screen.queryByRole('link', { name: 'Donate via PayPal' })).toBeNull()
   })
 })

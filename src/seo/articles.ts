@@ -1,5 +1,5 @@
 import type { VideoKey } from './videos'
-import { MAC_DOWNLOAD_URL } from './site'
+import { DONATE_URL, MAC_DOWNLOAD_URL } from './site'
 
 /** A highlighted warning with one command to copy, for a step many readers will hit. */
 export interface ArticleNotice {
@@ -38,6 +38,8 @@ export interface Article {
   download?: { label: string; href: string; note: string }
   /** Shown right under the download button, for what a reader must know before opening the file. */
   notice?: ArticleNotice
+  /** A short request for support, shown after the FAQ. */
+  support?: { message: string; label: string; href: string }
   sections: ArticleSection[]
   faq: { question: string; answer: string }[]
   /** Slugs of other articles to link to at the bottom. */
@@ -985,6 +987,12 @@ export const ARTICLES: Article[] = [
           'Not while Uninstall Protection is on. Turn it off in Settings, then use Uninstall App.',
       },
     ],
+    support: {
+      message:
+        'Help me get an Apple Developer ID (€99 a year) to sign Blockerflow for macOS and iOS, so it opens without warnings.',
+      label: 'Donate via PayPal',
+      href: DONATE_URL,
+    },
     related: [
       'how-to-block-porn-on-android',
       'accountability-partner-porn-blocker',
