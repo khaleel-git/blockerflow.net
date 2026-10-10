@@ -1,8 +1,18 @@
 import type { VideoKey } from './videos'
 import { MAC_DOWNLOAD_URL } from './site'
 
+/** A highlighted warning with one command to copy, for a step many readers will hit. */
+export interface ArticleNotice {
+  title: string
+  body: string
+  command: string
+  /** What to do once the command has run. */
+  after: string
+}
+
 export interface ArticleSection {
   heading: string
+  notice?: ArticleNotice
   paragraphs: string[]
   steps?: string[]
 }
@@ -26,6 +36,8 @@ export interface Article {
   media?: ArticleMedia
   /** A file to download, shown as a button under the intro and again at the end of the guide. */
   download?: { label: string; href: string; note: string }
+  /** Shown right under the download button, for what a reader must know before opening the file. */
+  notice?: ArticleNotice
   sections: ArticleSection[]
   faq: { question: string; answer: string }[]
   /** Slugs of other articles to link to at the bottom. */
@@ -42,6 +54,13 @@ export interface Article {
  * the user adds themselves. An earlier version of these guides sent people to the Blocklist tab
  * to switch features on, which is not where any of them live.
  */
+const MAC_DAMAGED_NOTICE: ArticleNotice = {
+  title: 'macOS says "Blockerflow is damaged and can\'t be opened"?',
+  body: 'The app is not damaged. Blockerflow for Mac is distributed without an Apple Developer licence, so it is not signed or notarized by Apple, and macOS blocks apps it cannot verify. Make sure Blockerflow is in your Applications folder, then open Terminal and run this one command:',
+  command: 'xattr -cr /Applications/Blockerflow.app',
+  after: 'Then open Blockerflow again. You only need to do this once per install.',
+}
+
 export const ARTICLES: Article[] = [
   {
     slug: 'how-to-block-porn-on-android',
@@ -905,6 +924,7 @@ export const ARTICLES: Article[] = [
       href: MAC_DOWNLOAD_URL,
       note: 'Version 1.0.0, about 23 MB, for macOS 12 or later. Works on Apple silicon and Intel Macs.',
     },
+    notice: MAC_DAMAGED_NOTICE,
     sections: [
       {
         heading: 'What you need',
@@ -927,13 +947,14 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Open it the first time',
         paragraphs: [
-          'This version is not notarized by Apple yet, so macOS does not recognise the developer and will not open it with a plain double click the first time. This is expected, and you only have to do it once.',
+          'This version is distributed without an Apple Developer licence, so it is not notarized and macOS does not recognise the developer. A plain double click may be refused the first time. This is expected, and you only have to do it once.',
         ],
         steps: [
           'Open the Applications folder, then right click Blockerflow and choose Open.',
           'In the warning that appears, choose Open again.',
-          'If macOS says the app is damaged and cannot be opened, open Terminal and run: xattr -cr /Applications/Blockerflow.app. Then open the app again.',
+          'If macOS says the app is damaged and cannot be opened, use the command in the box below, then open the app again.',
         ],
+        notice: MAC_DAMAGED_NOTICE,
       },
       {
         heading: 'What happens on the first start',
@@ -985,7 +1006,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Why does macOS warn me when I open Blockerflow?',
         answer:
-          'This version is not notarized by Apple yet, so macOS cannot check the developer. Right click the app, choose Open and confirm once. If it says the app is damaged, run xattr -cr /Applications/Blockerflow.app in Terminal.',
+          'This version is distributed without an Apple Developer licence, so macOS cannot check the developer. Right click the app, choose Open and confirm once. If it says the app is damaged, run xattr -cr /Applications/Blockerflow.app in Terminal and open it again.',
       },
       {
         question: 'Does Blockerflow for Mac work on Intel and Apple silicon?',

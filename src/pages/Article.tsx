@@ -4,6 +4,7 @@ import { AppScreenshot } from '../components/AppScreenshot'
 import { DemoVideo } from '../components/DemoVideo'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { DownloadButton } from '../components/DownloadButton'
+import { Notice } from '../components/Notice'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES, getArticle } from '../seo/articles'
 import { OG_IMAGE, PUBLISHED, SITE_NAME, SITE_URL, absoluteUrl } from '../seo/site'
@@ -108,6 +109,7 @@ export function Article() {
           </h1>
           <p className="mt-6 text-lg text-ink-muted">{article.intro}</p>
           {article.download && <DownloadButton download={article.download} className="mt-8" />}
+          {article.notice && <Notice notice={article.notice} className="mt-6" />}
           {inline && media?.kind === 'video' && (
             <DemoVideo video={media.video} caption={media.caption} className="mt-10" />
           )}
@@ -127,6 +129,7 @@ export function Article() {
                   ))}
                 </ol>
               )}
+              {section.notice && <Notice notice={section.notice} className="mt-6" />}
             </section>
           ))}
 

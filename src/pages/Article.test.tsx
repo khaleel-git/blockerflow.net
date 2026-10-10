@@ -77,4 +77,15 @@ describe('guide articles', () => {
     renderAt('/guides/how-to-block-porn-on-android')
     expect(screen.queryByRole('link', { name: 'Download Blockerflow for Mac' })).toBeNull()
   })
+
+  it('highlights the macOS damaged app command on the Mac guide, at the top and in the steps', () => {
+    renderAt(MAC_GUIDE_PATH)
+    const notes = screen.getAllByRole('note')
+    expect(notes).toHaveLength(2)
+    for (const n of notes) {
+      expect(n).toHaveTextContent('xattr -cr /Applications/Blockerflow.app')
+      expect(n).toHaveTextContent('without an Apple Developer licence')
+    }
+    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(2)
+  })
 })
