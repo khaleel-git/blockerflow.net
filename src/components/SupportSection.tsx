@@ -1,47 +1,7 @@
 import { FUNDING_GOALS } from '../seo/funding'
 import { Link } from 'react-router-dom'
+import { GatekeeperVisual } from './GatekeeperVisual'
 import { DONATE_URL } from '../seo/site'
-
-/** A drawing of the macOS warning people get today, and the same dialog once the app is signed. */
-export function WarningToFix() {
-  return (
-    <div className="flex items-center justify-center gap-2 sm:gap-3" aria-hidden="true">
-      <div className="min-w-0 max-w-[150px] flex-1 rounded-xl border border-outline bg-surface p-3 shadow-md">
-        <div className="flex gap-1">
-          <span className="h-2 w-2 rounded-full bg-red-400" />
-          <span className="h-2 w-2 rounded-full bg-amber-400" />
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
-        </div>
-        <svg className="mt-3" width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M12 3.5l9.5 16.5h-19L12 3.5z" stroke="#D97706" strokeWidth="2" strokeLinejoin="round" />
-          <path d="M12 10v4.5M12 17.2v.1" stroke="#D97706" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-        <p className="mt-2 text-[11px] font-semibold leading-tight text-ink">“Blockerflow” Not Opened</p>
-        <p className="mt-1 text-[10px] leading-snug text-ink-muted">Apple could not verify it is free of malware.</p>
-        <div className="mt-2 h-4 rounded bg-outline" />
-      </div>
-
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0 text-primary">
-        <path d="M4 12h15m0 0l-5-5m5 5l-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-
-      <div className="min-w-0 max-w-[150px] flex-1 rounded-xl border-2 border-emerald-300 bg-surface p-3 shadow-md">
-        <div className="flex gap-1">
-          <span className="h-2 w-2 rounded-full bg-red-400" />
-          <span className="h-2 w-2 rounded-full bg-amber-400" />
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
-        </div>
-        <svg className="mt-3" width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="9" stroke="#059669" strokeWidth="2" />
-          <path d="M7.8 12.3l2.9 2.9 5.5-5.8" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-        <p className="mt-2 text-[11px] font-semibold leading-tight text-ink">Blockerflow</p>
-        <p className="mt-1 text-[10px] leading-snug text-ink-muted">Opens like any other app.</p>
-        <div className="mt-2 h-4 rounded bg-primary/80" />
-      </div>
-    </div>
-  )
-}
 
 /** The donation card. It lays out by its own width, so it is two columns on the home page and one inside a guide. */
 export function SupportCard({ className = '' }: { className?: string }) {
@@ -58,7 +18,7 @@ export function SupportCard({ className = '' }: { className?: string }) {
               the things that keep it free and safe to install. Any amount helps.
             </p>
             <div className="mt-8">
-              <WarningToFix />
+              <GatekeeperVisual />
             </div>
           </div>
 

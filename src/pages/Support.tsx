@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { WarningToFix } from '../components/SupportSection'
+import { GatekeeperVisual } from '../components/GatekeeperVisual'
 import {
   APPLE_YEARLY_EUR,
   FUNDING_GOALS,
@@ -171,21 +171,19 @@ export function Support() {
         </p>
       </section>
 
-      <section aria-labelledby="changes" className="mt-24 grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
-        <div>
-          <h2 id="changes" className="font-display text-3xl font-bold tracking-tight text-ink">
-            What changes for you
-          </h2>
-          <p className="mt-4 max-w-md text-ink-muted">
-            Today the Mac app is not signed, so macOS says it cannot verify it. You open it with a
-            right click, or one Terminal command. Once it is signed and notarized, it opens like any
-            other app.
-          </p>
-          <Link to={MAC_GUIDE_PATH} className="mt-4 inline-block font-medium text-primary hover:underline">
-            Read the Mac install guide
-          </Link>
-        </div>
-        <WarningToFix />
+      <section aria-labelledby="changes" className="mt-24">
+        <h2 id="changes" className="font-display text-3xl font-bold tracking-tight text-ink">
+          What changes for you
+        </h2>
+        <p className="mt-4 max-w-xl text-ink-muted">
+          Today the Mac app is not signed, so macOS says it cannot verify it. You open it with a
+          right click, or one Terminal command. Once it is signed and notarized, macOS checks it
+          and asks one simple question.
+        </p>
+        <Link to={MAC_GUIDE_PATH} className="mt-4 inline-block font-medium text-primary hover:underline">
+          Read the Mac install guide
+        </Link>
+        <GatekeeperVisual className="mt-10" />
       </section>
 
       <section aria-labelledby="free-help" className="mt-24 max-w-3xl">
