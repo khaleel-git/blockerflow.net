@@ -20,8 +20,8 @@ export function Notice({ notice, className = '' }: { notice: ArticleNotice; clas
       role="note"
       className={`rounded-2xl border-2 border-amber-400 bg-amber-50 p-6 text-amber-950 ${className}`}
     >
-      <p className="flex items-center gap-2 font-display text-lg font-bold">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <p className="flex items-start gap-2 font-display text-lg font-bold leading-snug">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="mt-0.5 shrink-0">
           <path
             d="M12 3.5l9.5 16.5h-19L12 3.5z"
             stroke="currentColor"
@@ -34,7 +34,7 @@ export function Notice({ notice, className = '' }: { notice: ArticleNotice; clas
       </p>
       <p className="mt-2">{notice.body}</p>
       <div className="mt-4 flex items-center gap-3 rounded-xl bg-ink px-4 py-3">
-        <code className="flex-1 select-all overflow-x-auto whitespace-nowrap font-mono text-sm text-white">
+        <code className="min-w-0 flex-1 select-all break-all font-mono text-sm text-white">
           {notice.command}
         </code>
         <button

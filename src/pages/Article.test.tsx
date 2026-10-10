@@ -100,4 +100,15 @@ describe('guide articles', () => {
     renderAt('/guides/how-to-block-porn-on-android')
     expect(screen.queryByRole('link', { name: 'Donate via PayPal' })).toBeNull()
   })
+
+  // A nowrap command inside a flex box once made the whole Mac guide wider than a phone screen (505px).
+  // The command must be allowed to shrink and wrap, and the text column must be allowed to shrink.
+  it('lets the copy command box shrink and wrap so the guide fits a phone screen', () => {
+    const { container } = renderAt(MAC_GUIDE_PATH)
+    const code = container.querySelector('[role="note"] code')!
+    expect(code.className).toContain('min-w-0')
+    expect(code.className).toContain('break-all')
+    expect(code.className).not.toContain('whitespace-nowrap')
+    expect(container.querySelector('h1')!.parentElement!.className).toContain('min-w-0')
+  })
 })

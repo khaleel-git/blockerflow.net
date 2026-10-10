@@ -104,7 +104,7 @@ export function Article() {
       <div
         className={`mt-8 grid gap-12 lg:items-start ${aside ? 'lg:grid-cols-[1fr_260px]' : ''}`}
       >
-        <div>
+        <div className="min-w-0">
           <h1 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
             {article.h1}
           </h1>

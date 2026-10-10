@@ -15,7 +15,7 @@ export function DownloadButton({
       <a
         href={download.href}
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-3 rounded-2xl bg-primary px-6 py-3.5 font-display text-lg font-semibold text-white shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:shadow-xl"
+        className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-primary px-6 py-3.5 font-display text-base font-semibold text-white sm:w-auto sm:text-lg shadow-lg shadow-primary/25 transition hover:-translate-y-0.5 hover:shadow-xl"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
