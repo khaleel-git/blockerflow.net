@@ -66,9 +66,9 @@ export function SupportCard({ className = '' }: { className?: string }) {
             <ul className="mt-4 space-y-3">
               {FUNDING_GOALS.map((goal) => (
                 <li key={goal.title} className="rounded-2xl border border-outline bg-bg p-5">
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-display text-lg font-semibold text-ink">{goal.title}</h3>
-                    <span className="rounded-full bg-primary-bg px-3 py-0.5 text-sm font-medium text-primary">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="min-w-0 font-display text-lg font-semibold leading-snug text-ink">{goal.title}</h3>
+                    <span className="shrink-0 whitespace-nowrap rounded-full bg-primary-bg px-3 py-0.5 text-sm font-medium text-primary">
                       {goal.cost}
                     </span>
                   </div>
