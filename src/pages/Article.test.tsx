@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { AppRoutes } from '../AppRoutes'
 import { ARTICLES } from '../seo/articles'
 import { ROUTE_META } from '../seo/routes'
+import { MAC_DOWNLOAD_URL, MAC_GUIDE_PATH } from '../seo/site'
 
 function renderAt(path: string) {
   return render(
@@ -62,5 +63,18 @@ describe('guide articles', () => {
   it('does not use dash punctuation in guide copy', () => {
     const text = JSON.stringify(ARTICLES)
     expect(text).not.toMatch(/ - | -- |—|–/)
+  })
+
+  it('puts the .dmg download link on the Mac install guide, at the top and at the end', () => {
+    renderAt(MAC_GUIDE_PATH)
+    const links = screen.getAllByRole('link', { name: 'Download Blockerflow for Mac' })
+    expect(links).toHaveLength(2)
+    for (const l of links) expect(l).toHaveAttribute('href', MAC_DOWNLOAD_URL)
+    expect(MAC_DOWNLOAD_URL).toMatch(/^https:\/\/github\.com\/khaleel-git\/blockerflow\.net\/releases\/download\/mac-v[\d.]+\/Blockerflow-mac-[\d.]+\.dmg$/)
+  })
+
+  it('shows no download button on guides that have no file', () => {
+    renderAt('/guides/how-to-block-porn-on-android')
+    expect(screen.queryByRole('link', { name: 'Download Blockerflow for Mac' })).toBeNull()
   })
 })

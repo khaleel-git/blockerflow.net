@@ -3,6 +3,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import { AppScreenshot } from '../components/AppScreenshot'
 import { DemoVideo } from '../components/DemoVideo'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
+import { DownloadButton } from '../components/DownloadButton'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES, getArticle } from '../seo/articles'
 import { OG_IMAGE, PUBLISHED, SITE_NAME, SITE_URL, absoluteUrl } from '../seo/site'
@@ -106,6 +107,7 @@ export function Article() {
             {article.h1}
           </h1>
           <p className="mt-6 text-lg text-ink-muted">{article.intro}</p>
+          {article.download && <DownloadButton download={article.download} className="mt-8" />}
           {inline && media?.kind === 'video' && (
             <DemoVideo video={media.video} caption={media.caption} className="mt-10" />
           )}
@@ -145,10 +147,11 @@ export function Article() {
           <section className="mt-14 rounded-3xl border border-outline bg-primary-bg px-8 py-10 text-center">
             <h2 className="font-display text-2xl font-semibold text-ink">Try Blockerflow</h2>
             <p className="mx-auto mt-3 max-w-md text-ink-muted">
-              Block adult content and distracting feeds on Android, with an accountability system
-              behind it.
+              Block adult content and distracting feeds on Android and Mac, with an accountability
+              system behind it.
             </p>
-            <div className="mt-6 flex justify-center">
+            <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              {article.download && <DownloadButton download={article.download} bare />}
               <GooglePlayBadge />
             </div>
           </section>

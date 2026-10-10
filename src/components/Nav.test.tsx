@@ -35,4 +35,16 @@ describe('Nav', () => {
       screen.getByRole('link', { name: 'Get Blockerflow on Google Play' }),
     ).toHaveAttribute('href', 'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow')
   })
+
+  it('links the Mac badge to the install guide', () => {
+    render(
+      <MemoryRouter>
+        <Nav />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('link', { name: 'Get Blockerflow for Mac' })).toHaveAttribute(
+      'href',
+      '/guides/how-to-install-blockerflow-on-mac',
+    )
+  })
 })

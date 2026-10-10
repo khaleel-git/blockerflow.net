@@ -55,7 +55,7 @@ export function GooglePlayBadge({
       className={`group inline-flex items-center gap-3 rounded-2xl bg-ink px-5 py-3 text-white shadow-lg shadow-ink/20 transition hover:-translate-y-0.5 hover:bg-ink/90 hover:shadow-xl ${className}`}
     >
       <PlayGlyph size={28} />
-      <span className="text-left leading-tight">
+      <span className="whitespace-nowrap text-left leading-tight">
         <span className="block text-[11px] uppercase tracking-wider text-white/70">Get it on</span>
         <span className="block font-display text-lg font-semibold">Google Play</span>
       </span>

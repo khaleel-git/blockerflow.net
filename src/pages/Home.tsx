@@ -4,6 +4,7 @@ import { HeroBackdrop } from '../components/HeroBackdrop'
 import { HeroShowcase } from '../components/HeroShowcase'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
+import { MacBadge } from '../components/MacBadge'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES } from '../seo/articles'
 import { PLAY_STORE_URL, SITE_NAME, SITE_URL } from '../seo/site'
@@ -101,9 +102,10 @@ export function Home() {
               feeds, backed by a real accountability system, not just a toggle you can switch off
               the moment you're tempted.
             </p>
-            <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
               <GooglePlayBadge />
-              <div className="flex items-center gap-5 text-sm font-medium">
+              <MacBadge />
+              <div className="flex basis-full items-center justify-center gap-5 text-sm font-medium lg:justify-start">
                 <Link to="/guide" className="text-ink transition hover:text-primary">
                   See how it works &rarr;
                 </Link>

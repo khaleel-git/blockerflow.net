@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Wordmark } from './Wordmark'
 import { GooglePlayBadge } from './GooglePlayBadge'
+import { MacBadge } from './MacBadge'
 
 export function Nav() {
   return (
@@ -22,6 +23,7 @@ export function Nav() {
           <Link to="/terms" className="hidden hover:text-ink sm:inline">
             Terms
           </Link>
+          <MacBadge variant="compact" className="hidden sm:inline-flex" />
           <GooglePlayBadge variant="compact" />
         </div>
       </nav>

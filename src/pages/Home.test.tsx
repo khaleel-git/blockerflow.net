@@ -58,4 +58,16 @@ describe('Home', () => {
     )
     expect(document.title).toBe('Blockerflow: Porn Blocker & Reels Blocker for Android')
   })
+
+  it('links the Mac badge to the install guide', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('link', { name: 'Get Blockerflow for Mac' })).toHaveAttribute(
+      'href',
+      '/guides/how-to-install-blockerflow-on-mac',
+    )
+  })
 })
