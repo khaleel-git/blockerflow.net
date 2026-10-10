@@ -24,7 +24,7 @@ export function Nav() {
             Terms
           </Link>
           <Link
-            to="/#support"
+            to="/support"
             aria-label="Support Blockerflow"
             className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1.5 sm:px-3 text-sm font-medium text-rose-700 transition hover:bg-rose-100 motion-safe:hover:scale-105"
           >

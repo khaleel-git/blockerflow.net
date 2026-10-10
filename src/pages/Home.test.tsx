@@ -107,16 +107,13 @@ describe('Home', () => {
     expect(text).not.toMatch(/ - | -- |—|–/)
   })
 
-  it('links the support section to the funding issue for the details', () => {
+  it('links the support section to the support page for the details', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'See the details' })).toHaveAttribute(
-      'href',
-      'https://github.com/khaleel-git/blockerflow.net/issues/1',
-    )
+    expect(screen.getByRole('link', { name: 'See the details' })).toHaveAttribute('href', '/support')
   })
 
   it('puts the support section above the guides list', () => {

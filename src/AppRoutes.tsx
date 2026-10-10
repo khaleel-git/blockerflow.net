@@ -5,6 +5,7 @@ import { Home } from './pages/Home'
 import { Guide } from './pages/Guide'
 import { Guides } from './pages/Guides'
 import { Article } from './pages/Article'
+import { Support } from './pages/Support'
 import { Privacy } from './pages/Privacy'
 import { Terms } from './pages/Terms'
 import { NotFound } from './pages/NotFound'
@@ -32,6 +33,7 @@ export function AppRoutes() {
         <Route path="/guide" element={<Guide />} />
         <Route path="/guides" element={<Guides />} />
         <Route path="/guides/:slug" element={<Article />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="*" element={<NotFound />} />

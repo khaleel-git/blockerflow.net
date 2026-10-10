@@ -40,6 +40,12 @@ export const ROUTE_META: RouteMeta[] = [
     description: a.description,
   })),
   {
+    path: '/support',
+    title: 'Support Blockerflow: Keep the App Free',
+    description:
+      'Blockerflow is free. See what donations pay for, pick an amount, and see how many days of Mac and Windows app signing it covers.',
+  },
+  {
     path: '/privacy',
     title: 'Privacy Policy — Blockerflow',
     description:

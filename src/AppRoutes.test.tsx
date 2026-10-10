@@ -51,4 +51,9 @@ describe('AppRoutes', () => {
     await waitFor(() => expect(scrollIntoView).toHaveBeenCalledTimes(1))
     expect(scrollIntoView.mock.instances[0]).toBe(document.getElementById('support'))
   })
+
+  it('renders the Support page at /support', () => {
+    renderAt('/support')
+    expect(screen.getByRole('heading', { level: 1, name: 'Keep Blockerflow free.' })).toBeInTheDocument()
+  })
 })

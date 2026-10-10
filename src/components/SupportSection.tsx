@@ -1,8 +1,9 @@
 import { FUNDING_GOALS } from '../seo/funding'
-import { DONATE_URL, FUNDING_ISSUE_URL } from '../seo/site'
+import { Link } from 'react-router-dom'
+import { DONATE_URL } from '../seo/site'
 
 /** A drawing of the macOS warning people get today, and the same dialog once the app is signed. */
-function WarningToFix() {
+export function WarningToFix() {
   return (
     <div className="flex items-center justify-center gap-2 sm:gap-3" aria-hidden="true">
       <div className="min-w-0 max-w-[150px] flex-1 rounded-xl border border-outline bg-surface p-3 shadow-md">
@@ -85,14 +86,9 @@ export function SupportCard({ className = '' }: { className?: string }) {
               >
                 Donate via PayPal
               </a>
-              <a
-                href={FUNDING_ISSUE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-primary hover:underline"
-              >
+              <Link to="/support" className="text-sm font-medium text-primary hover:underline">
                 See the details
-              </a>
+              </Link>
             </div>
           </div>
         </div>

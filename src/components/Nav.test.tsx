@@ -48,12 +48,12 @@ describe('Nav', () => {
     )
   })
 
-  it('has a Support button that jumps to the donation section on the home page', () => {
+  it('has a Support button that opens the support page', () => {
     render(
       <MemoryRouter>
         <Nav />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'Support Blockerflow' })).toHaveAttribute('href', '/#support')
+    expect(screen.getByRole('link', { name: 'Support Blockerflow' })).toHaveAttribute('href', '/support')
   })
 })
