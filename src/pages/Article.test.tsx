@@ -78,14 +78,12 @@ describe('guide articles', () => {
     expect(screen.queryByRole('link', { name: 'Download Blockerflow for Mac' })).toBeNull()
   })
 
-  it('highlights the macOS damaged app command on the Mac guide, at the top and in the steps', () => {
+  it('shows the macOS damaged app command exactly once, with a copy button', () => {
     renderAt(MAC_GUIDE_PATH)
     const notes = screen.getAllByRole('note')
-    expect(notes).toHaveLength(2)
-    for (const n of notes) {
-      expect(n).toHaveTextContent('xattr -cr /Applications/Blockerflow.app')
-      expect(n).toHaveTextContent('without an Apple Developer licence')
-    }
-    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(2)
+    expect(notes).toHaveLength(1)
+    expect(notes[0]).toHaveTextContent('xattr -cr /Applications/Blockerflow.app')
+    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(1)
+    expect(document.body.textContent?.match(/xattr -cr \/Applications\/Blockerflow\.app/g)?.length).toBe(1)
   })
 })

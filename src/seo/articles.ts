@@ -54,13 +54,6 @@ export interface Article {
  * the user adds themselves. An earlier version of these guides sent people to the Blocklist tab
  * to switch features on, which is not where any of them live.
  */
-const MAC_DAMAGED_NOTICE: ArticleNotice = {
-  title: 'macOS says "Blockerflow is damaged and can\'t be opened"?',
-  body: 'The app is not damaged. Blockerflow for Mac is distributed without an Apple Developer licence, so it is not signed or notarized by Apple, and macOS blocks apps it cannot verify. Make sure Blockerflow is in your Applications folder, then open Terminal and run this one command:',
-  command: 'xattr -cr /Applications/Blockerflow.app',
-  after: 'Then open Blockerflow again. You only need to do this once per install.',
-}
-
 export const ARTICLES: Article[] = [
   {
     slug: 'how-to-block-porn-on-android',
@@ -915,90 +908,63 @@ export const ARTICLES: Article[] = [
     slug: 'how-to-install-blockerflow-on-mac',
     title: 'How to Install Blockerflow on Mac: Step by Step Guide',
     description:
-      'Download Blockerflow for Mac, install it from the .dmg, open it past the macOS warning, and set it up. Includes supported browsers and how to uninstall.',
+      'Download Blockerflow for Mac, install it from the .dmg and open it past the macOS warning. Includes supported browsers, updating and uninstalling.',
     h1: 'How to install Blockerflow on Mac',
     intro:
-      'Blockerflow for Mac blocks adult content, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, and it uses the same accountability partners and shared blocklists as the Android app. This guide takes you from the download to a working blocker, including the macOS warning you will see on the first start.',
+      'Blockerflow for Mac blocks adult content, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.0.0, about 23 MB, for macOS 12 or later. Works on Apple silicon and Intel Macs.',
+      note: 'Version 1.0.0, 23 MB, macOS 12 or later, Apple silicon and Intel.',
     },
-    notice: MAC_DAMAGED_NOTICE,
     sections: [
       {
-        heading: 'What you need',
-        paragraphs: [
-          'A Mac running macOS 12 or later. One download covers both Apple silicon and Intel Macs. The app was tested on macOS 27, so older systems are supported on paper but have had less testing. You do not need an account to use it.',
-        ],
-      },
-      {
-        heading: 'Download and install',
-        paragraphs: [
-          'The download is a disk image named Blockerflow-mac-1.0.0.dmg. It holds the app and a shortcut to your Applications folder, so installing is a drag and drop.',
-        ],
+        heading: 'Install',
+        paragraphs: [],
         steps: [
-          'Download the .dmg with the button on this page.',
-          'Open the downloaded file. A window opens with the Blockerflow app and an Applications shortcut.',
-          'Drag Blockerflow onto the Applications shortcut and wait for the copy to finish.',
-          'Eject the disk image in Finder. You can delete the .dmg afterwards.',
+          'Download the .dmg with the button above and open it.',
+          'Drag Blockerflow onto the Applications shortcut in the window that opens.',
+          'Eject the disk image in Finder. You can delete the .dmg.',
         ],
       },
       {
         heading: 'Open it the first time',
         paragraphs: [
-          'This version is distributed without an Apple Developer licence, so it is not notarized and macOS does not recognise the developer. A plain double click may be refused the first time. This is expected, and you only have to do it once.',
+          'Blockerflow is distributed without an Apple Developer licence, so it is not notarized and macOS may refuse a plain double click. You only do this once.',
         ],
         steps: [
-          'Open the Applications folder, then right click Blockerflow and choose Open.',
+          'In Applications, right click Blockerflow and choose Open.',
           'In the warning that appears, choose Open again.',
-          'If macOS says the app is damaged and cannot be opened, use the command in the box below, then open the app again.',
         ],
-        notice: MAC_DAMAGED_NOTICE,
+        notice: {
+          title: 'macOS says "Blockerflow is damaged and can\'t be opened"?',
+          body: 'The app is not damaged, macOS just cannot verify it. With Blockerflow in your Applications folder, open Terminal and run:',
+          command: 'xattr -cr /Applications/Blockerflow.app',
+          after: 'Then open Blockerflow again.',
+        },
       },
       {
-        heading: 'What happens on the first start',
+        heading: 'The first start',
         paragraphs: [
-          'Blockerflow filters your browsing through a small filter that runs only on your Mac. On the first start it installs a certificate called Blockerflow CA in your keychain and sets that filter as the system proxy. macOS may ask for your password to allow this. Accept it: without the certificate, HTTPS sites cannot be filtered, and without the proxy nothing reaches the filter.',
-          'The certificate is generated on your Mac and is used only to read the address of a few sites, such as Google, Bing, YouTube, Instagram and Facebook, so that a Short or a Reel can be blocked while the rest of the site keeps working. Other sites are judged by their hostname alone. The blocklists are stored in the app and checked on your Mac.',
-          'Blockerflow runs from the menu bar and has no Dock icon. Closing its window does not quit it.',
-        ],
-      },
-      {
-        heading: 'Set up your blocking',
-        paragraphs: [
-          'The Mac app follows the Android app, so the layout and the switches will look familiar: content blocking, social blocking, your own blocklist, Focus Mode and an accountability partner. Switch on what you want blocked, then choose who has to approve changes: Myself with a typing challenge, a Time Delay, a Friend by email, or the AI Coach.',
-          'To use Friend or AI Coach, sign in with Google in Settings. Signing in also syncs your settings with the Android app, so a blocklist you build on your phone shows up on your Mac.',
+          'Blockerflow installs a certificate called Blockerflow CA in your keychain and sets itself as the system proxy. macOS may ask for your password. Allow it: without the certificate HTTPS sites cannot be filtered. The certificate is created on your Mac and only used to read the address of a few sites, such as YouTube, Instagram and Facebook, so a single Short or Reel can be blocked.',
+          'Blockerflow runs from the menu bar and has no Dock icon. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app.',
         ],
       },
       {
-        heading: 'Which browsers work',
+        heading: 'Supported browsers',
         paragraphs: [
-          'Each of these was tested with Blockerflow running, with a blocked site and a blocked Short in each one: Safari, Google Chrome, Firefox, Opera, Vivaldi, DuckDuckGo, Brave, Microsoft Edge, Orion and Yandex.',
-          'Tor Browser, Maxthon and Arc are not supported. Tor Browser routes around the filter by design. Maxthon has no current Mac download, and Arc would not open any page without creating an account, so it could not be tested. With Block unsupported browsers switched on, Blockerflow closes these three when they open.',
+          'Tested and working: Safari, Google Chrome, Firefox, Opera, Vivaldi, DuckDuckGo, Brave, Microsoft Edge, Orion and Yandex. Tor Browser, Maxthon and Arc are not supported, and Block unsupported browsers closes them.',
+          'Anything that skips the system proxy skips the blocker too: a built in VPN, DNS over HTTPS settings that bypass the proxy, a Tor window, and apps such as the WhatsApp desktop app. Turn those off if you want the blocker to hold.',
         ],
       },
       {
-        heading: 'What it cannot see',
+        heading: 'Update or uninstall',
         paragraphs: [
-          'Blockerflow filters what goes through the system proxy. A browser feature that skips it also skips the blocker: a built in VPN, a DNS over HTTPS setting that bypasses the proxy, a Tor window, or an extension that changes proxy settings. Apps that ignore the system proxy, such as the WhatsApp desktop app, are not filtered either. Turn those features off in your browser if you want the blocker to hold.',
-        ],
-      },
-      {
-        heading: 'Update to a new version',
-        paragraphs: [
-          'Quit Blockerflow from its menu bar icon, open the new .dmg and drag the app over the old one in Applications. If Uninstall Protection is on, turn it off first: it locks the app so that it cannot be replaced or deleted.',
-        ],
-      },
-      {
-        heading: 'Uninstall',
-        paragraphs: [
-          'Uninstall Protection is there to stop an impulsive decision, so removing the app goes through the same accountability check as the rest of Blockerflow.',
+          'Uninstall Protection locks the app so it cannot be replaced or deleted. Turn it off in Settings first. Your accountability partner may ask you to confirm.',
         ],
         steps: [
-          'Turn off Uninstall Protection in Settings. The partner you chose may ask you to confirm first.',
-          'Use the Uninstall App button in Settings. It removes the app, its settings and its background helpers.',
-          'Optional: open Keychain Access, search for Blockerflow CA and delete the certificate.',
+          'To update, quit Blockerflow from the menu bar icon, open the new .dmg and drag the app over the old one.',
+          'To uninstall, use Uninstall App in Settings. It removes the app, its settings and its background helpers. You can also delete the Blockerflow CA certificate in Keychain Access.',
         ],
       },
     ],
@@ -1006,26 +972,17 @@ export const ARTICLES: Article[] = [
       {
         question: 'Why does macOS warn me when I open Blockerflow?',
         answer:
-          'This version is distributed without an Apple Developer licence, so macOS cannot check the developer. Right click the app, choose Open and confirm once. If it says the app is damaged, run xattr -cr /Applications/Blockerflow.app in Terminal and open it again.',
-      },
-      {
-        question: 'Does Blockerflow for Mac work on Intel and Apple silicon?',
-        answer: 'Yes. The download is a universal build that runs on both.',
+          'The app is distributed without an Apple Developer licence, so it is not notarized. Right click it and choose Open once. If macOS says the app is damaged, use the Terminal command in the box in the guide above.',
       },
       {
         question: 'Do I need an account?',
         answer:
-          'No. You only need to sign in with Google to use the Friend or AI Coach partners and to sync your settings with the Android app.',
-      },
-      {
-        question: 'Which browsers does it work with?',
-        answer:
-          'Safari, Google Chrome, Firefox, Opera, Vivaldi, DuckDuckGo, Brave, Microsoft Edge, Orion and Yandex were tested. Tor Browser, Maxthon and Arc are not supported.',
+          'No. You only need to sign in with Google for the Friend and AI Coach partners and to sync with the Android app.',
       },
       {
         question: 'Can I just delete the app to remove it?',
         answer:
-          'Not while Uninstall Protection is on. It locks the app and restarts it if it is closed. Turn the protection off in Settings first, then use the Uninstall App button.',
+          'Not while Uninstall Protection is on. Turn it off in Settings, then use Uninstall App.',
       },
     ],
     related: [
