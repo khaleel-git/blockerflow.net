@@ -380,7 +380,7 @@ export const ARTICLES: Article[] = [
     h1: 'Block social media on Android with Focus Mode',
     intro:
       'Some days you do not want to block one feed, you want everything quiet until the work is done. Focus Mode is built for exactly that: name a session, set a length, and the distractions stay shut until it ends.',
-    media: { kind: 'video', video: 'focusPromo', caption: 'Pick a session, set the time, press start. Distractions stay blocked.' },
+    media: { kind: 'video', video: 'focusGuide', caption: 'Starting a session step by step: name, length, Start, and what stays blocked.' },
     sections: [
       {
         heading: 'What a Focus session blocks',
@@ -757,6 +757,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block image and video search on Android',
     intro:
       'Search engines are the front door. You do not need to find a site when the image tab shows you the same thing in a grid, and SafeSearch is one toggle away from being off. Blocking image and video search closes that door properly.',
+    media: { kind: 'video', video: 'imageSearchGuide', caption: 'One switch in the Content Blocking card closes the image and video tabs.' },
     sections: [
       {
         heading: 'Why SafeSearch is not enough',
@@ -828,12 +829,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block any app or website on Android',
     intro:
       'The built in categories cover the usual suspects, but your particular time sink might be a news site, a game or a shopping app. The Blocklist tab is where you add your own, and unblocking goes through the same accountability check as everything else.',
-    media: {
-      kind: 'screenshot',
-      src: '/assets/screenshots/02-blocklist.png',
-      alt: 'The Blockerflow Blocklist tab, listing blocked apps with a button to add more',
-      caption: 'The Blocklist tab: apps and sites you add yourself, each with its own switch.',
-    },
+    media: { kind: 'video', video: 'blocklistGuide', caption: 'Adding an app and a website to your own Blocklist, step by step.' },
     sections: [
       {
         heading: 'Blocklist is for the things you choose',

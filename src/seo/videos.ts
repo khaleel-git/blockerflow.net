@@ -86,6 +86,30 @@ const DATA = {
       'A narrated walkthrough: switch on Block Snapchat videos and Block Snapchat search in the Social Blocking card, while chats, the camera and Stories keep working.',
     durationSeconds: 39,
   },
+  imageSearchGuide: {
+    src: '/assets/videos/image-search-guide.mp4',
+    poster: '/assets/videos/image-search-guide.jpg',
+    name: 'How to block image and video search on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Block image & video search in the Content Blocking card to close the image and video tabs on five search engines.',
+    durationSeconds: 37,
+  },
+  blocklistGuide: {
+    src: '/assets/videos/blocklist-guide.mp4',
+    poster: '/assets/videos/blocklist-guide.jpg',
+    name: 'How to block any app or website on Android with Blockerflow',
+    description:
+      'A narrated walkthrough of the Blocklist tab: add an installed app with the plus button, add a domain under Websites, and block apps installed later.',
+    durationSeconds: 41,
+  },
+  focusGuide: {
+    src: '/assets/videos/focus-guide.mp4',
+    poster: '/assets/videos/focus-guide.jpg',
+    name: 'How to start a Focus Mode session in Blockerflow',
+    description:
+      'A narrated walkthrough of Focus Mode: pick a session name and length, press Start, see what is blocked, and switch on Protect Focus Mode.',
+    durationSeconds: 50,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
 export type VideoKey = keyof typeof DATA
