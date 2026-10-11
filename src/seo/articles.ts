@@ -65,7 +65,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block porn on Android',
     intro:
       'SafeSearch is a setting you can switch off in ten seconds, and adult sites move to new domains constantly. This guide shows how to set up a porn blocker on an Android phone so that it covers the whole device and takes a deliberate decision to undo.',
-    media: { kind: 'video', video: 'pornBlocker', caption: 'Adult content blocked again and again, then straight back to the home screen.' },
+    media: { kind: 'video', video: 'pornBlockerGuide', caption: 'Setup and the switches that matter, step by step, ending on the block screen.' },
     sections: [
       {
         heading: 'Why browser settings and DNS filters fall short',
@@ -458,7 +458,7 @@ export const ARTICLES: Article[] = [
     h1: 'Use an accountability partner with your porn blocker',
     intro:
       'Blockers fail at the moment you decide to turn one off. An accountability partner puts something between the urge and the switch. Blockerflow gives you four ways to do that, so you can pick the one that fits your life rather than the one the app prefers.',
-    media: { kind: 'video', video: 'accountability', caption: 'The four ways to hold the off switch: Friend, Myself, Time Delay and AI Coach.' },
+    media: { kind: 'video', video: 'accountabilityGuide', caption: 'The four ways to hold the off switch, and what each challenge looks like.' },
     sections: [
       {
         heading: 'Why a partner works',
@@ -534,7 +534,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to stop yourself uninstalling your porn blocker',
     intro:
       'The easiest way around any blocker is to delete it, and most apps do nothing to stop that. Uninstall Protection turns removal into a deliberate process instead of a two tap impulse.',
-    media: { kind: 'video', video: 'challenge', caption: 'The typing challenge that appears when you try to disable protection.' },
+    media: { kind: 'video', video: 'uninstallGuide', caption: 'Switching Uninstall Protection on, and what stands in the way of switching it off.' },
     sections: [
       {
         heading: 'Why blockers get deleted',

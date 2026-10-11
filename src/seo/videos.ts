@@ -110,6 +110,30 @@ const DATA = {
       'A narrated walkthrough of Focus Mode: pick a session name and length, press Start, see what is blocked, and switch on Protect Focus Mode.',
     durationSeconds: 50,
   },
+  pornBlockerGuide: {
+    src: '/assets/videos/porn-blocker-guide.mp4',
+    poster: '/assets/videos/porn-blocker-guide.jpg',
+    name: 'How to block porn on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: the three setup tasks including Autostart, Protection active, add image and video search blocking, keep unsupported browsers blocked and switch on Uninstall Protection.',
+    durationSeconds: 68,
+  },
+  accountabilityGuide: {
+    src: '/assets/videos/accountability-guide.mp4',
+    poster: '/assets/videos/accountability-guide.jpg',
+    name: 'How to choose an accountability partner in Blockerflow',
+    description:
+      'A narrated walkthrough of the four accountability partners, Friend, Myself, Time Delay and AI Coach, and what each challenge looks like.',
+    durationSeconds: 54,
+  },
+  uninstallGuide: {
+    src: '/assets/videos/uninstall-protection-guide.mp4',
+    poster: '/assets/videos/uninstall-protection-guide.jpg',
+    name: 'How to turn on Uninstall Protection in Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Uninstall Protection, approve the device admin request, and see the typing challenge and the clean way to uninstall.',
+    durationSeconds: 49,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
 export type VideoKey = keyof typeof DATA
