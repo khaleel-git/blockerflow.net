@@ -159,6 +159,22 @@ const DATA = {
     durationSeconds: 68,
     landscape: true,
   },
+  setupGuide: {
+    src: '/assets/videos/setup-guide.mp4',
+    poster: '/assets/videos/setup-guide.jpg',
+    name: 'How to use Blockerflow in six steps',
+    description:
+      'A narrated walkthrough of the six setup steps: the setup screen, choosing what to block, your own Blocklist, an accountability partner, Uninstall Protection and a Focus session.',
+    durationSeconds: 77,
+  },
+  homePitch: {
+    src: '/assets/videos/hero-demo.mp4',
+    poster: '/assets/videos/hero-demo.jpg',
+    name: 'Blockerflow: block porn and distracting feeds, and stay accountable',
+    description:
+      'A narrated overview of Blockerflow: adult content blocking, the four accountability partners, Uninstall Protection, on device privacy, feed blocking and Focus Mode.',
+    durationSeconds: 77,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
 export type VideoKey = keyof typeof DATA

@@ -1,4 +1,4 @@
-import { HeroDemoVideo } from './HeroDemoVideo'
+import { DemoVideo } from './DemoVideo'
 
 function Shield() {
   return (
@@ -22,22 +22,11 @@ function Shield() {
   )
 }
 
-/** The hero video: glowing gradient frame, slow aurora behind it, floating proof chips. */
+/** The home page video, in the same tap to play player as the guide pages, with the proof chips below it. */
 export function HeroShowcase() {
   return (
-    <div className="relative mx-auto w-full max-w-[300px] lg:ml-auto lg:mr-0">
-      <div
-        aria-hidden="true"
-        className="absolute -inset-10 -z-10 motion-safe:animate-spin-slow"
-      >
-        <div className="h-full w-full rounded-full bg-[conic-gradient(from_0deg,#6366f1,#a855f7,#38bdf8,#6366f1)] opacity-40 blur-3xl" />
-      </div>
-
-      <div className="rounded-[2rem] bg-gradient-to-br from-indigo-500 via-violet-500 to-sky-400 p-[3px] shadow-2xl shadow-indigo-500/30">
-        <div className="aspect-[9/16] overflow-hidden rounded-[calc(2rem-3px)] bg-ink">
-          <HeroDemoVideo />
-        </div>
-      </div>
+    <div className="mx-auto w-full max-w-[300px] lg:ml-auto lg:mr-0">
+      <DemoVideo video="homePitch" />
 
       <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
         <div className="flex items-center gap-2 rounded-full border border-outline bg-surface px-3.5 py-2 text-sm font-semibold text-ink shadow-md">

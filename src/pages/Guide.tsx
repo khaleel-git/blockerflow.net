@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { PhoneFrame } from '../components/PhoneFrame'
+import { DemoVideo } from '../components/DemoVideo'
 
 /**
  * Written against the shipped app. The feature switches all live on the Blocking tab, the screen
@@ -104,6 +105,7 @@ export function Guide() {
         <p className="mt-6 text-lg text-ink-muted">
           Six steps from install to a blocker you can't talk yourself out of.
         </p>
+        <DemoVideo video="setupGuide" caption="All six steps in a little over a minute." className="mt-10" />
       </section>
 
       <section className="mx-auto max-w-5xl px-6 pb-24">
