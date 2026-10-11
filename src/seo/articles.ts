@@ -612,7 +612,7 @@ export const ARTICLES: Article[] = [
     h1: 'Is your porn blocker watching you? How on device blocking works',
     intro:
       'Handing a blocker access to your screen is a big ask, and the fair question is where your browsing goes. For address checks in Blockerflow, the answer is that it goes nowhere.',
-    media: { kind: 'video', video: 'privacy', caption: 'Addresses are checked on the phone against the blocklist, not on a server.' },
+    media: { kind: 'video', video: 'privacyGuide', caption: 'Where your browsing goes: checked on the phone, not on a server.' },
     sections: [
       {
         heading: 'Two ways a blocker can check a site',
@@ -684,7 +684,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to get through a late night porn urge on Android',
     intro:
       'It is usually late, you are tired, and the phone is already in your hand. Urges feel permanent while they last, and they almost never are. The trick is putting a few seconds of friction between the urge and the off switch.',
-    media: { kind: 'video', video: 'urgeTyping', caption: 'At 11 PM, switching protection off means typing a full sentence exactly.' },
+    media: { kind: 'video', video: 'nightUrgesGuide', caption: 'Setting up the friction ahead of time, step by step.' },
     sections: [
       {
         heading: 'Why late night is the hardest time',
@@ -913,6 +913,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to install Blockerflow on Mac',
     intro:
       'Blockerflow for Mac blocks adult content, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
+    media: { kind: 'video', video: 'macInstallGuide', caption: 'Installing and opening Blockerflow on a Mac, step by step.' },
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,

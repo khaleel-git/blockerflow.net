@@ -134,6 +134,31 @@ const DATA = {
       'A narrated walkthrough: switch on Uninstall Protection, approve the device admin request, and see the typing challenge and the clean way to uninstall.',
     durationSeconds: 49,
   },
+  privacyGuide: {
+    src: '/assets/videos/privacy-guide.mp4',
+    poster: '/assets/videos/privacy-guide.jpg',
+    name: 'Is a porn blocker private? How Blockerflow checks sites on your phone',
+    description:
+      'A narrated explainer: server checks versus on device checks, what stays on your phone, and the three optional features that use a server.',
+    durationSeconds: 59,
+  },
+  nightUrgesGuide: {
+    src: '/assets/videos/night-urges-guide.mp4',
+    poster: '/assets/videos/night-urges-guide.jpg',
+    name: 'How to add friction before a late night urge with Blockerflow',
+    description:
+      'A narrated walkthrough: choose Myself or Time Delay as your partner, switch on Uninstall Protection and keep unsupported browsers blocked.',
+    durationSeconds: 47,
+  },
+  macInstallGuide: {
+    src: '/assets/videos/mac-install-guide.mp4',
+    poster: '/assets/videos/mac-install-guide.jpg',
+    name: 'How to install Blockerflow on Mac',
+    description:
+      'A narrated walkthrough: open the disk image, drag Blockerflow to Applications, open it past the macOS warning, allow the certificate and press Turn on.',
+    durationSeconds: 68,
+    landscape: true,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
 export type VideoKey = keyof typeof DATA
