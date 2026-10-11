@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 
 export function HeroDemoVideo() {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
   const [muted, setMuted] = useState(true)
+  const [fullscreen, setFullscreen] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
@@ -27,9 +29,13 @@ export function HeroDemoVideo() {
     }
     video.addEventListener('enterpictureinpicture', exitFloatingPlayer)
 
+    const syncFullscreen = () => setFullscreen(document.fullscreenElement === frameRef.current)
+    document.addEventListener('fullscreenchange', syncFullscreen)
+
     return () => {
       observer.disconnect()
       video.removeEventListener('enterpictureinpicture', exitFloatingPlayer)
+      document.removeEventListener('fullscreenchange', syncFullscreen)
     }
   }, [])
 
@@ -44,8 +50,23 @@ export function HeroDemoVideo() {
     }
   }
 
+  // The whole frame goes full screen, not the bare video, so the sound and exit buttons stay on
+  // top of it. iPhone Safari can only do that for a video element, so it falls back to its own player.
+  const toggleFullscreen = () => {
+    const frame = frameRef.current
+    const video = videoRef.current as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null
+    if (!frame || !video) return
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {})
+    } else if (typeof frame.requestFullscreen === 'function') {
+      frame.requestFullscreen().catch(() => {})
+    } else {
+      video.webkitEnterFullscreen?.()
+    }
+  }
+
   return (
-    <div className="relative h-full w-full">
+    <div ref={frameRef} className="hero-video relative h-full w-full">
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
@@ -77,6 +98,20 @@ export function HeroDemoVideo() {
           ))}
         </span>
         {muted ? 'Tap for sound' : 'Sound on'}
+      </button>
+      <button
+        type="button"
+        onClick={toggleFullscreen}
+        aria-label={fullscreen ? 'Exit full screen' : 'Watch full screen'}
+        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/55 text-white ring-1 ring-white/25 backdrop-blur-md transition hover:bg-black/70"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          {fullscreen ? (
+            <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" />
+          ) : (
+            <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+          )}
+        </svg>
       </button>
     </div>
   )

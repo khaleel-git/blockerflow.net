@@ -43,3 +43,11 @@
     font-family: var(--font-sans);
   }
 }
+
+/* The home page video in full screen: show the whole frame on black instead of cropping it. */
+.hero-video:fullscreen {
+  background: #000;
+}
+.hero-video:fullscreen video {
+  object-fit: contain;
+}
