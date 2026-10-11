@@ -62,6 +62,30 @@ const DATA = {
     durationSeconds: 15,
     landscape: true,
   },
+  reelsGuide: {
+    src: '/assets/videos/reels-guide.mp4',
+    poster: '/assets/videos/reels-guide.jpg',
+    name: 'How to block Instagram Reels on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: open the Blocking tab, scroll to Social Blocking and switch on Block Instagram reels, while messages, feed and Stories keep working.',
+    durationSeconds: 39,
+  },
+  shortsGuide: {
+    src: '/assets/videos/shorts-guide.mp4',
+    poster: '/assets/videos/shorts-guide.jpg',
+    name: 'How to block YouTube Shorts on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: open the Blocking tab, scroll to Social Blocking and switch on Block Youtube Shorts, while normal videos and subscriptions keep working.',
+    durationSeconds: 36,
+  },
+  spotlightGuide: {
+    src: '/assets/videos/spotlight-guide.mp4',
+    poster: '/assets/videos/spotlight-guide.jpg',
+    name: 'How to block Snapchat Spotlight on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Block Snapchat videos and Block Snapchat search in the Social Blocking card, while chats, the camera and Stories keep working.',
+    durationSeconds: 39,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
 export type VideoKey = keyof typeof DATA

@@ -167,6 +167,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Instagram Reels on Android',
     intro:
       'Plenty of people want Instagram for messages and friends but lose an hour to Reels without noticing. Deleting the app is blunt, and Instagram offers no switch to turn Reels off. Here is how to block Reels and keep the rest.',
+    media: { kind: 'video', video: 'reelsGuide', caption: 'The three switches in the Social Blocking card, and what keeps working afterwards.' },
     sections: [
       {
         heading: 'Why you cannot turn Reels off in Instagram',
@@ -243,6 +244,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block YouTube Shorts on Android',
     intro:
       'You open YouTube for one tutorial and surface forty minutes later, deep in Shorts. YouTube does not let you remove the Shorts shelf. Blockerflow does, and it leaves ordinary videos alone.',
+    media: { kind: 'video', video: 'shortsGuide', caption: 'One switch in the Social Blocking card closes Shorts and leaves normal videos alone.' },
     sections: [
       {
         heading: 'Why Shorts is hard to avoid',
@@ -313,6 +315,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Snapchat Spotlight on Android',
     intro:
       'Snapchat is a messaging app with a short video feed bolted on. Spotlight scrolls like any other endless feed, and Snapchat gives you no way to remove it. You can block the feed and keep the messaging.',
+    media: { kind: 'video', video: 'spotlightGuide', caption: 'Two switches for Snapchat: one for the Spotlight feed, one for search.' },
     sections: [
       {
         heading: 'Spotlight is the part that eats the time',
