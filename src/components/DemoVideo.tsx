@@ -15,7 +15,7 @@ export function DemoVideo({ video, caption, className = '' }: DemoVideoProps) {
       <div className="overflow-hidden rounded-2xl shadow-lg">
         <div className="w-full bg-ink" style={{ aspectRatio: aspect }}>
           <video
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             src={info.src}
             poster={info.poster}
             controls
