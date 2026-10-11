@@ -26,6 +26,13 @@ export function DemoVideo({ video, caption, className = '' }: DemoVideoProps) {
         </div>
       </div>
       {caption && <figcaption className="mt-3 text-center text-sm text-ink-muted">{caption}</figcaption>}
+      {info.youtube && (
+        <p className="mt-2 text-center text-sm">
+          <a href={info.youtube} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+            Watch on YouTube
+          </a>
+        </p>
+      )}
     </figure>
   )
 }

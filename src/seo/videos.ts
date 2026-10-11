@@ -10,6 +10,8 @@ export interface DemoVideoInfo {
   landscape?: boolean
   /** CSS aspect ratio of the file, when it is not the default 9 / 16 or 16 / 9. */
   aspect?: string
+  /** The same video on the Blockerflow YouTube channel, when it has been uploaded there. */
+  youtube?: string
 }
 
 const DATA = {
@@ -91,6 +93,7 @@ const DATA = {
   imageSearchGuide: {
     src: '/assets/videos/image-search-guide.mp4',
     poster: '/assets/videos/image-search-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/zRLGRGfj600',
     name: 'How to block image and video search on Android with Blockerflow',
     description:
       'A narrated walkthrough: switch on Block image & video search in the Content Blocking card to close the image and video tabs on five search engines.',
@@ -99,6 +102,7 @@ const DATA = {
   blocklistGuide: {
     src: '/assets/videos/blocklist-guide.mp4',
     poster: '/assets/videos/blocklist-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/ktwgQWaUrSQ',
     name: 'How to block any app or website on Android with Blockerflow',
     description:
       'A narrated walkthrough of the Blocklist tab: add an installed app with the plus button, add a domain under Websites, and block apps installed later.',
@@ -107,6 +111,7 @@ const DATA = {
   focusGuide: {
     src: '/assets/videos/focus-guide.mp4',
     poster: '/assets/videos/focus-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/aQhhbdzvA8Y',
     name: 'How to start a Focus Mode session in Blockerflow',
     description:
       'A narrated walkthrough of Focus Mode: pick a session name and length, press Start, see what is blocked, and switch on Protect Focus Mode.',
@@ -115,6 +120,7 @@ const DATA = {
   pornBlockerGuide: {
     src: '/assets/videos/porn-blocker-guide.mp4',
     poster: '/assets/videos/porn-blocker-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/BPCc4TpBKLE',
     name: 'How to block porn on Android with Blockerflow',
     description:
       'A narrated walkthrough: the three setup tasks including Autostart, Protection active, add image and video search blocking, keep unsupported browsers blocked and switch on Uninstall Protection.',
@@ -123,6 +129,7 @@ const DATA = {
   accountabilityGuide: {
     src: '/assets/videos/accountability-guide.mp4',
     poster: '/assets/videos/accountability-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/IgCEBtCeDDc',
     name: 'How to choose an accountability partner in Blockerflow',
     description:
       'A narrated walkthrough of the four accountability partners, Friend, Myself, Time Delay and AI Coach, and what each challenge looks like.',
@@ -131,6 +138,7 @@ const DATA = {
   uninstallGuide: {
     src: '/assets/videos/uninstall-protection-guide.mp4',
     poster: '/assets/videos/uninstall-protection-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/idOy58HhoBU',
     name: 'How to turn on Uninstall Protection in Blockerflow',
     description:
       'A narrated walkthrough: switch on Uninstall Protection, approve the device admin request, and see the typing challenge and the clean way to uninstall.',
@@ -139,6 +147,7 @@ const DATA = {
   privacyGuide: {
     src: '/assets/videos/privacy-guide.mp4',
     poster: '/assets/videos/privacy-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/OQ0Dnfn3xy0',
     name: 'Is a porn blocker private? How Blockerflow checks sites on your phone',
     description:
       'A narrated explainer: server checks versus on device checks, what stays on your phone, and the three optional features that use a server.',
@@ -147,6 +156,7 @@ const DATA = {
   nightUrgesGuide: {
     src: '/assets/videos/night-urges-guide.mp4',
     poster: '/assets/videos/night-urges-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/iDobTCgmETk',
     name: 'How to add friction before a late night urge with Blockerflow',
     description:
       'A narrated walkthrough: choose Myself or Time Delay as your partner, switch on Uninstall Protection and keep unsupported browsers blocked.',
@@ -155,6 +165,7 @@ const DATA = {
   macInstallGuide: {
     src: '/assets/videos/mac-install-guide.mp4',
     poster: '/assets/videos/mac-install-guide.jpg',
+    youtube: 'https://www.youtube.com/watch?v=5ECKdvyXRDE',
     name: 'How to install Blockerflow on Mac',
     description:
       'A narrated walkthrough: open the disk image, drag Blockerflow to Applications, open it past the macOS warning, allow the certificate and press Turn on.',
@@ -164,6 +175,7 @@ const DATA = {
   setupGuide: {
     src: '/assets/videos/setup-guide.mp4',
     poster: '/assets/videos/setup-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/R8nNmBJKg5U',
     name: 'How to use Blockerflow in six steps',
     description:
       'A narrated walkthrough of the six setup steps: the setup screen, choosing what to block, your own Blocklist, an accountability partner, Uninstall Protection and a Focus session.',
