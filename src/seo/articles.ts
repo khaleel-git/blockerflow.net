@@ -912,12 +912,12 @@ export const ARTICLES: Article[] = [
       'Download Blockerflow for Mac, install it from the .dmg and open it past the macOS warning. Includes supported browsers, updating and uninstalling.',
     h1: 'How to install Blockerflow on Mac',
     intro:
-      'Blockerflow for Mac blocks adult content, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
+      'Blockerflow for Mac blocks adult content, web proxies, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
     media: { kind: 'video', video: 'macInstallGuide', caption: 'Installing and opening Blockerflow on a Mac, step by step.' },
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.0.1, 23 MB, macOS 12 or later, Apple silicon and Intel.',
+      note: 'Version 1.0.2, 24 MB, macOS 12 or later, Apple silicon and Intel.',
     },
     sections: [
       {
