@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { DemoVideo } from '../components/DemoVideo'
+import { JsonLd } from '../components/JsonLd'
+import { videoSchema } from '../seo/videos'
 
 /**
  * Written against the shipped app. The feature switches all live on the Blocking tab, the screen
@@ -98,6 +100,7 @@ export function Guide() {
 
   return (
     <>
+      <JsonLd data={{ '@context': 'https://schema.org', ...videoSchema('setupGuide') }} />
       <section className="mx-auto max-w-3xl px-6 pb-12 pt-20 text-center sm:pt-28">
         <h1 className="font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
           How to use Blockerflow

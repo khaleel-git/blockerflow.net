@@ -1,3 +1,5 @@
+import { SITE_URL, UPDATED } from './site'
+
 export interface DemoVideoInfo {
   src: string
   poster: string
@@ -180,3 +182,17 @@ const DATA = {
 export type VideoKey = keyof typeof DATA
 
 export const VIDEOS: Record<VideoKey, DemoVideoInfo> = DATA
+
+/** schema.org VideoObject for one video, with absolute URLs and an uploadDate that has a UTC offset. */
+export function videoSchema(key: VideoKey) {
+  const video = VIDEOS[key]
+  return {
+    '@type': 'VideoObject',
+    name: video.name,
+    description: video.description,
+    thumbnailUrl: `${SITE_URL}${video.poster}`,
+    contentUrl: `${SITE_URL}${video.src}`,
+    uploadDate: UPDATED,
+    duration: `PT${video.durationSeconds}S`,
+  }
+}

@@ -8,8 +8,8 @@ import { Notice } from '../components/Notice'
 import { SupportCard } from '../components/SupportSection'
 import { JsonLd } from '../components/JsonLd'
 import { ARTICLES, getArticle } from '../seo/articles'
-import { OG_IMAGE, PUBLISHED, SITE_NAME, SITE_URL, absoluteUrl } from '../seo/site'
-import { VIDEOS } from '../seo/videos'
+import { OG_IMAGE, PUBLISHED, SITE_NAME, SITE_URL, UPDATED, absoluteUrl } from '../seo/site'
+import { VIDEOS, videoSchema } from '../seo/videos'
 import { NotFound } from './NotFound'
 
 export function Article() {
@@ -46,22 +46,14 @@ export function Article() {
         description: article.description,
         image,
         datePublished: PUBLISHED,
-        dateModified: PUBLISHED,
+        dateModified: UPDATED,
         mainEntityOfPage: url,
         author: { '@type': 'Person', name: 'Khaleel', url: 'https://khaleel.eu' },
         publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
       },
-      ...(video
+      ...(video && media?.kind === 'video'
         ? [
-            {
-              '@type': 'VideoObject',
-              name: video.name,
-              description: video.description,
-              thumbnailUrl: `${SITE_URL}${video.poster}`,
-              contentUrl: `${SITE_URL}${video.src}`,
-              uploadDate: PUBLISHED,
-              duration: `PT${video.durationSeconds}S`,
-            },
+            videoSchema(media.video),
           ]
         : media?.kind === 'screenshot'
           ? [{ '@type': 'ImageObject', contentUrl: image, description: media.alt }]

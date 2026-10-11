@@ -7,6 +7,7 @@ import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { MacBadge } from '../components/MacBadge'
 import { SupportSection } from '../components/SupportSection'
 import { JsonLd } from '../components/JsonLd'
+import { videoSchema } from '../seo/videos'
 import { ARTICLES } from '../seo/articles'
 import { PLAY_STORE_URL, SITE_NAME, SITE_URL } from '../seo/site'
 
@@ -67,6 +68,7 @@ const HOME_SCHEMA = {
       downloadUrl: PLAY_STORE_URL,
       image: `${SITE_URL}/assets/icon-512.png`,
     },
+    videoSchema('homePitch'),
   ],
 }
 

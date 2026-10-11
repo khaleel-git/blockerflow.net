@@ -14,7 +14,7 @@ if (!template.includes('<!--seo-head-->') || !template.includes('<!--app-html-->
   throw new Error('dist/index.html is missing the seo-head or app-html placeholder')
 }
 
-const { render, renderHead, ROUTE_META, NOT_FOUND_META } = await import(
+const { render, renderHead, ROUTE_META, NOT_FOUND_META, ROUTE_VIDEOS } = await import(
   pathToFileURL(join(ssrDir, 'entry-server.js')).href
 )
 
@@ -35,15 +35,31 @@ for (const meta of ROUTE_META) {
 await writeFile(join(dist, '404.html'), page(NOT_FOUND_META, '/404'))
 
 const today = new Date().toISOString().slice(0, 10)
+const xml = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+/** Google's video sitemap entry for the video a page shows, or nothing for a page without one. */
+function videoEntry(video) {
+  if (!video) return ''
+  const seconds = Number(/PT(\d+)S/.exec(video.duration)[1])
+  return (
+    '<video:video>' +
+    `<video:thumbnail_loc>${video.thumbnailUrl}</video:thumbnail_loc>` +
+    `<video:title>${xml(video.name)}</video:title>` +
+    `<video:description>${xml(video.description)}</video:description>` +
+    `<video:content_loc>${video.contentUrl}</video:content_loc>` +
+    `<video:duration>${seconds}</video:duration>` +
+    `<video:publication_date>${video.uploadDate}</video:publication_date>` +
+    '</video:video>'
+  )
+}
 const urls = ROUTE_META.filter((m) => !m.noindex)
   .map((m) => {
     const loc = m.path === '/' ? `${SITE_URL}/` : `${SITE_URL}${m.path}/`
-    return `  <url><loc>${loc}</loc><lastmod>${today}</lastmod></url>`
+    return `  <url><loc>${loc}</loc><lastmod>${today}</lastmod>${videoEntry(ROUTE_VIDEOS[m.path])}</url>`
   })
   .join('\n')
 await writeFile(
   join(dist, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${urls}\n</urlset>\n`,
 )
 await writeFile(
   join(dist, 'robots.txt'),

@@ -3,8 +3,9 @@ import { StaticRouter } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes'
 import { ROUTE_META, NOT_FOUND_META, type RouteMeta } from './seo/routes'
 import { renderHead } from './seo/head'
+import { ROUTE_VIDEOS } from './seo/routeVideos'
 
-export { ROUTE_META, NOT_FOUND_META, renderHead }
+export { ROUTE_META, NOT_FOUND_META, ROUTE_VIDEOS, renderHead }
 export type { RouteMeta }
 
 export function render(url: string): string {

@@ -8,8 +8,13 @@ export const MAC_DOWNLOAD_URL =
 export const DONATE_URL = 'https://www.paypal.com/paypalme/Khaleeleu'
 export const FUNDING_ISSUE_URL = 'https://github.com/khaleel-git/blockerflow.net/issues/1'
 export const OG_IMAGE = `${SITE_URL}/assets/feature-graphic.png`
-/** Date the guide pages were first published, used for Article schema and the sitemap. */
-export const PUBLISHED = '2026-10-08'
+/**
+ * When the guide pages were first published. Schema dates carry a time and a UTC offset: Google
+ * reports a bare date as "missing a timezone" on video uploadDate.
+ */
+export const PUBLISHED = '2026-10-08T09:00:00+02:00'
+/** When the guides were last revised and their current videos were uploaded. */
+export const UPDATED = '2026-10-11T12:00:00+02:00'
 
 /** Cloudflare Pages redirects every page to its trailing slash URL, so that is the canonical form. */
 export function absoluteUrl(path: string): string {
