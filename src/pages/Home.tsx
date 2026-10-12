@@ -5,6 +5,7 @@ import { HeroShowcase } from '../components/HeroShowcase'
 import { PhoneFrame } from '../components/PhoneFrame'
 import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { MacBadge } from '../components/MacBadge'
+import { WindowsBadge } from '../components/WindowsBadge'
 import { SupportSection } from '../components/SupportSection'
 import { JsonLd } from '../components/JsonLd'
 import { videoSchema } from '../seo/videos'
@@ -108,6 +109,7 @@ export function Home() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
               <GooglePlayBadge />
               <MacBadge />
+              <WindowsBadge />
               <div className="flex basis-full items-center justify-center gap-5 text-sm font-medium lg:justify-start">
                 <Link to="/guide" className="text-ink transition hover:text-primary">
                   See how it works &rarr;

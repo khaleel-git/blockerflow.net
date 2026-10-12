@@ -71,6 +71,18 @@ describe('Home', () => {
     )
   })
 
+  it('links the Windows badge to the Microsoft Store listing', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('link', { name: 'Get Blockerflow for Windows' })).toHaveAttribute(
+      'href',
+      'https://apps.microsoft.com/store/detail/9MSPSNKXFG4W?cid=DevShareMCLPCS',
+    )
+  })
+
   it('has a support section that says the app is free and lists what donations pay for', () => {
     render(
       <MemoryRouter>

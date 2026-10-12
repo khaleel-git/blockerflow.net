@@ -2,6 +2,8 @@ export const SITE_URL = 'https://blockerflow.net'
 export const SITE_NAME = 'Blockerflow'
 export const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=eu.khaleel.blockerflow'
 export const MAC_GUIDE_PATH = '/guides/how-to-install-blockerflow-on-mac'
+/** The Microsoft Store listing for the Windows app. */
+export const WINDOWS_STORE_URL = 'https://apps.microsoft.com/store/detail/9MSPSNKXFG4W?cid=DevShareMCLPCS'
 /** The .dmg attached to the mac-v1.1.0 GitHub release of this repository. */
 export const MAC_DOWNLOAD_URL =
   'https://github.com/khaleel-git/blockerflow.net/releases/download/mac-v1.1.0/Blockerflow-mac-1.1.0.dmg'
