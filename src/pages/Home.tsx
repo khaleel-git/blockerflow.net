@@ -108,8 +108,8 @@ export function Home() {
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
               <GooglePlayBadge />
-              <MacBadge />
               <WindowsBadge />
+              <MacBadge />
               <div className="flex basis-full items-center justify-center gap-5 text-sm font-medium lg:justify-start">
                 <Link to="/guide" className="text-ink transition hover:text-primary">
                   See how it works &rarr;

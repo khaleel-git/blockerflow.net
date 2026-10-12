@@ -34,11 +34,11 @@ export function Nav() {
             </svg>
             <span className="hidden sm:inline">Support</span>
           </Link>
-          <span className="hidden sm:inline-flex">
-            <MacBadge variant="compact" />
-          </span>
           <span className="hidden lg:inline-flex">
             <WindowsBadge variant="compact" />
+          </span>
+          <span className="hidden sm:inline-flex">
+            <MacBadge variant="compact" />
           </span>
           <GooglePlayBadge variant="compact" />
         </div>
