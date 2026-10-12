@@ -912,12 +912,12 @@ export const ARTICLES: Article[] = [
       'Download Blockerflow for Mac, install it from the .dmg and open it past the macOS warning. Includes supported browsers, updating and uninstalling.',
     h1: 'How to install Blockerflow on Mac',
     intro:
-      'Blockerflow for Mac blocks adult content, web proxies, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
+      'Blockerflow for Mac blocks adult content, web proxies, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, and can check the screen for explicit images, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
     media: { kind: 'video', video: 'macInstallGuide', caption: 'Installing and opening Blockerflow on a Mac, step by step.' },
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.0.3, 25 MB, macOS 12 or later, Apple silicon and Intel.',
+      note: 'Version 1.1.0, 69 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
@@ -950,6 +950,19 @@ export const ARTICLES: Article[] = [
         paragraphs: [
           'Blockerflow installs a certificate called Blockerflow CA in your keychain and sets itself as the system proxy. macOS may ask for your password. Allow it: without the certificate HTTPS sites cannot be filtered. The certificate is created on your Mac and only used to read the address of a few sites, such as YouTube, Instagram and Facebook, so a single Short or Reel can be blocked.',
           'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app.',
+        ],
+      },
+      {
+        heading: 'Block adult images (optional, macOS 14 or later)',
+        paragraphs: [
+          'Version 1.1.0 can also check the screen for explicit pictures and video, which the web filter cannot judge: a video in WhatsApp, a picture in Photos, or an image on a page whose address says nothing. It is on by default, next to Block adult content. While a browser, messenger, Photos, Preview or a video player is in front, Blockerflow takes a screenshot about every 1.5 seconds and a model on your Mac checks it. Nothing is saved or sent anywhere.',
+          'When something explicit is found, Blockerflow closes the tab (Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari) or hides the app, and covers the screen with the block screen. A second switch, Block suggestive images, adds lingerie and swimwear; it also blocks beach and gym photos. Turning either switch off needs your accountability partner.',
+          'It is not perfect. It can miss pictures and it can block ordinary ones, so keep the web filter on as well. The model is NudeNet 320n, which is licensed under the AGPL-3.0.',
+        ],
+        steps: [
+          'The first time Blockerflow starts, macOS asks to allow Screen Recording. Allow it under System Settings, Privacy & Security.',
+          'Quit Blockerflow from the menu bar icon and open it again. The Block adult images switch on the Blocking tab is on by default.',
+          'The first time a browser tab is closed, macOS asks whether Blockerflow may control that browser. Allow it, or the app is hidden instead of the tab closed.',
         ],
       },
       {
