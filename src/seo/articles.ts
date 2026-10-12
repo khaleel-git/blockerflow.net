@@ -953,7 +953,7 @@ export const ARTICLES: Article[] = [
         ],
       },
       {
-        heading: 'Block adult images (optional, macOS 14 or later)',
+        heading: 'Block adult images (macOS 14 or later)',
         paragraphs: [
           'Version 1.1.0 can also check the screen for explicit pictures and video, which the web filter cannot judge: a video in WhatsApp, a picture in Photos, or an image on a page whose address says nothing. It is on by default, next to Block adult content. While a browser, messenger, Photos, Preview or a video player is in front, Blockerflow takes a screenshot about every 1.5 seconds and a model on your Mac checks it. Nothing is saved or sent anywhere.',
           'When something explicit is found, Blockerflow closes the tab (Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari) or hides the app, and covers the screen with the block screen. A second switch, Block suggestive images, adds lingerie and swimwear; it also blocks beach and gym photos. Turning either switch off needs your accountability partner.',
@@ -964,6 +964,12 @@ export const ARTICLES: Article[] = [
           'Quit Blockerflow from the menu bar icon and open it again. The Block adult images switch on the Blocking tab is on by default.',
           'The first time a browser tab is closed, macOS asks whether Blockerflow may control that browser. Allow it, or the app is hidden instead of the tab closed.',
         ],
+        notice: {
+          title: 'Block adult images will not turn on, or keeps asking for Screen Recording?',
+          body: 'This happens most often after an update: macOS treats the new version as a different app and forgets the permission, even though Blockerflow is still switched on in System Settings. Open Terminal and run this one command. It resets the permission and restarts Blockerflow:',
+          command: 'tccutil reset ScreenCapture eu.khaleel.blockerflow; killall Blockerflow; sleep 1; open /Applications/Blockerflow.app',
+          after: 'Then switch Block adult images on, allow Screen Recording when macOS asks, quit Blockerflow from the menu bar icon and open it again from Applications.',
+        },
       },
       {
         heading: 'Supported browsers',
@@ -979,6 +985,7 @@ export const ARTICLES: Article[] = [
         ],
         steps: [
           'To update, quit Blockerflow from the menu bar icon, open the new .dmg and drag the app over the old one.',
+          'After an update, macOS may ask for Screen Recording again for Block adult images. If it will not turn on, use the command in the box in the Block adult images section above.',
           'To uninstall, use Uninstall App in Settings. It removes the app, its settings and its background helpers. You can also delete the Blockerflow CA certificate in Keychain Access.',
         ],
       },

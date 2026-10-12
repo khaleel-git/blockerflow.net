@@ -81,10 +81,19 @@ describe('guide articles', () => {
   it('shows the macOS damaged app command exactly once, with a copy button', () => {
     renderAt(MAC_GUIDE_PATH)
     const notes = screen.getAllByRole('note')
-    expect(notes).toHaveLength(1)
-    expect(notes[0]).toHaveTextContent('xattr -cr /Applications/Blockerflow.app')
-    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(1)
+    const damaged = notes.filter((n) => n.textContent?.includes('xattr -cr /Applications/Blockerflow.app'))
+    expect(damaged).toHaveLength(1)
     expect(document.body.textContent?.match(/xattr -cr \/Applications\/Blockerflow\.app/g)?.length).toBe(1)
+  })
+
+  it('shows the Screen Recording reset command exactly once, for people whose image check will not turn on', () => {
+    renderAt(MAC_GUIDE_PATH)
+    const notes = screen.getAllByRole('note')
+    expect(notes).toHaveLength(2)
+    const reset = notes.filter((n) => n.textContent?.includes('tccutil reset ScreenCapture eu.khaleel.blockerflow'))
+    expect(reset).toHaveLength(1)
+    expect(document.body.textContent?.match(/tccutil reset ScreenCapture/g)?.length).toBe(1)
+    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(2)
   })
 
   it('shows the same support card as the home page on the Mac guide, with one PayPal link', () => {
