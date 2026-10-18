@@ -1,0 +1,1085 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<title>Blockerflow Android Live Docs</title>
+<style>
+:root{
+  --bg:#f3f4fa;--surface:#fff;--surface2:#eceef8;--ink:#12142b;--ink2:#5a5f7a;--line:#e1e3f0;
+  --accent:#4338f0;--accent-bg:#ecebff;--amber:#ff9f1c;
+  --ok:#067a55;--ok-bg:#d9f5e9;--warn:#8a5200;--warn-bg:#ffefd1;--bad:#b4232a;--bad-bg:#ffe1e2;
+  --info:#2340b8;--info-bg:#e1e8ff;--mute:#4b5068;--mute-bg:#e6e8f2;--code:#eceef8;
+  --shadow:0 1px 0 rgba(18,20,43,.04),0 10px 30px -12px rgba(18,20,43,.18);
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#080a18;--surface:#11142a;--surface2:#1a1e3b;--ink:#eceeff;--ink2:#9aa0c4;--line:#242a50;
+  --accent:#8f89ff;--accent-bg:#1d1f4d;--ok:#5fe0b0;--ok-bg:#0b3a2b;--warn:#ffc86b;--warn-bg:#3d2a07;
+  --bad:#ff9b9f;--bad-bg:#47131a;--info:#9db4ff;--info-bg:#17255e;--mute:#c4c8e4;--mute-bg:#262b4d;--code:#1a1e3b;--shadow:0 10px 30px -14px rgba(0,0,0,.7)}}
+:root[data-theme="dark"]{
+  --bg:#080a18;--surface:#11142a;--surface2:#1a1e3b;--ink:#eceeff;--ink2:#9aa0c4;--line:#242a50;
+  --accent:#8f89ff;--accent-bg:#1d1f4d;--ok:#5fe0b0;--ok-bg:#0b3a2b;--warn:#ffc86b;--warn-bg:#3d2a07;
+  --bad:#ff9b9f;--bad-bg:#47131a;--info:#9db4ff;--info-bg:#17255e;--mute:#c4c8e4;--mute-bg:#262b4d;--code:#1a1e3b;--shadow:0 10px 30px -14px rgba(0,0,0,.7)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+code,.mono{font-family:var(--mono);font-size:.84em}
+code{background:var(--code);padding:1px 6px;border-radius:6px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+/* top bar */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;padding:10px 20px}
+header.top h1{font:700 17px/1 var(--display);margin:0;letter-spacing:-.01em;white-space:nowrap;display:flex;gap:9px;align-items:center}
+header.top h1 i{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#a855f7);display:inline-block;position:relative}
+header.top h1 i::after{content:"";position:absolute;inset:6px;border:2px solid #fff;border-radius:50%;border-right-color:transparent}
+.chips{display:flex;gap:6px;flex-wrap:wrap;flex:1;justify-content:flex-end}
+.chip{font:500 11.5px var(--mono);padding:3px 10px;border-radius:99px;background:var(--surface);color:var(--ink2);border:1px solid var(--line);white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+.chip.ok{background:var(--ok-bg);color:var(--ok);border-color:transparent}.chip.ok b{color:var(--ok)}
+.chip.warn{background:var(--warn-bg);color:var(--warn);border-color:transparent}.chip.warn b{color:var(--warn)}
+input[type=search]{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);min-width:190px;font:inherit;font-size:14px}
+button,.btn{font:inherit;font-size:14px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:10px;transition:background .15s,border-color .15s}
+button:hover{background:var(--surface2)}
+button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* layout */
+.layout{display:flex;max-width:1440px;margin:0 auto}
+nav.side{width:236px;flex:none;position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow:auto;padding:22px 12px 30px 20px}
+nav.side a{display:flex;gap:11px;align-items:center;padding:9px 11px;border-radius:12px;color:var(--ink2);text-decoration:none;font-size:14px;font-weight:500;margin-bottom:2px}
+nav.side a:hover{background:var(--surface);color:var(--ink)}
+nav.side a.active{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);font-weight:600}
+nav.side a.active .n{background:var(--accent);color:#fff}
+nav.side .n{width:24px;height:24px;border-radius:8px;background:var(--surface2);display:grid;place-items:center;font:600 11px var(--mono);flex:none}
+nav.side .sep{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--ink2);margin:20px 11px 8px}
+main{flex:1;min-width:0;padding:22px 28px 90px}
+section.doc{display:none}
+section.doc.show{display:block;animation:rise .35s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* type */
+h2{font:700 clamp(30px,4vw,44px)/1.05 var(--display);letter-spacing:-.025em;margin:10px 0 10px}
+.eyebrow{display:block;font:600 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+h3{font:650 21px/1.2 var(--display);letter-spacing:-.015em;margin:44px 0 12px;display:flex;align-items:center;gap:10px}
+h3::after{content:"";height:1px;background:var(--line);flex:1}
+h4{font:600 11.5px var(--mono);margin:16px 0 6px;color:var(--ink2);text-transform:uppercase;letter-spacing:.1em}
+p.lead{color:var(--ink2);margin:0 0 20px;max-width:72ch;font-size:16.5px}
+/* surfaces */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;box-shadow:var(--shadow)}
+.card>h4:first-child{margin-top:0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.stat{padding:16px 18px}.stat .v{font:700 34px/1 var(--display);letter-spacing:-.03em}.stat .l{font-size:12.5px;color:var(--ink2);margin-top:6px}
+.badge{display:inline-block;font:600 11px var(--mono);padding:2px 9px;border-radius:99px;white-space:nowrap;letter-spacing:.01em}
+.b-ok{background:var(--ok-bg);color:var(--ok)}.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-bad{background:var(--bad-bg);color:var(--bad)}.b-info{background:var(--info-bg);color:var(--info)}.b-mute{background:var(--mute-bg);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+th{font:600 11px var(--mono);color:var(--ink2);text-transform:uppercase;letter-spacing:.1em;background:var(--surface2)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 16px;align-items:center}
+.filters button{font-size:13px;padding:5px 13px;border-radius:99px}
+details{border:1px solid var(--line);border-left-width:4px;border-radius:14px;background:var(--surface);margin:9px 0;transition:box-shadow .15s}
+details[open]{box-shadow:var(--shadow)}
+details>summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"+";font:600 16px var(--mono);color:var(--ink2);width:16px}
+details[open]>summary::before{content:"–"}
+details>.body{padding:2px 18px 16px 41px}
+details[data-st=open]{border-left-color:var(--bad)}details[data-st=fixed]{border-left-color:var(--ok)}
+details[data-st=wip],details[data-st=unver]{border-left-color:var(--amber)}
+#tlist details,details:not([data-st]){border-left-color:var(--accent)}
+ul.tight{margin:4px 0;padding-left:20px}ul.tight li{margin:4px 0}
+.note{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--surface);padding:12px 16px;border-radius:12px;margin:14px 0;font-size:14.5px}
+.note.warn{border-left-color:var(--amber);background:var(--warn-bg);color:var(--ink)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.node{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 14px;cursor:pointer;text-align:left;width:100%}
+.node:hover{border-color:var(--accent)}
+.node.sel{border-color:var(--accent);background:var(--accent-bg);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.node .t{font:650 15px var(--display)}.node .s{font-size:12.5px;color:var(--ink2)}
+.arrow{text-align:center;color:var(--ink2);line-height:1;padding:3px;font-family:var(--mono)}
+.phases{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;margin-bottom:6px}
+.phases button{white-space:nowrap;border-radius:99px}
+.step{display:grid;grid-template-columns:84px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.actor{font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:8px;height:fit-content;text-align:center}
+.a-User{background:var(--info-bg);color:var(--info)}.a-App{background:var(--accent-bg);color:var(--accent)}
+.a-Service{background:var(--ok-bg);color:var(--ok)}.a-Server{background:var(--warn-bg);color:var(--warn)}.a-Partner,.a-OS{background:var(--mute-bg);color:var(--mute)}
+.phone{width:240px;border:7px solid var(--ink);border-radius:34px;padding:10px;background:var(--bg);margin:auto}
+.phone .scr{background:var(--surface);border-radius:22px;padding:12px 9px;min-height:360px;font-size:11.5px}
+.phone .el{border:1px solid var(--line);border-radius:9px;padding:5px 8px;margin:5px 0;background:var(--surface2)}
+.swatch{display:flex;gap:12px;align-items:center;padding:6px 0}.swatch i{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);flex:none}
+.tree{font-size:13.5px}
+.tree .dir{font:600 11px var(--mono);margin:14px 0 4px;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em}
+.file{display:flex;gap:8px;justify-content:space-between;padding:4px 9px;border-radius:8px;cursor:pointer}
+.file:hover{background:var(--surface2)}.file.sel{background:var(--accent-bg);color:var(--accent);font-weight:600}
+.file span:last-child{color:var(--ink2);font:12px var(--mono);flex:none}
+.bar{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden}.bar>i{display:block;height:100%;background:var(--accent)}
+.sim{display:grid;gap:12px}
+select{font:inherit;font-size:14px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);max-width:100%}
+pre.mono{font:13px/1.6 var(--mono)}
+footer{color:var(--ink2);font-size:12.5px;margin-top:56px;border-top:1px solid var(--line);padding-top:14px}
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:34px 34px 26px;color:#eceeff;margin-bottom:8px;
+  background:radial-gradient(1200px 400px at 85% -10%,rgba(143,137,255,.45),transparent 60%),linear-gradient(160deg,#171a45 0%,#0b0d24 70%);}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(180deg,#000,transparent 85%)}
+.hero>*{position:relative}
+.hero .eyebrow{color:#a9a5ff}
+.hero h2{color:#fff;font-size:clamp(34px,5.4vw,60px);margin:0 0 10px;max-width:15ch}
+.hero p{color:#b9bde0;max-width:62ch;margin:0 0 22px;font-size:16.5px}
+.pipe{display:flex;align-items:stretch;gap:0;margin:6px 0 24px;position:relative;overflow-x:auto;padding-bottom:4px}
+.pipe .st{flex:1;min-width:120px;padding:12px 14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);border-radius:14px;position:relative;margin-right:26px}
+.pipe .st:last-child{margin-right:0}
+.pipe .st::after{content:"";position:absolute;right:-26px;top:50%;width:26px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.35),rgba(255,255,255,.1))}
+.pipe .st:last-child::after{display:none}
+.pipe .st b{display:block;font:650 15px var(--display);color:#fff}
+.pipe .st span{display:block;font:11.5px var(--mono);color:#9da3d6;margin-top:3px}
+.pipe .st.hot{border-color:#a9a5ff;background:rgba(143,137,255,.16)}
+.pulse{position:absolute;left:0;top:calc(50% - 4px);width:10px;height:10px;border-radius:50%;background:#ffb43a;box-shadow:0 0 14px 3px rgba(255,180,58,.7);animation:run 4.8s linear infinite}
+@keyframes run{0%{left:2%;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:98%;opacity:0}}
+.heros{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.heros>div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px}
+.heros .v{font:700 30px/1 var(--display);letter-spacing:-.03em;color:#fff}
+.heros .l{font:11.5px var(--mono);color:#9da3d6;margin-top:6px}
+.heros .v small{font:600 11px var(--mono);color:#6ee7b7;margin-left:4px}
+.heros .v small.bad{color:#ff9b9f}
+/* feature tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;text-align:left;cursor:pointer;display:block;width:100%;position:relative;box-shadow:var(--shadow)}
+.tile:hover{border-color:var(--accent)}
+.tile::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:0 4px 4px 0;background:var(--c,var(--line))}
+.tile[data-ev=device]{--c:var(--ok)}.tile[data-ev=unit]{--c:var(--info)}.tile[data-ev=partial],.tile[data-ev=wip],.tile[data-ev=spec]{--c:var(--amber)}.tile[data-ev=open]{--c:var(--bad)}
+.tile .nm{font:650 15.5px/1.25 var(--display);margin-bottom:8px;display:block;padding-left:4px}
+.tile .meta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;padding-left:4px}
+.tile .x{display:none;margin-top:12px;font-size:13.5px;color:var(--ink);border-top:1px dashed var(--line);padding-top:10px;cursor:default}
+.tile.openx{grid-column:1/-1}.tile.openx .x{display:block}
+.tgroup{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin:22px 0 10px}
+@media(max-width:760px){
+  nav.side{position:fixed;left:0;top:57px;z-index:15;background:var(--surface);border-right:1px solid var(--line);transform:translateX(-100%);transition:transform .2s;width:250px}
+  nav.side.open{transform:none}
+  main{padding:16px 16px 80px}
+  #menu{display:inline-block!important}
+  .chips{display:none}
+  .hero{padding:24px 20px 20px;border-radius:20px}
+}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none;left:50%}section.doc.show{animation:none}html{scroll-behavior:auto}}
+#menu{display:none}
+</style>
+</head>
+<body>
+<header class="top">
+  <button id="menu" aria-label="Menu">☰</button>
+  <h1><i></i>Blockerflow <span style="font-weight:500;color:var(--ink2)">Android</span></h1>
+  <div class="chips" id="topchips"></div>
+  <input type="search" id="q" placeholder="Search everything…  ( / )">
+  <button id="theme" title="Toggle light / dark">◐</button>
+</header>
+<div class="layout">
+  <nav class="side" id="nav"></nav>
+  <main id="main"></main>
+</div>
+
+<!--LIVE-DATA-START-->
+<script id="live-data" type="application/json">{"generated": "2026-10-18 21:45", "app": {"versionName": "1.0.23", "versionCode": "28", "minSdk": "24", "targetSdk": "36", "applicationId": "eu.khaleel.blockerflow"}, "git": {"branch": "master", "head": "5c60538 2026-10-18 docs(android): interactive live docs page (PRD, TRD, flow, UI/UX, backend, problems, code map, tests)", "dirty": ["M android/app/build.gradle.kts", " M android/app/src/main/java/eu/khaleel/blockerflow/detector/NativeContentDetector.kt", " M android/app/src/main/java/eu/khaleel/blockerflow/detector/SnapchatContentDetector.kt", " M android/app/src/main/java/eu/khaleel/blockerflow/services/AppBlockerService.kt", " M android/app/src/main/res/xml/accessibility_service_config.xml", " M android/app/src/test/java/eu/khaleel/blockerflow/detector/NativeContentDetectorTest.kt", " M android/app/src/test/java/eu/khaleel/blockerflow/detector/SnapchatContentDetectorTest.kt", " M android/docs/android-app-live-docs.html", "?? android/app/src/main/java/eu/khaleel/blockerflow/detector/SnapchatStoryTracker.kt", "?? android/app/src/test/java/eu/khaleel/blockerflow/detector/SnapchatStoryTrackerTest.kt"]}, "files": [{"path": "MainActivity.kt", "lines": 481}, {"path": "MainViewModel.kt", "lines": 698}, {"path": "NavigationKeys.kt", "lines": 6}, {"path": "data/AccountDeletionRepository.kt", "lines": 78}, {"path": "data/AccountabilitySensitivity.kt", "lines": 111}, {"path": "data/AdultHostnameClassifier.kt", "lines": 99}, {"path": "data/AdultSearchQueryDetector.kt", "lines": 215}, {"path": "data/AiCoachDecision.kt", "lines": 15}, {"path": "data/AuthRepository.kt", "lines": 164}, {"path": "data/BlockCategory.kt", "lines": 38}, {"path": "data/BlocklistManager.kt", "lines": 762}, {"path": "data/BlocklistManagerHolder.kt", "lines": 71}, {"path": "data/CategoryBlocklistManager.kt", "lines": 108}, {"path": "data/CloudApplyPolicy.kt", "lines": 83}, {"path": "data/CloudReconcilePolicy.kt", "lines": 73}, {"path": "data/CompactDomainLookupEngine.kt", "lines": 117}, {"path": "data/ConfigManager.kt", "lines": 396}, {"path": "data/DataRepository.kt", "lines": 12}, {"path": "data/DiagnosticLog.kt", "lines": 26}, {"path": "data/DomainLookupEngine.kt", "lines": 8}, {"path": "data/EmbeddedTargets.kt", "lines": 84}, {"path": "data/FinancialHosts.kt", "lines": 70}, {"path": "data/FirestoreSyncRepository.kt", "lines": 264}, {"path": "data/FocusModeDefaults.kt", "lines": 41}, {"path": "data/FriendChallengeRepository.kt", "lines": 80}, {"path": "data/FriendChallengeService.kt", "lines": 42}, {"path": "data/FriendChallengeStatus.kt", "lines": 8}, {"path": "data/GeminiCoachRepository.kt", "lines": 85}, {"path": "data/GeminiCoachService.kt", "lines": 31}, {"path": "data/HostnameNormalizer.kt", "lines": 77}, {"path": "data/IpAddressUtil.kt", "lines": 212}, {"path": "data/KeywordParser.kt", "lines": 76}, {"path": "data/KeywordTiers.kt", "lines": 53}, {"path": "data/KnownAppDomains.kt", "lines": 41}, {"path": "data/MixedContentPlatforms.kt", "lines": 36}, {"path": "data/NewAppInstallPolicy.kt", "lines": 48}, {"path": "data/OpaqueTokens.kt", "lines": 204}, {"path": "data/PartnerModes.kt", "lines": 20}, {"path": "data/ProtectionSignalPolicy.kt", "lines": 38}, {"path": "data/ProtectionSignals.kt", "lines": 36}, {"path": "data/ProtectionStatus.kt", "lines": 80}, {"path": "data/ReferenceDomainLookupEngine.kt", "lines": 47}, {"path": "data/SettingsFingerprint.kt", "lines": 47}, {"path": "data/TextNormalizer.kt", "lines": 126}, {"path": "data/TrustedClock.kt", "lines": 82}, {"path": "data/WebProxyEntryPages.kt", "lines": 34}, {"path": "debug/BrowserProbe.kt", "lines": 58}, {"path": "debug/WhatsappTreeDumper.kt", "lines": 192}, {"path": "detector/AccessibilityNodeAdapter.kt", "lines": 47}, {"path": "detector/BrowserClassifier.kt", "lines": 124}, {"path": "detector/BrowserRegistry.kt", "lines": 271}, {"path": "detector/ChromeTabMenu.kt", "lines": 81}, {"path": "detector/NativeContentDetectionResult.kt", "lines": 12}, {"path": "detector/NativeContentDetector.kt", "lines": 200}, {"path": "detector/SettingsBypassPolicy.kt", "lines": 183}, {"path": "detector/SnapchatContentDetector.kt", "lines": 125}, {"path": "detector/SnapchatStoryTracker.kt", "lines": 89}, {"path": "detector/UiNode.kt", "lines": 39}, {"path": "detector/UrlExtractor.kt", "lines": 182}, {"path": "detector/WhatsappChannelDetector.kt", "lines": 133}, {"path": "detector/XWebContentDetector.kt", "lines": 69}, {"path": "receivers/AdminReceiver.kt", "lines": 23}, {"path": "services/ActiveWindowPolicy.kt", "lines": 26}, {"path": "services/AppBlockerService.kt", "lines": 1304}, {"path": "services/BlockOverlay.kt", "lines": 145}, {"path": "services/BlockedPageExit.kt", "lines": 43}, {"path": "services/FocusModeAutoStopWorker.kt", "lines": 70}, {"path": "services/FocusModeNotifier.kt", "lines": 109}, {"path": "services/KeyboardWindowPolicy.kt", "lines": 20}, {"path": "services/PolicyEngine.kt", "lines": 278}, {"path": "services/ProtectionNotifier.kt", "lines": 106}, {"path": "services/ProtectionReminderWorker.kt", "lines": 96}, {"path": "setup/AutostartLauncher.kt", "lines": 39}, {"path": "setup/AutostartScreens.kt", "lines": 60}, {"path": "setup/BackgroundPopupPermission.kt", "lines": 63}, {"path": "setup/SetupPolicy.kt", "lines": 132}, {"path": "theme/Color.kt", "lines": 115}, {"path": "theme/Shapes.kt", "lines": 30}, {"path": "theme/StatusColors.kt", "lines": 60}, {"path": "theme/Theme.kt", "lines": 97}, {"path": "theme/Type.kt", "lines": 135}, {"path": "ui/AccessibilityConsentPolicy.kt", "lines": 34}, {"path": "ui/AccessibilityDisclosureDialog.kt", "lines": 95}, {"path": "ui/AccessibilityFindGuideDialog.kt", "lines": 76}, {"path": "ui/AccessibilityIntents.kt", "lines": 37}, {"path": "ui/AiCoachOutcomePolicy.kt", "lines": 51}, {"path": "ui/BlocklistOrderPolicy.kt", "lines": 21}, {"path": "ui/BlocklistScreen.kt", "lines": 330}, {"path": "ui/DangerZonePolicy.kt", "lines": 70}, {"path": "ui/FocusModeButton.kt", "lines": 119}, {"path": "ui/FocusModePolicy.kt", "lines": 40}, {"path": "ui/FocusModeScreen.kt", "lines": 612}, {"path": "ui/FriendApprovalPolicy.kt", "lines": 41}, {"path": "ui/FriendChallengeResumePolicy.kt", "lines": 33}, {"path": "ui/FriendChallengeSession.kt", "lines": 45}, {"path": "ui/MainScreen.kt", "lines": 554}, {"path": "ui/OnboardingScreen.kt", "lines": 509}, {"path": "ui/PartnerChangePolicy.kt", "lines": 37}, {"path": "ui/PermissionsSection.kt", "lines": 118}, {"path": "ui/ProtectionStatusCard.kt", "lines": 108}, {"path": "ui/ProtectionStatusPolicy.kt", "lines": 128}, {"path": "ui/RecentsLockTipPolicy.kt", "lines": 27}, {"path": "ui/SettingsScreen.kt", "lines": 500}, {"path": "ui/SetupWarningBanner.kt", "lines": 216}, {"path": "ui/TimeDelayPolicy.kt", "lines": 23}, {"path": "ui/UninstallProtectionPolicy.kt", "lines": 31}, {"path": "ui/components/ChallengeModals.kt", "lines": 656}, {"path": "ui/components/TypingAccuracy.kt", "lines": 37}, {"path": "ui/components/UIComponents.kt", "lines": 441}, {"path": "ui/main/MainScreen.kt", "lines": 55}, {"path": "ui/main/MainScreenViewModel.kt", "lines": 27}], "unitTests": {"classes": [{"cls": "AhoCorasickTest", "path": "AhoCorasickTest.kt", "area": ".", "names": ["differential test against naive contains"], "ran": 1, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AccountDeletionRepositoryTest", "path": "data/AccountDeletionRepositoryTest.kt", "area": "data", "names": ["onlyAMissingFunctionFallsBackToTheDevice", "anExpiredSignInIsReportedAsSuch"], "ran": 2, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AccountabilitySensitivityTest", "path": "data/AccountabilitySensitivityTest.kt", "area": "data", "names": ["theCoreProtectionsAndSelfDefenseActionsAreStrict", "singlePlatformDistractionFeaturesAreLenient", "everythingElseDefaultsToModerate", "unrecognizedActionsDefaultToModerate_neverToTheEasiestWeight"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AdultHostnameClassifierTest", "path": "data/AdultHostnameClassifierTest.kt", "area": "data", "names": ["testMandatoryBlockCases", "testMandatoryAllowCases"], "ran": 2, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BlocklistManagerHolderTest", "path": "data/BlocklistManagerHolderTest.kt", "area": "data", "names": ["everyCallerSharesTheSameInstance", "fourRestartsProduceExactlyOneLoad", "theHolderReadsApplicationContext_neverRetainsTheCallerDirectly"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BlocklistManagerSidecarSizedReadTest", "path": "data/BlocklistManagerSidecarSizedReadTest.kt", "area": "data", "names": ["correctSidecar_fastPathLoadsTheFullDomainSet", "missingSidecar_fallsBackAndStillLoadsTheFullDomainSet", "nonNumericSidecar_fallsBackAndStillLoadsTheFullDomainSet", "sidecarUndercounts_fallsBackInsteadOfSilentlyTruncatingTheDomainList", "sidecarOvercounts_fallsBackInsteadOfCrashingOrCorrupting"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BlocklistManagerTest", "path": "data/BlocklistManagerTest.kt", "area": "data", "names": ["testDetection_e2e_adultDomain", "testDetection_e2e_keywordOnly", "testDetection_e2e_deceptiveSuffix", "testDetection_exactDomainMatch", "testDetection_subdomainMatch", "testDetection_deceptiveSuffixDoesNotMatch", "testDetection_tldSafety", "testDetection_dotlessDomains", "testDetection_keywordMatchDoesNotBlock"], "ran": 9, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BrowserCompatibilityTest", "path": "data/BrowserCompatibilityTest.kt", "area": "data", "names": ["testDetection_urlEncodedEvation", "testDetection_decodingIsBounded", "testDetection_browserCompatibility"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "CategoryAllowlistEngineTest", "path": "data/CategoryAllowlistEngineTest.kt", "area": "data", "names": ["upstreamAllowlistedDomain_isNotBlocked", "upstreamAllowlistedDomain_subdomainIsAlsoNotBlocked", "everyAllowlistedDomainPresentInUpstream_isRemoved", "curatedAllowlistedDomain_isNotBlocked", "genuinelyBlockedDomainsStillReturnNonZeroMask", "subdomainOfBlockedDomainIsStillBlocked", "unrelatedDomainsAreNotBlocked", "deceptiveSuffixDoesNotMatch"], "ran": 8, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "CloudApplyPolicyTest", "path": "data/CloudApplyPolicyTest.kt", "area": "data", "names": ["aGuardedDeviceOnlyGetsStricter", "aDeviceWithoutAPartnerTakesTheCloudAsItIs", "everyProtectionSwitchInTheSyncedSnapshotIsCovered"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "CloudReconcilePolicyTest", "path": "data/CloudReconcilePolicyTest.kt", "area": "data", "names": ["foundSettings_alwaysAppliedToLocal_regardlessOfSyncHistory", "inconclusiveFetch_neverPushes_evenOnFirstSync", "confirmedAbsent_pushesOnlyOnGenuineFirstSync", "confirmedAbsent_afterAlreadySynced_doesNothing", "everyNonFoundOutcome_isFailClosed_neverPushesOnceSynced", "foundSettings_withUnsyncedLocalEdits_pushLocalInsteadOfOverwritingIt", "foundSettings_withNothingUnsynced_stillApplyTheCloudCopy", "inconclusiveFetch_neverPushes_evenWithUnsyncedEdits", "confirmedAbsent_isUnaffectedByUnsyncedEdits", "liveCloudUpdateIsHeldBackWhileLocalHasUnsyncedEdits"], "ran": 10, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ConfigManagerTest", "path": "data/ConfigManagerTest.kt", "area": "data", "names": ["timeDelayEndTimeKey_differsPerAction", "timeDelayEndTimeKey_stableForSameAction", "timeDelayEndTimeKey_sharesCommonPrefix"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "DifferentialCorrectnessTest", "path": "data/DifferentialCorrectnessTest.kt", "area": "data", "names": ["verifyDifferentialCorrectness"], "ran": 1, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "DomainLoaderStreamingTest", "path": "data/DomainLoaderStreamingTest.kt", "area": "data", "names": ["loaderIsByteIdenticalOnTheFullShippedList", "edgeCasesBehaveExactlyAsBefore", "crlfLineEndingsAreHandled", "nonAsciiDomainsSurviveUnchanged", "malformedMaskStillThrows", "emptyFileProducesEmptyStructures", "fileWithNoTrailingNewlineKeepsItsLastEntry"], "ran": 7, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "EmbeddedTargetsTest", "path": "data/EmbeddedTargetsTest.kt", "area": "data", "names": ["ipMirrorWithBase64Target", "croxyStyleMirrorAsReported", "paddedAndUrlSafeAlphabet", "targetInPath", "ordinaryAddressesCarryNothing", "lowercasedAddressNoLongerDecodes"], "ran": 6, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FinancialHostsTest", "path": "data/FinancialHostsTest.kt", "area": "data", "names": ["banksPaymentAndOpenBankingHostsMatch", "lookAlikesDoNotMatch", "keywordScoringIsSkippedOnFinancialHosts", "pathKeywordsStillCountOnFinancialHosts", "domainListStillAppliesOnFinancialHosts", "noListedHostIsOnTheAdultLists"], "ran": 6, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FirestoreSyncRepositoryTest", "path": "data/FirestoreSyncRepositoryTest.kt", "area": "data", "names": ["aiApiKeyIsNeverSyncable", "deviceLocalKeysAreNotSyncable", "everyPerActionTimeDelayKeyIsNotSyncable", "contentBlockingTogglesAreSyncable", "partnerAndListSettingsAreSyncable"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FocusModeDefaultsTest", "path": "data/FocusModeDefaultsTest.kt", "area": "data", "names": ["everySocialAppIsBlocked_includingTheLiteVersionsAndSnapchat", "chatAndVideoAppsAreNotBlockedByDefault", "everySocialWebsiteIsBlocked", "subdomainsMatch", "lookalikeHostsDoNotMatch", "allowlistingASiteExemptsAllOfItsApps"], "ran": 6, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "GeminiCoachRepositoryTest", "path": "data/GeminiCoachRepositoryTest.kt", "area": "data", "names": ["approved decision succeeds", "rejected decision succeeds as a rejection, not a failure", "sends the ID token as a bearer header, not any API key", "429 user_limit carries the limit", "503 global_limit is busy", "401 is signed out", "502 is unavailable", "garbage error body is still unavailable, not a crash", "unrecognized decision value fails closed as unavailable", "network failure is unavailable"], "ran": 10, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "HostnameNormalizerTest", "path": "data/HostnameNormalizerTest.kt", "area": "data", "names": ["testHostnameNormalization_caseInsensitive", "testHostnameNormalization_trailingDot", "testHostnameNormalization_idnSupport", "testHostnameNormalization_urlParsing", "testHostnameNormalization_deceptiveSuffix"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "IpAddressUtilTest", "path": "data/IpAddressUtilTest.kt", "area": "data", "names": ["ipv4_publicAddressIsPublic", "ipv4_privateRangesAreNotPublic", "ipv4_172PublicBoundaryStillPublic", "ipv6_bracketedPublicLiteral", "ipv6_bareLiteral", "ipv6_loopbackIsNotPublic", "ipv6_uniqueLocalIsNotPublic", "ipv6_linkLocalIsNotPublic", "ipv6_fullyExpandedLiteral", "ipv6_mappedIpv4InheritsIpv4Rules", "decimalForm_loopbackIsNotPublic", "decimalForm_publicAddressIsPublic", "hostnames_areNotTreatedAsIps", "malformedIpv6_isNotTreatedAsIp", "nullHost_isSafe"], "ran": 15, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "KeywordParserTest", "path": "data/KeywordParserTest.kt", "area": "data", "names": ["test_ValidLine_ParsesCorrectly", "test_MalformedLine_IsRejected_WithPrivacyLog", "test_DuplicateKeyword_IsRejected", "test_UppercaseKeyword_IsNormalizedLowercase", "test_CorruptionThreshold_RejectsAsset"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "KeywordTiersTest", "path": "data/KeywordTiersTest.kt", "area": "data", "names": ["parsesStrongAndContextIgnoringCommentsAndBadLines", "helpSeekingWordsAreRecognisedAsWholeWords", "matchesCarryTheirTierFromTheOverlay", "withoutOverlayWeightHundredIsStrongAndTheRestAdult", "helpSeekingKeepsOneStrongAsAdultAndZeroesTheRest", "helpWordsOutsideTheStrongTermsPathSegmentDoNotDemote", "highConfidenceBrandsAreNeverDemoted", "helpSeekingDemotesStrongToAdult"], "ran": 8, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "KnownAppDomainsTest", "path": "data/KnownAppDomainsTest.kt", "area": "data", "names": ["mapsKnownDomainsToTheirPackage", "unknownDomainsAreSilentlySkipped", "normalizesCaseAndWhitespace", "multipleDomainsResolveIndependently"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "LocationAwareMatchingTest", "path": "data/LocationAwareMatchingTest.kt", "area": "data", "names": ["keywordsInsideQueryTokensDoNotMatch", "boundedQueryAndFragmentKeywordsStillMatch", "shortPathKeywordsNeedWordBoundaries", "longPathKeywordsStillMatchInsideCompounds", "kinktoberNoLongerMatchesKink", "shortStrongTermsMatchInsideCompounds", "strongTermsMatchInsideQueryWordsToo", "strongTermsInsideShortRandomValuesDoNotMatch", "innocentContainersOfShortStrongTermsDoNotMatch", "oneWordYieldsOneKeyword", "opaquePathSegmentsAreSkipped", "openBankingChainProducesNoKeywords"], "ran": 12, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "LogHygieneTest", "path": "data/LogHygieneTest.kt", "area": "data", "names": ["noReleaseVisibleLogCallExposesUserDataOrActivity", "scannerFlagsTheLeaksFromTheAudit", "scannerAllowsCountsClassNamesAndDebugGatedLogs", "debugOnlyTreeDumperStaysInertInRelease", "diagnosticLogIsTheOnlyPlaceThatDecidesDebugLogging"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "MemoryBenchmarkTest", "path": "data/MemoryBenchmarkTest.kt", "area": "data", "names": ["benchmarkEngines"], "ran": 1, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "MixedContentPlatformsTest", "path": "data/MixedContentPlatformsTest.kt", "area": "data", "names": ["exactHostMatches", "subdomainMatches", "unrelatedHostsDoNotMatch", "doesNotMatchOnSubstringAlone", "nullHostnameIsFalse"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "NewAppInstallPolicyTest", "path": "data/NewAppInstallPolicyTest.kt", "area": "data", "names": ["blocksAppsInstalledAfterTheBaseline", "doesNotBlockAppsInstalledBeforeTheBaseline", "doesNotBlockWhenTheTogglenIsOff", "neverBlocksWhenNoBaselineHasBeenRecorded", "exactlyAtTheBaselineIsNotBlocked", "autoBlockedNewApp_getsTheNewAppExplanation", "manuallyBlockedApp_getsTheGenericMessage", "focusModeDefaultApp_getsTheFocusModeMessage", "appPresentInBothSets_isTreatedAsAutoBlockedNewApp"], "ran": 9, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "OpaqueTokensTest", "path": "data/OpaqueTokensTest.kt", "area": "data", "names": ["randomTokenKindsAreOpaque", "hyphenatedSlugIsNotOpaque", "slugsKeepTheirWordsAndLoseOnlyRandomChunks", "shortOrPlainValuesAreNotOpaque", "maskParamsReplacesOnlyOpaqueValues", "maskParamsHandlesValuesWithoutKeys", "maskPathReplacesOpaqueSegments", "openBankingChainHasNoUnmaskedTokens"], "ran": 8, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "PartnerModesTest", "path": "data/PartnerModesTest.kt", "area": "data", "names": ["aiPro_becomesAi", "ai_staysAi", "otherModes_unchanged", "legacyKeyName", "knownModes_routeToThemselves", "aiPro_routesToAi", "unknownMode_failsClosedToTimeDelay"], "ran": 7, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ProtectionSignalsPolicyTest", "path": "data/ProtectionSignalsPolicyTest.kt", "area": "data", "names": ["activeBooleansMapToActiveState", "inactiveBooleansMapToInactiveState", "signalsAreIndependent"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ReleaseConfigTest", "path": "data/ReleaseConfigTest.kt", "area": "data", "names": ["backupIsOffSoAccountabilitySettingsCannotBeRestoredElsewhere", "unusedForegroundServicePermissionIsGone", "mainActivityIsPortraitOnly", "userFacingStringsUseNoDashesAsPunctuation"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SettingsFingerprintTest", "path": "data/SettingsFingerprintTest.kt", "area": "data", "names": ["sameSettingsGiveTheSameFingerprint", "mapOrderDoesNotMatter", "listOrderDoesNotMatter", "aSetAndTheEquivalentListMatch", "intAndLongOfTheSameNumberMatch", "anyRealEditChangesTheFingerprint", "anEditIsNeverMistakenForAnEmptyList", "splittingOrJoiningEntriesIsAChange", "matchingFingerprintMeansNothingIsUnsynced", "differingFingerprintMeansLocalHasUnsyncedEdits", "noRecordedFingerprintIsNotTreatedAsUnsynced", "fingerprintIsNeverSyncedOrLeftOnTheDevice"], "ran": 12, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ShippedBrandListTest", "path": "data/ShippedBrandListTest.kt", "area": "data", "names": ["brandList_coversFarMoreThanTheOriginalEight", "brandList_stillContainsTheOriginalEight", "brandList_coversMajorBrandsThatPreviouslyHadNoVariantProtection", "brandList_containsNoGenericWords", "brandList_containsNoAmbiguousRootsRejectedInReview", "brandList_entriesAreWellFormed", "brandList_hasNoDuplicatesOrBlanks", "realList_blocksNumberedAndNewTldVariants", "realList_doesNotBlockLegitimateDomains"], "ran": 9, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ShippedDomainOverlayTest", "path": "data/ShippedDomainOverlayTest.kt", "area": "data", "names": ["allowlistedEntriesAreGoneButTheirSubdomainEntriesStay", "extrasShipWithAllSourcesMask", "extrasAreUniquePlainHostnames", "shippedListIsSortedForBinarySearch", "sizeIsSharedMinusAllowlistPlusExtras", "sizeSidecarMatchesTheShippedFile", "noAllowlistEntryIsStronglyConfirmedAdult", "localNetworkNamesAreNotBlocked", "adultTldsStayBlocked", "recoveryAndHelpSitesNeverBlock", "helpArticlesOnOrdinarySitesDoNotBlock"], "ran": 11, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ShippedPiracyListTest", "path": "data/ShippedPiracyListTest.kt", "area": "data", "names": ["listIsNonEmptyAndWithinSaneBounds", "strictlyAscendingByteOrderWithNoDuplicates", "masksAreWithinTheByteCeiling", "noIpLiteralsOrMalformedHostnames", "blocksKnownPiracyIndexesAndStreamingSites", "doesNotBlockTorrentClientSoftware", "doesNotBlockArchivesOrAcademicTorrentInfrastructure", "doesNotBlockLinuxDistributionsOrFossProjects", "doesNotBlockFormerlyInfringingBrandsThatAreNowLegitimate", "doesNotBlockSyncToolsOrGeneralInfrastructure", "everyAllowlistEntryIsAbsentFromTheGeneratedList"], "ran": 11, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ShippedTierConsistencyTest", "path": "data/ShippedTierConsistencyTest.kt", "area": "data", "names": ["noNonStrongKeywordContainsAStrongKeyword", "digitsInCompoundWordsDoNotHideStrongTerms", "aRandomRunDoesNotMaskTheWordsBesideIt", "childSuggestiveTagsAreNotContextOnly", "phrasesContainingStrongTermsStillBlock"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "TextNormalizerTest", "path": "data/TextNormalizerTest.kt", "area": "data", "names": ["decode_singleEncoded_resolves", "decode_doubleEncoded_resolves", "decode_tripleEncoded_resolves", "decode_isBounded_doesNotLoopForever", "decode_malformedEscape_returnsLastGoodValue", "decode_plainTextUnchanged", "fold_fullwidthLatin_becomesAscii", "fold_lowercasesInvariantly", "fold_leavesOrdinaryTextIntact", "collapse_dottedLetters", "collapse_hyphenatedLetters", "collapse_underscoredLetters", "collapse_spacedLetters", "collapse_longerBrand", "collapse_doesNotTouchOrdinaryWords", "collapse_doesNotMergeMultiCharPathSegments", "collapse_doesNotMergeHyphenatedWords", "collapse_requiresAtLeastFourCharacters", "normalize_combinesDecodeFoldAndCollapse", "normalize_benignInputHasNoCollapsedForm"], "ran": 20, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "TrustedClockTest", "path": "data/TrustedClockTest.kt", "area": "data", "names": ["firstUseAnchorsToTheWallClock", "dateSetForwardInTheSameBootIsIgnored", "rebootAnchorsAgain", "rebootIsNoticedWithoutABootCounter"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "UrlEvasionDetectionTest", "path": "data/UrlEvasionDetectionTest.kt", "area": "data", "names": ["singleEncodedPathKeyword_isDetected", "doubleEncodedPathKeyword_isDetected", "doubleEncodedQueryKeyword_isDetected", "letterSplitHighConfidenceKeywordInPath_isDetected", "letterSplitDoesNotManufactureShortKeywordMatches", "ordinaryPathSegmentsAreNotCollapsed", "fullWidthKeywordInPath_isDetected", "fragmentKeyword_isDetected", "fragmentMatchesAreTaggedAsFragmentLocation", "benignFragment_producesNoMatches", "malformedHost_isFlaggedAndStillKeywordScanned", "wellFormedHost_isNotFlaggedAsMalformed", "knownAdultDomain_stillMatches", "deceptiveSuffix_stillDoesNotMatch", "boundaryProtectedBenignUrls_produceNoMatches"], "ran": 15, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "VerifyDomainsTest", "path": "data/VerifyDomainsTest.kt", "area": "data", "names": ["verifyProductionDomains"], "ran": 1, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "WebProxyEntryPagesTest", "path": "data/WebProxyEntryPagesTest.kt", "area": "data", "names": ["steganosProxyFrontPage", "theRestOfTheVendorSiteStaysOpen", "otherSitesAreNotTouched"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BrowserClassifierTest", "path": "detector/BrowserClassifierTest.kt", "area": "detector", "names": ["knownBrowser_isSupported", "webCapableUnknownBrowser_isUnsupported", "ordinaryApp_isNotBrowser", "supportedBrowserWins_evenIfWebQueryFails", "nullOrBlankPackage_isNotBrowser", "toggleOn_blocksUnsupportedBrowser", "toggleOff_allowsUnsupportedBrowser", "toggleNeverBlocksSupportedBrowsersOrOrdinaryApps", "theTogglesDecisionActuallyChangesWithTheFlag", "knownBrowserIsUnsupported_evenWhenTheWebQueryMissesIt", "knownUnsupportedListCannotCaptureOrdinaryApps", "miBrowserStaysUnsupported_despiteWorkingUrlExtraction", "theTwoSetsAreDisjoint", "supportedSetIsTheOneUsedByTheUrlBranch", "supportedSetIsExactlyTheDeviceVerifiedBrowsers", "samsungInternetStaysUnsupported_despiteWorkingButHostnameOnlyExtraction", "unverifiedPopularBrowsersAreUnsupported_notNotBrowser"], "ran": 17, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BrowserRegistryTest", "path": "detector/BrowserRegistryTest.kt", "area": "detector", "names": ["noDuplicatePackageNames", "supportedAndUnsupportedSetsAreDisjoint", "everyProfileIsInExactlyOneOfTheTwoDerivedSets", "onlyVerifiedStatusYieldsSupported", "verifiedProfilesCannotBeHostnameOnlyAndSilentlyPassAsFull", "everyCatalogedViewIdMatchesUrlExtractorsOwnSet", "verifiedProfilesAreExactlyTheDeviceCapturedFullAddressBrowsers", "miBrowserIsUnsupportedDespiteBeingReadable", "samsungInternetIsUnsupportedDespiteBeingReadable", "profileForUnknownPackageIsNull"], "ran": 10, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ChromeTabMenuTest", "path": "detector/ChromeTabMenuTest.kt", "area": "detector", "names": ["matchesTheLabelCapturedOnDevice", "toleratesCaseAndSurroundingWhitespace", "refusesBulkCloseItems", "refusesTheOtherItemsInTheSameMenu", "refusesAbsentAndEmptyLabels"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "NativeContentDetectorTest", "path": "detector/NativeContentDetectorTest.kt", "area": "detector", "names": ["testInstagramLiteSearchTab_detected", "testInstagramLiteMessagesInbox_allowed", "testInstagramLiteFeedWithBottomBar_allowed", "testInstagramLiteReelsHeader_detected", "testYouTubeShorts_detected", "testYouTubeNormal_allowed", "testYouTubeWrongPackage_allowed", "testInstagramReels_detected", "testInstagramNormal_allowed", "testInstagramReelsTabSelected_detected", "testInstagramSearch_detected", "testFacebookReels_detected", "testFacebookReelsTabSelected_detected", "testInstagramHomeFeedWithClipsTabUnselected_allowed", "testFacebookReelsViewerContainer_detected", "testFacebookNormal_allowed", "testXInFeedVideo_allowed", "testXFullscreenVideoViewer_detected", "testXGif_allowed", "testXNormal_allowed", "testInstagramExploreSearchBox_detected", "testInstagramFriendsListSearchBox_allowed", "testInstagramListSearchBoxWithSearchDescription_allowed", "testInstagramOtherBoxDescribedAsSearch_allowed", "testExploreSearchBoxRule"], "ran": 25, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SettingsBypassPolicyTest", "path": "detector/SettingsBypassPolicyTest.kt", "area": "detector", "names": ["englishSettings_isDetected", "spanishSettings_isDetected", "arabicSettings_isDetected", "ordinaryWindow_isNotDetected", "unrelatedTextContainingOldEnglishKeywords_isNotDetected", "deviceAdminActivationIsSuppressed", "caseIsIgnored", "nullTreeAndBlankLabelAreSafe", "labelIsInjectedNotHardcoded", "matchIsFoundDeepInTheTree", "nodesWithoutTextDoNotCrash", "batteryPrompt_justOpenedByApp_isNotProtected", "settingsDialog_notOpenedByApp_isProtected", "settingsDialog_afterWindowExpired_isProtected", "fullSettingsPage_duringWindow_isStillProtected", "batteryPrompt_reportedWithRealActivityName_isNotProtected", "batteryPrompt_realActivityName_outsideWindowOrNeverRequested_isProtected", "watchesTheScreensThatCanRemoveTheApp", "leavesSetupScreensAndOtherAppsAlone", "deviceAdminPromptWindowClosesByItselfAndOnActivation"], "ran": 20, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SnapchatContentDetectorTest", "path": "detector/SnapchatContentDetectorTest.kt", "area": "detector", "names": ["nullTree_isNone", "emptyTree_isNone", "spotlightVideoPlaying_isDetected", "friendSnapOpenedFromChat_isNotDetected", "discoverVideo_isDetected", "adQueuedBehindFriendStory_isNotDetected", "friendStoryFromStoriesTab_isNotDetected", "searchOpen_isDetected", "addFriendsScreen_isNotDetected", "cameraScreen_bottomNavIconsAlone_isNotDetected", "chatScreen_isNotDetected", "deepTree_isStillHandled", "storyViewer_isSeenWhenOpen_andNotOtherwise"], "ran": 13, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SnapchatStoryTrackerTest", "path": "detector/SnapchatStoryTrackerTest.kt", "area": "detector", "names": ["tapInsideADiscoverTile_isDiscover", "tapInsideAFriendCard_isFriend", "tapOnTheBottomBarOrAnythingElse_isOther", "theInnermostMatchWins", "discoverTap_thenViewer_isBlocked_andStaysBlockedWhileOpen", "friendTap_thenViewer_isNotBlocked", "viewerWithNoTap_isNotBlocked", "staleDiscoverTap_doesNotBlockALaterViewer", "friendTapAfterDiscoverTap_cancelsIt", "closingTheViewer_endsTheDiscoverSession", "otherTaps_changeNothing", "reset_forgetsEverything"], "ran": 12, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "UrlExtractorTest", "path": "detector/UrlExtractorTest.kt", "area": "detector", "names": ["chromeEditTextUrl_isExtracted", "miBrowserWebBottomUrlTextView_isExtracted", "miBrowserButtonContentDescription_isExtracted", "ordinaryPageTextView_yieldsNoUrl", "malformedOrNonUrlText_yieldsNoUrl", "subpathsAndQueryStringsArePreserved", "knownUrlBarWinsOverAGenericEditText", "knownUrlBarWithPlaceholderFallsThroughRatherThanReturningJunk", "textPreferredOverContentDescriptionOnTheSameNode", "ipLiteralsStillWork", "deeplyNestedUrlBarIsFound", "nullTreeAndEmptyTreeAreSafe", "absurdlyLongValueIsRejected", "arbitraryTextViewIsNotTrustedEvenWhenItLooksLikeAUrl", "firefoxComposeToolbar_realCapture_isExtracted", "firefoxComposeToolbar_withQueryString_hintStrippedCorrectly", "firefoxComposeToolbar_httpsScheme_hintStrippedCorrectly", "firefoxComposeToolbar_noHintSuffix_stillWorks", "firefoxComposeToolbar_placeholderHint_yieldsNoUrl", "firefoxComposeToolbar_emptyText_isIgnoredInFavorOfContentDescription", "hintStrippingDoesNotReopenTheProseFalsePositiveGuard", "samsungInternet_compactHostnameOnly_realCapture_isExtracted", "samsungInternet_compactHostnameOnly_secondCapture_confirmsNotAOneOff", "samsungInternet_focused_fullPathAndQuery_isExtracted", "samsungInternet_focused_queryStringWithAmpersand_isExtracted", "samsungInternet_lrmContaminationNeverLeaksIntoTheReturnedValue", "samsungInternet_lrmPrefixedMalformedInput_stillYieldsNoUrl", "samsungInternet_httpsSchemeCompact_isExtracted"], "ran": 28, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "WhatsappChannelDetectorTest", "path": "detector/WhatsappChannelDetectorTest.kt", "area": "detector", "names": ["updatesAndStatus_isAllowed", "channelDirectory_isAllowed", "unfollowedOpenedChannel_isBlocked", "followedOpenedChannel_isBlocked", "normalChat_isAllowed", "normalChatContainingTheWordFollowers_isAllowed", "aboutContainingChannelLink_isAllowed", "transitionTree_blocksOnlyWhenMarkerIsInsideTheConversationSubtree", "newsletterDirectoryMarkerAlone_isAllowed", "missingConversationRoot_isAllowed", "nullTree_isAllowed", "detectionIsLocaleIndependent", "nullViewIdsDoNotCrashOrMatch", "deeplyNestedChannelMarkerIsStillFound", "business_openedUnfollowedChannel_isBlocked", "business_updatesAndChannelDirectory_isAllowed", "business_normalChat_isAllowed", "business_regularWhatsappMarkers_doNotCrossMatch", "business_defaultParameterStaysRegularWhatsapp"], "ran": 19, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "XWebContentDetectorTest", "path": "detector/XWebContentDetectorTest.kt", "area": "detector", "names": ["isXVideoHost_matchesXAndTwitterDomains", "isXVideoHost_rejectsUnrelatedOrNullHosts", "detect_allowsInFeedAutoplayControls", "detect_allowsUnplayedThumbnailInFeed_regardlessOfDuration", "detect_blocksImmersiveViewerCaptionsControl", "detect_ignoresGifAndOrdinaryControls", "detect_ignoresGenericPauseAndMuteAlone", "detect_nullRoot_returnsFalse"], "ran": 8, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FalsePositiveGatesTest", "path": "fpaudit/FalsePositiveGatesTest.kt", "area": "fpaudit", "names": ["diagnoseKeywordOnlyLoss", "writeBaseline", "heldoutRealLinksUnderOneInAThousand", "openBankingNeverBlocks", "fuzzNeverBlocks", "legitDomainsNeverBlock", "trafficWeightedAdultLossAtMostHalfAPercent", "keywordOnlyAdultLossAtMostFifteenPercent", "brandMirrorsAndSearchesNotWeaker"], "ran": 9, "skipped": 2, "failed": 0, "skippedNames": ["diagnoseKeywordOnlyLoss", "writeBaseline"]}, {"cls": "FixtureContentFilterTest", "path": "fpaudit/FixtureContentFilterTest.kt", "area": "fpaudit", "names": ["filterRejectsMinorsAgesAndIllegalContent", "committedAdultFixturesPassTheFilter"], "ran": 2, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SharedListsUnchangedTest", "path": "fpaudit/SharedListsUnchangedTest.kt", "area": "fpaudit", "names": ["sharedKeywordsUnchanged", "sharedDomainsUnchanged"], "ran": 2, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ActiveWindowPolicyTest", "path": "services/ActiveWindowPolicyTest.kt", "area": "services", "names": ["aLeftoverEventIsNotJudgedAgainstAnotherAppsScreen", "anEventForTheWindowOnScreenIsProcessed", "aWindowThatReportsNoPackageIsNotDropped"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AdultSearchQueryDetectorTest", "path": "services/AdultSearchQueryDetectorTest.kt", "area": "services", "names": ["testGoogle_Porn_Blocks", "testGoogle_BhabhiGandiVideos_Blocks", "testGoogle_BhabhiGandiVideosPornSex_Blocks", "testGoogle_SexEducation_Allows", "testGoogle_BreastCancer_Allows", "testGoogle_SexualHealth_Allows", "testEncoding", "testGoogle_WithAdditionalParams_Blocks", "testGoogle_MassiveRealWorldQuery_Blocks", "testSpoofingProtection", "helpSeekingSearches_AreNotAdult", "nonHelpSearches_StillAdult"], "ran": 12, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BlockedPageExitTest", "path": "services/BlockedPageExitTest.kt", "area": "services", "names": ["neutralPageIsAllowed_withEveryProtectionEnabled", "neutralPageHasNoHostname_soItCannotMatchAnyDomainList", "neutralPageIsSchemeOnly_notAnAddressableSite"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "CategoryPolicyTest", "path": "services/CategoryPolicyTest.kt", "area": "services", "names": ["piracyDisabled_matchIsIgnored_allow", "piracyEnabledAndMatch_blocksCategory", "userAllowlistBeatsCategory", "allowlistSubdomainBeatsCategory", "adultMatchWins_whenBothMatch", "adultBrandMatchWins_whenBothMatch", "noMatch_existingBehaviorUnchanged", "categoryBlocksAtMask32_evenWithMinAdultSourcesAtFour", "zeroMaskCategoryMatchDoesNotBlock", "defaultConfigHasPiracyOff"], "ran": 10, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "CategoryPropagationTest", "path": "services/CategoryPropagationTest.kt", "area": "services", "names": ["knownPiracyUrl_propagatesToBlockCategory", "subdomainOfKnownPiracySite_propagatesToBlockCategory", "toggleOff_sameUrlIsAllowed", "legitimateSites_areNotBlocked", "deceptiveSuffixDoesNotPropagate", "userAllowlistOverridesPropagatedCategoryMatch", "urlWithPathAndQuery_stillNormalizesAndBlocks"], "ran": 7, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "CategoryStartupRaceTest", "path": "services/CategoryStartupRaceTest.kt", "area": "services", "names": ["adultReadyButCategoryLoading_mustNotCacheAllow", "categoryReadyButAdultLoading_mustNotCacheAllow", "degradedAdultState_mustNotCache", "bothReady_normalCachingResumes", "piracyUrlOpenedDuringStartup_isReEvaluatedAndBlockedOnceReady"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "KeyboardWindowPolicyTest", "path": "services/KeyboardWindowPolicyTest.kt", "area": "services", "names": ["keyboardWithNoAppWindowIsOnlyTheKeyboard", "keyboardWithNoWindowsAtAllIsOnlyTheKeyboard", "keyboardAppsOwnSettingsScreenIsAnAppWindow", "aNormalAppIsNeverTreatedAsAKeyboard", "noInstalledKeyboardsMeansNothingIsExempt"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "PolicyEngineTest", "path": "services/PolicyEngineTest.kt", "area": "services", "names": ["testPolicy_adultDomain_isBlocked", "testPolicy_PublicIp_WithOneMediumKeyword_Blocks", "testPolicy_PrivateIp_WithOneMediumKeyword_Allows", "testPolicy_NormalDomain_WithOneMediumKeyword_Allows", "testPolicy_NormalDomain_WithRepeatedMediumKeyword_Allows", "testPolicy_NormalDomain_WithTwoDistinctMediumKeywords_Blocks", "testPolicy_NormalDomain_WithOneStrongKeyword_Blocks", "testPolicy_SearchEngine_WithKeywordInQuery_Allows", "testPolicy_FakeSearchEngine_WithKeywordInQuery_Blocks", "testEvaluateNativeFeature_snapchatSpotlight_blocksOnlyWhenToggleOn", "testEvaluateNativeFeature_snapchatSearch_blocksOnlyWhenToggleOn", "testEvaluateNativeFeature_xVideo_blocksOnlyWhenToggleOn", "testEvaluateNativeFeature_none_alwaysAllows", "testImageVideoSearch_usesItsOwnDecision", "testImageVideoSearch_allowedWhenToggleOff", "testFocusMode_blocksEverySocialSite", "testFocusMode_doesNotBlockSitesThatMerelyContainADefaultDomain", "testFocusMode_off_allowsSocialSites", "testFocusMode_allowlistExemptsASocialSite", "testFocusMode_extraBlocklistStillWorks", "testManualBlocklist_stillBlocksOutsideFocusMode"], "ran": 21, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "PolicyPropagationIntegrationTest", "path": "services/PolicyPropagationIntegrationTest.kt", "area": "services", "names": ["searchQueryWithCanceler_propagatesToBlockDecision", "searchQueryWithStackedCancelers_propagatesToBlockDecision", "legitimateSearchQuery_propagatesToAllowDecision", "doubleEncodedSearchQuery_propagatesToBlockDecision", "letterSplitSearchQuery_propagatesToBlockDecision", "fullWidthSearchQuery_propagatesToBlockDecision", "fragmentKeywordOnNonSearchEngine_propagatesToBlockDecision", "fragmentOnVerifiedSearchEngine_isExempt", "knownAdultDomain_propagatesToBlockDecision", "brandVariantHostname_propagatesToBlockDecision", "allowlistOverride_propagatesToAllowDecision", "blockAdultContentDisabled_propagatesToAllowDecision", "benignSites_propagateToAllowDecision", "publicIpWithAdultPath_propagatesToBlockDecision", "privateIpWithAdultPath_propagatesToAllowDecision", "detectionCarriesProtectionState", "degradedProtection_lowersPathScoringThreshold"], "ran": 17, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "PolicyRegressionTest", "path": "services/PolicyRegressionTest.kt", "area": "services", "names": ["testEducationalCorpus_IsAllowed"], "ran": 1, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SearchQueryCancelerHardeningTest", "path": "services/SearchQueryCancelerHardeningTest.kt", "area": "services", "names": ["explicitTermWithSingleCanceler_stillBlocks", "otherExplicitTermsWithCancelers_stillBlock", "explicitTermWithEveryCancelerAtOnce_stillBlocks", "multipleExplicitTermsWithMultipleCancelers_stillBlock", "combinationScoringQueryWithCanceler_stillBlocks", "legitimateMedicalAndEducationalQueries_stillAllowed", "ambiguousTermWithCanceler_remainsAllowed", "doubleEncodedExplicitTerm_blocks", "singleEncodedExplicitTerm_stillBlocks", "letterSplitExplicitTerm_blocks", "fullWidthUnicodeExplicitTerm_blocks", "evasionCombinedWithCancelers_blocks", "spoofedSearchEngines_areNotTreatedAsSearchEngines", "realWorldQueryWithManyUnrelatedParams_stillBlocks"], "ran": 14, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "TieredScoringTest", "path": "services/TieredScoringTest.kt", "area": "services", "names": ["strongAloneBlocks", "oneAdultAloneAllows", "twoAdultBlock", "adultPlusContextBlocks", "contextNeverBlocksAlone", "elevatedScrutinyStillNeedsANonContextTerm", "mixedHostStrongBlocks", "mixedHostOneAdultAllows", "mixedHostTwoAdultBlock", "mixedHostAdultPlusContextAllows", "publicIpContextAloneAllows", "publicIpAdultAloneBlocks", "yahooSearchQueryIsExemptLikeOtherSearchEngines", "demotedHelpSeekingTermsAllow"], "ran": 14, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AutostartScreensTest", "path": "setup/AutostartScreensTest.kt", "area": "setup", "names": ["noKnownScreenOnThisPhone_returnsNull", "picksTheFirstScreenThePhoneHas", "notExported_isUnavailable", "permissionNotGrantedToUs_isUnavailable", "noPermission_isAvailable", "permissionGrantedToUs_isAvailable", "oplusBatteryStartupScreen_isNotListed", "noScreenLivesInsideAndroidSettings", "everyScreenPackageIsDeclaredForPackageVisibility"], "ran": 9, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BackgroundPopupPermissionTest", "path": "setup/BackgroundPopupPermissionTest.kt", "area": "setup", "names": ["appliesToXiaomiRedmiAndPocoOnly"], "ran": 1, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "SetupPolicyTest", "path": "setup/SetupPolicyTest.kt", "area": "setup", "names": ["accessibilityOff_blocksTheApp", "accessibilityOn_doesNotBlock", "batteryAndAutostartDoNotLockTheUserOut", "missingListsBlockingRequirementFirst", "fullySetUpDeviceHasNothingMissing", "needsAttentionCoversNonBlockingItems", "canFinishRequiresOnlyAccessibility", "blockingIsIndependentOfAcknowledgementState", "phoneWithoutAutostartScreen_neverAsksForIt", "phoneWithAutostartScreen_stillAsksUntilAcknowledged", "requiredAutostartNotDone_cannotFinish", "requiredAutostartDone_canFinish", "autostartNotRequired_canFinishWithoutIt", "requiredAutostartButNoSettingsScreen_doesNotStrandTheUser", "accessibilityIsPointedAtBeforeAutostart", "requiredAutostart_doesNotLockTheUserOutOfTheApp", "aSetUpAppThatOpensWithAccessibilityOffAsksForAutostartAgain", "backgroundPopupOffOnXiaomi_isListedButNeitherBlocksNorStopsFinish", "backgroundPopup_isNeverAskedForWhereItDoesNotExistOrIsAllowed", "backgroundPopupComesAfterTheOtherRequirements"], "ran": 20, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ThemeContrastTest", "path": "theme/ThemeContrastTest.kt", "area": "theme", "names": ["light onPrimary over primary", "dark onPrimary over primary", "light onSecondary over secondary", "dark onSecondary over secondary", "light onTertiary over tertiary", "dark onTertiary over tertiary", "light onSurface over surface", "dark onSurface over surface", "light onSurfaceVariant over surface", "dark onSurfaceVariant over surface"], "ran": 10, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AccessibilityConsentPolicyTest", "path": "ui/AccessibilityConsentPolicyTest.kt", "area": "ui", "names": ["withoutConsent_settingsCannotBeOpened", "afterConsent_settingsCanBeOpened", "freshInstallDefault_failsClosed", "dismissingTheDisclosureIsNotConsent"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "AiCoachOutcomePolicyTest", "path": "ui/AiCoachOutcomePolicyTest.kt", "area": "ui", "names": ["approved", "rejected_keepsReason_andIsNotUnavailable", "userLimit_namesTheLimit", "userLimit_withoutLimitStillReads", "globalLimit", "signedOut", "unavailable", "anyOtherException_isUnavailable", "fallbackTimer_isAlwaysAFresh24HoursFromNow", "trailingActionTagFromTheServerIsNotShown", "reasonsWithoutATagAreUntouched"], "ran": 11, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "BlocklistOrderPolicyTest", "path": "ui/BlocklistOrderPolicyTest.kt", "area": "ui", "names": ["firstBlockedAppIsShownLast", "orderIgnoresTheInstalledAppOrder", "blockedPackageThatIsNotInstalledHasNoRow", "anAppBlockedAgainMovesToTheTop", "emptyBlocklistGivesNoRows", "singleAppIsShown"], "ran": 6, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "DangerZonePolicyTest", "path": "ui/DangerZonePolicyTest.kt", "area": "ui", "names": ["uninstallRevokesAdminBeforeLaunchingTheUninstaller", "uninstallSkipsAdminWorkWhenNotAnAdmin", "uninstallerIsNotLaunchedWhileAdminIsStillActive", "factoryResetRevokesDeviceAdmin", "factoryResetStillClearsPreferencesWithoutAdmin", "everyFlowEndsInExactlyOneTerminalAction"], "ran": 6, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FocusModeButtonLayoutTest", "path": "ui/FocusModeButtonLayoutTest.kt", "area": "ui", "names": ["reservedStripIsTallEnoughForTheButtonAndItsEdgePadding", "thereIsClearanceAboveTheButton", "reservedHeightIsTheSumOfItsParts", "buttonIsNoSmallerThanTheMinimumTouchTarget"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FocusModePolicyTest", "path": "ui/FocusModePolicyTest.kt", "area": "ui", "names": ["defaultIsNoChallenge", "optingInRequiresTheChallenge", "startingIsNeverChallenged"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FriendApprovalPolicyTest", "path": "ui/FriendApprovalPolicyTest.kt", "area": "ui", "names": ["noStatusYet_waits", "noChallengeYet_waits", "pending_waits", "approved_unlocks", "denied_isDenied", "staleApprovalFromEarlierChallenge_isIgnored", "pendingPastExpiry_isExpired", "approvedJustBeforeExpiryStaysApproved", "onceGuard_runsOnlyOnce", "onceGuard_cancelled_neverRuns"], "ran": 10, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FriendChallengeResumePolicyTest", "path": "ui/FriendChallengeResumePolicyTest.kt", "area": "ui", "names": ["sameAction_doesNotReset", "differentAction_resets", "firstEverRequest_resets"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FriendChallengeBackgroundResumePolicyTest", "path": "ui/FriendChallengeResumePolicyTest.kt", "area": "ui", "names": ["openDialog_neverAutoCompletes", "noTrackedChallenge_doesNotAutoComplete", "noStatusYet_doesNotAutoComplete", "closedDialog_matchingApprovedChallenge_autoCompletes", "closedDialog_staleChallengeId_doesNotAutoComplete", "closedDialog_pendingNotYetApproved_doesNotAutoComplete", "closedDialog_denied_doesNotAutoComplete"], "ran": 7, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "FriendChallengeSessionTest", "path": "ui/FriendChallengeSessionTest.kt", "area": "ui", "names": ["firstBegin_starts_secondBegin_doesNot", "sent_recordsChallengeId", "failed_recordsError", "reset_allowsANewRequest", "lateResultOfAnOldRequest_isIgnored"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ManualAutostartTipPolicyTest", "path": "ui/ManualAutostartTipPolicyTest.kt", "area": "ui", "names": ["oppoWithoutOpenableScreen_showsTip", "vivoBrandOnly_showsTip", "whenScreenOpens_noTip", "samsungAndPixel_noTip"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "PartnerChangePolicyTest", "path": "ui/PartnerChangePolicyTest.kt", "area": "ui", "names": ["leavingMyselfForARealPartner_needsNoChallenge", "switchingToMyself_alwaysNeedsChallenge", "lateralMovesBetweenRealPartners_needChallenge", "stayingOnSameMode_needsChallenge", "myselfToMyself_needsChallenge", "unknownModes_defaultToRequiringChallenge", "exemptionIsNotCaseInsensitive"], "ran": 7, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "ProtectionStatusPolicyTest", "path": "ui/ProtectionStatusPolicyTest.kt", "area": "ui", "names": ["degradedIsNeverPresentedAsProtected", "loadingIsAlsoNotPresentedAsProtected", "readyIsTheOnlyProtectedState", "onlyDegradedDemandsAttention", "everyStateHasNonEmptyCopy", "degradedCopyStatesTheConsequenceNotJustAnError", "statusDefaultsToLoadingNotReady", "readyToDegradedTransitionIsObservable", "loadingToReadyIsTheNormalStartupPath", "recoveryFromDegradedIsRepresentable", "serviceIsNotConnectedUntilItSaysSo", "linkIsDerivedFromConnectionAndTheStartupWindow", "connectedServiceShowsTheEngineState", "stoppedServiceIsNeverShownAsProtectedWhateverTheLastEngineState", "stoppedServiceDoesNotSitOnStartingProtectionForever", "connectingIsHonestThatNothingIsBlockedYet", "stoppedCopyNamesTheRecoveryAndNeverPromisesAnAutomaticRestart", "disconnectDropsAnEarlierReadyAndConnection", "reconnectingAfterADisconnectWorks", "appResumedWhileServiceIsDisconnectedShowsStoppedNotActive", "theLinkDoesNotDependOnNotificationPermission", "newCopyUsesNoDashesAsPunctuation"], "ran": 22, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "RecentsLockTipPolicyTest", "path": "ui/RecentsLockTipPolicyTest.kt", "area": "ui", "names": ["shownOnXiaomiFamily", "brandCanCarryTheFamilyWhenManufacturerDoesNot", "hiddenOnOtherMakersAndOnTheEmulator"], "ran": 3, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "TimeDelayPolicyTest", "path": "ui/TimeDelayPolicyTest.kt", "area": "ui", "names": ["notLoadedYet_isLoading", "noTimer_isNotStarted", "running_reportsTimeLeftFromNow", "justStarted_isWaitingNotReady", "elapsed_isReady"], "ran": 5, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "UninstallProtectionPolicyTest", "path": "ui/UninstallProtectionPolicyTest.kt", "area": "ui", "names": ["switchIsOnOnlyWhenBothThePreferenceAndTheRealAdminAreOn", "preferenceDefaultingToOnNeverMakesTheSwitchLookOnWithoutAdmin", "activationAccepted_savesTheOnPreferenceOnceAdminIsActive", "activationCancelled_staysOffAndSavesNothing", "adminRevokedExternally_switchGoesOffAndPreferenceIsKept", "resumedWithoutAnyRequest_neverSavesOn", "tappingTheSwitchAloneNeverSavesOn", "requestStaysPendingUntilTheRealAnswerArrives"], "ran": 8, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "TypingAccuracyTest", "path": "ui/components/TypingAccuracyTest.kt", "area": "ui/components", "names": ["exactMatchIs100AndPasses", "oneTypoShowsBelow100ButPasses", "belowThresholdFails", "emptyInputIsZero"], "ran": 4, "skipped": 0, "failed": 0, "skippedNames": []}, {"cls": "MainScreenViewModelTest", "path": "ui/main/MainScreenViewModelTest.kt", "area": "ui/main", "names": ["uiState_initiallyLoading", "uiState_onItemSaved_isDisplayed"], "ran": 2, "skipped": 0, "failed": 0, "skippedNames": []}], "declared": 712, "ran": 712, "skipped": 2, "failed": 0, "resultsAge": "2026-10-18 21:40"}, "deviceTests": {"classes": [{"cls": "AhoCorasickBenchmarkTest", "path": "data/AhoCorasickBenchmarkTest.kt", "area": "data", "names": ["benchmarkAhoCorasickInitialization"], "ran": null, "skipped": null, "failed": null, "skippedNames": []}, {"cls": "SocialFeatureBlockingDeviceTest", "path": "detector/SocialFeatureBlockingDeviceTest.kt", "area": "detector", "names": ["testInstagramReels_detectedAndBlockedOnDevice", "testInstagramReelsSelectedTab_detectedAndBlockedOnDevice", "testInstagramSearch_detectedAndBlockedOnDevice", "testInstagramFeed_allowedOnDevice", "testFacebookReelsControls_detectedAndBlockedOnDevice", "testFacebookReelsTab_detectedAndBlockedOnDevice", "testFacebookFeedPost_allowedOnDevice", "testSnapchatSpotlight_detectedAndBlockedOnDevice", "testSnapchatDiscoverVideoRail_detectedAndBlockedOnDevice", "testSnapchatSearch_detectedAndBlockedOnDevice", "testSnapchatAddFriends_excludedAndAllowedOnDevice"], "ran": null, "skipped": null, "failed": null, "skippedNames": []}, {"cls": "UrlBlockingChromeDeviceTest", "path": "services/UrlBlockingChromeDeviceTest.kt", "area": "services", "names": ["legitimateAndBankingUrlsAreNotBlocked", "adultUrlsAreStillBlocked"], "ran": null, "skipped": null, "failed": null, "skippedNames": []}, {"cls": "AutostartScreensDeviceTest", "path": "setup/AutostartScreensDeviceTest.kt", "area": "setup", "names": ["everyKnownScreen_resolveAndOpen", "launcherOpen_bringsUpAScreenExactlyWhenOneExists", "oplusStartupScreen_isNotUsable", "discoverAutostartActivities"], "ran": null, "skipped": null, "failed": null, "skippedNames": []}, {"cls": "AutostartStepDeviceTest", "path": "setup/AutostartStepDeviceTest.kt", "area": "setup", "names": ["autostartStep_showsOnlyWhenAScreenExists"], "ran": null, "skipped": null, "failed": null, "skippedNames": []}, {"cls": "MainScreenTest", "path": "ui/main/MainScreenTest.kt", "area": "ui/main", "names": ["firstItem_exists"], "ran": null, "skipped": null, "failed": null, "skippedNames": []}], "declared": 20}, "backend": {"files": [{"file": "rules-test/friendChallengeStatus.rules.test.js", "names": ["owner can read their status doc", "another user cannot read it", "signed-out cannot read it", "owner cannot write it (cannot self-approve)", "approvalLinks are unreadable to everyone", "aiCoachGlobalUsage is unreadable and unwritable by clients"]}, {"file": "test/accountDeletion.test.js", "names": ["lists every per-user document, keyed by uid", "adds the live approval link, which is keyed by its token hash", "ignores a missing or malformed link hash", "refuses a uid that is not a single document id", "covers every collection the security rules know about, except the project-wide counter"]}, {"file": "test/accountabilitySensitivity.test.js", "names": ["the core protections and self-defense actions are STRICT", "single-platform distraction features are LENIENT", "everything else defaults to MODERATE", "unrecognized actions default to MODERATE, never the easiest weight", "KNOWN_ACTIONS has exactly the 23 actions the Android app can send", "isKnownAction rejects free text, near-misses and non-strings"]}, {"file": "test/aiCoachLimits.test.js", "names": ["limits are 10 / 50 / 3000", "dailyLimitFor gives 50 only for entitlements.aiCoach === true", "first call of the day is ok and counts 1/1", "yesterday\\", "user at limit is refused and nothing is counted", "global cap is checked first and counts nothing", "entitled limit is honored", "global counter is split across 10 shards", "globalUsageFromShards sums only today\\", "globalUsageFromShards of nothing is zero"]}, {"file": "test/approvalEmail.test.js", "names": ["action email: subject names requester and action", "action email: text and html carry both links, the spaced PIN and expiry", "action email: falls back to ", "action email: hostile requester is escaped in html and single-line in subject", "action email: html loads nothing external", "legacy email (no action, Windows path) is today\\"]}, {"file": "test/approvalLinks.test.js", "names": ["newLinkToken is 43 url-safe chars and unique", "isWellFormedLinkToken rejects anything else", "hashLinkToken is deterministic 64-hex and differs per token", "newChallengeId is 32 hex chars", "displayFirstName takes the first word, trimmed", "displayFirstName strips control chars and caps at 40", "displayFirstName returns null when there is no usable name", "escapeHtml escapes the five HTML-significant characters", "decide approves and denies a live pending challenge", "decide rejects an unknown decision", "decide reports expired after expiresAt", "decide reports already_answered when anything is gone, mismatched or not pending"]}, {"file": "test/approvalPage.test.js", "names": ["form posts (never GET-decides) and carries the token in a hidden field", "form shows who, what, strictness and time left", "form has no script and loads nothing external", "form escapes a hostile requester", "result pages exist for every outcome with sensible status codes", "page headers forbid caching, indexing and framing"]}, {"file": "test/challengeResume.test.js", "names": ["resumes a pending, unexpired challenge for the same action", "does not resume when no challenge exists", "does not resume a different action", "does not resume an already-decided challenge", "does not resume an expired challenge", "expiresAtMs exactly equal to now counts as expired"]}, {"file": "test/decisionParser.test.js", "names": ["parses plain JSON", "strips a markdown json fence", "strips a bare markdown fence", "rejects an unrecognized decision value", "rejects malformed JSON", "rejects a missing reason"]}, {"file": "test/duration.test.js", "names": ["formatMinutes: under an hour renders as plural minutes", "formatMinutes: exactly one minute is singular", "formatMinutes: an hour or more renders as hours, not minutes", "formatMinutes: exactly one hour is singular", "formatMinutes: rounds a non-whole hour count to the nearest hour"]}, {"file": "test/emailValidation.test.js", "names": ["isValidEmail accepts ordinary addresses", "isValidEmail rejects garbage and non-strings", "isValidPin accepts exactly 6 digits", "isValidPin rejects anything else"]}, {"file": "test/forbiddenJustifications.test.js", "names": ["the exact excuse that bypassed the AI coach live is caught", "autocorrected present tense is also caught", "rephrasings of the same grief excuse are all caught", "the rest of the adversarial matrix is caught", "generically unrelated emergency phrasing is not enough on its own", "a genuine unrelated professional necessity is not flagged"]}, {"file": "test/otp.test.js", "names": ["generatePin always returns exactly 6 digits, zero-padded", "generatePin covers the low end (needs zero-padding), not just large numbers", "hashPin is deterministic for the same pin+salt", "hashPin differs for a different pin or a different salt", "newSalt does not repeat across calls", "hashesMatch is true only for identical digests", "hashesMatch is false (not throwing) for mismatched lengths"]}], "declared": 85, "result": null, "functions": ["evaluateExcusePro", "sendAccountabilityPinEmail", "verifyFriendChallenge", "friendApproval", "deleteAccount"]}}</script>
+<!--LIVE-DATA-END-->
+
+<script>
+/* ===================================================================================
+   Page data. Measured numbers come from #live-data (refresh-live-docs.py). Everything
+   else is written by hand from the code and docs; "ev" says what backs each claim.
+   =================================================================================== */
+const LIVE = JSON.parse(document.getElementById('live-data').textContent || '{}');
+const hasLive = !!(LIVE.app);
+
+const EV = {
+  device:{t:'Device-verified',c:'b-ok'}, unit:{t:'Unit-tested',c:'b-info'}, code:{t:'Read from code',c:'b-mute'},
+  open:{t:'Open',c:'b-bad'}, partial:{t:'Partial',c:'b-warn'}, spec:{t:'Spec only, not built',c:'b-warn'},
+  fixed:{t:'Fixed',c:'b-ok'}, unver:{t:'Fix not verified',c:'b-warn'}, wip:{t:'In progress (uncommitted)',c:'b-warn'}
+};
+const badge = k => `<span class="badge ${EV[k].c}">${EV[k].t}</span>`;
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => Number(n).toLocaleString('en-US');
+
+/* ---------- Features (PRD + status) ---------- */
+const FEATURES = [
+ {id:'adult',g:'Core blocking',n:'Block adult content',def:'ON',w:'STRICT',ev:'device',
+  what:'Blocks adult sites in every readable browser: a 1.13M-domain list (binary search), tiered keyword scoring (Aho-Corasick) over path, query and fragment, a 257-brand classifier for numbered mirrors, raw-IP rules, and search-query scoring for Google, Bing, DuckDuckGo, Yahoo and Yandex.',
+  code:['data/BlocklistManager.kt','services/PolicyEngine.kt','data/AdultHostnameClassifier.kt','data/AdultSearchQueryDetector.kt','data/TextNormalizer.kt'],
+  note:'Heuristic, not a proof: a brand-new unlisted domain with no adult word in its URL is the one class no static list closes.'},
+ {id:'proxy',g:'Core blocking',n:'Web proxies and base64 targets',def:'ON with adult',w:'STRICT (under adult)',ev:'partial',
+  what:'While adult blocking is on, a 109,793-host proxy list (34 curated + UT1 redirector feed) is blocked, plus the Steganos entry page by path. A site carried as base64 in an address is judged by where it points (also catches mirrors on bare IPs).',
+  code:['data/CategoryBlocklistManager.kt','data/EmbeddedTargets.kt','data/WebProxyEntryPages.kt'],
+  note:'Only 4 proxy hosts were tried on a phone (proxyorb.com, proxy-de.steganos.com, proxypal.net, azureserv.com). Consumer VPN vendor sites are blocked on purpose.'},
+ {id:'piracy',g:'Core blocking',n:'Block known piracy sites',def:'OFF',w:'STRICT',ev:'device',
+  what:'Category list of piracy hosts with its own allowlist engine; separate toggle.',code:['data/CategoryBlocklistManager.kt','data/BlockCategory.kt'],note:''},
+ {id:'imgvid',g:'Core blocking',n:'Block image & video search',def:'OFF',w:'MODERATE',ev:'device',
+  what:'Closes the Images/Videos tab of Google, Bing, DuckDuckGo, Yahoo and Yandex using query parameters (for example tbm=isch, udm=2). Shows its own block message.',
+  code:['services/PolicyEngine.kt'],note:''},
+ {id:'browsers',g:'Core blocking',n:'Block unsupported browsers',def:'ON',w:'STRICT',ev:'device',
+  what:'Browsers whose address bar cannot be fully read are blocked outright instead of left unpoliced. Supported (full address readable): Chrome, Firefox, Brave, Opera, Opera Mini, Vivaldi. Blocked because only the site name is readable: Edge, DuckDuckGo, Yandex, Samsung Internet, Mi Browser. UC Browser shows nothing readable.',
+  code:['detector/BrowserRegistry.kt','detector/BrowserClassifier.kt'],note:'Tor Browser stays blocked by policy; Kiwi not tested (gone from Google Play).'},
+ {id:'fb',g:'Social features',n:'Block Facebook Reels',def:'OFF',w:'LENIENT',ev:'partial',
+  what:'Detects the Reels viewer in the Facebook app by accessibility ids, then leaves it.',code:['detector/NativeContentDetector.kt'],
+  note:'1.0.21 widened the markers from a separate patch; on the test phone the Reels detector fired on Facebook app launch (cause not established).'},
+ {id:'igreels',g:'Social features',n:'Block Instagram Reels',def:'OFF',w:'LENIENT',ev:'device',what:'Selected Reels tab / clips viewer in Instagram and Instagram Lite.',code:['detector/NativeContentDetector.kt'],note:''},
+ {id:'igsearch',g:'Social features',n:'Block Instagram Search',def:'OFF',w:'LENIENT',ev:'wip',
+  what:'Blocks the Explore search box. Uncommitted change on master narrows it so a friend\'s Followers/Following list search is no longer blocked.',
+  code:['detector/NativeContentDetector.kt'],note:'Change is in the working tree with 5 new unit tests; not committed, not yet seen on a phone in this session.'},
+ {id:'yt',g:'Social features',n:'Block YouTube Shorts',def:'OFF',w:'LENIENT',ev:'device',what:'Shorts feed in the YouTube app.',code:['detector/NativeContentDetector.kt'],note:''},
+ {id:'wa',g:'Social features',n:'Block WhatsApp Channels',def:'OFF',w:'LENIENT',ev:'device',what:'One switch covers WhatsApp and WhatsApp Business. Status stays usable (earlier bug fixed).',code:['detector/WhatsappChannelDetector.kt'],note:''},
+ {id:'snap',g:'Social features',n:'Block Snapchat videos / search',def:'OFF',w:'LENIENT',ev:'partial',what:'Spotlight and Search are left; Snapchat returns to its camera.',code:['detector/SnapchatContentDetector.kt'],
+  note:'Known: Snapchat then asks for a denied permission, which brings it back over the block screen so the message is not seen. Discover stories play in the same viewer as friends\' Stories; blocking them is uncommitted work in the tree (WIP-2).'},
+ {id:'x',g:'Social features',n:'Block X.com / Twitter videos',def:'OFF',w:'MODERATE',ev:'unit',what:'Video blocking on x.com in browsers.',code:['detector/XWebContentDetector.kt'],note:'Not in the LENIENT list, so it gets the MODERATE default.'},
+ {id:'newapps',g:'Apps and lists',n:'Block newly installed apps',def:'OFF',w:'MODERATE',ev:'device',what:'An app installed after the protection baseline is blocked until the user releases it.',code:['data/NewAppInstallPolicy.kt','services/AppBlockerService.kt'],note:''},
+ {id:'lists',g:'Apps and lists',n:'Manual blocklist, whitelist, blocked apps',def:'empty',w:'Whitelist add: MODERATE',ev:'device',what:'User-managed website list, whitelist (highest precedence in PolicyEngine) and app list. Whitelist for apps is not supported on Android.',code:['ui/BlocklistScreen.kt','data/ConfigManager.kt'],note:'Adding to the whitelist is gated; it used to be a free bypass (audit #24).'},
+ {id:'focus',g:'Focus',n:'Focus Mode',def:'OFF',w:'MODERATE (stop)',ev:'device',what:'Named sessions (Study, Work, Reading, Deep Work, Exercise, Meditation, Sleep, or custom) with a duration or no limit. Adds a built-in social app list plus your extra blocklist, minus your allowlist. Optional "Protect Focus Mode" requires the partner to stop it. Auto-stop is enforced by the service\'s 10-second poll.',code:['ui/FocusModeScreen.kt','services/FocusModeNotifier.kt','services/FocusModeAutoStopWorker.kt','data/FocusModeDefaults.kt'],note:''},
+ {id:'uninstall',g:'Tamper resistance',n:'Uninstall Protection',def:'ON',w:'STRICT',ev:'device',what:'Device Admin makes casual uninstall harder; the service also blocks Settings screens that could switch the service off or uninstall (App info, uninstall dialog, accessibility page).',code:['receivers/AdminReceiver.kt','detector/SettingsBypassPolicy.kt','ui/UninstallProtectionPolicy.kt'],note:'The user can always revoke Device Admin in Android Settings; the app does not pretend otherwise. Settings guard is partly English-text based (audit #10, open).'},
+ {id:'partner',g:'Accountability',n:'Accountability partner (4 modes)',def:'Myself',w:'by action',ev:'partial',what:'Turning protection down opens a challenge. Modes: Myself (type a sentence, 95% accuracy), Friend (email to a partner: Approve/Deny link or 6-digit PIN), Time Delay (24 hours), AI Coach (Gemini judges your excuse). Unknown mode falls back to the 24-hour delay.',code:['ui/components/ChallengeModals.kt','data/PartnerModes.kt','data/AccountabilitySensitivity.kt'],note:'QA doc lists Friend approval/PIN/expiry, Time Delay, and AI limits as not hand-tested on a phone.'},
+ {id:'account',g:'Account',n:'Google sign-in + settings sync (optional)',def:'signed out',w:'—',ev:'device',what:'Credential Manager + Firebase Auth. Settings sync to Firestore users/{uid}. A cloud update on a device with a partner may only switch protections on or grow lists, never weaken them.',code:['data/AuthRepository.kt','data/FirestoreSyncRepository.kt','data/CloudApplyPolicy.kt','data/CloudReconcilePolicy.kt'],note:'Cost of the one-way rule: lowering a protection no longer follows to other devices.'},
+ {id:'delete',g:'Account',n:'Delete account (server-side)',def:'—',w:'STRICT',ev:'device',what:'deleteAccount Cloud Function removes every document of the account, then the Auth user; also switches Uninstall Protection off and releases device admin.',code:['data/AccountDeletionRepository.kt','backend/functions/index.js'],note:'Deployed 2026-10-12. Tested on a throwaway account per changelog.'},
+ {id:'setup',g:'Reliability',n:'Setup, permissions list, protection status',def:'—',w:'—',ev:'device',what:'Onboarding tasks (Accessibility, Battery, Autostart, Xiaomi pop-ups), a Permissions list in Settings, a Protection status card (LOADING / READY / DEGRADED / stopped), notifications and a reminder worker.',code:['ui/OnboardingScreen.kt','ui/PermissionsSection.kt','ui/ProtectionStatusCard.kt','setup/SetupPolicy.kt','services/ProtectionReminderWorker.kt'],note:'Autostart can only be acknowledged, never read back.'},
+ {id:'blockscreen',g:'Reliability',n:'Block screen + overlay fallback',def:'—',w:'—',ev:'device',what:'MainActivity shows the block screen; if it has not reported in within 1.2 s (Xiaomi blocks background pop-ups) the service draws it itself as an accessibility overlay.',code:['MainActivity.kt','services/BlockOverlay.kt','services/AppBlockerService.kt'],note:''},
+ {id:'custom',g:'Reliability',n:'Customize Blocked Screen (message, exit delay)',def:'—',w:'—',ev:'open',what:'Settings lets you edit a message, countdown and redirect URL and syncs them.',code:['ui/SettingsScreen.kt','data/ConfigManager.kt'],note:'Re-checked today: nothing outside Settings, ConfigManager, ViewModel and cloud sync reads these values; the block screen never shows them (QA finding F16).'},
+ {id:'appcheck',g:'Planned',n:'Official-app-only backend (App Check, client header)',def:'—',w:'—',ev:'spec',what:'Approved design (2026-10-14): Play Integrity App Check on Android, X-Blockerflow-Client header, server-side client policy, so a build from the public source cannot use the Firebase project.',code:['docs/superpowers/specs/2026-10-14-client-identity-app-check-design.md'],note:'No App Check code exists in android/ today (searched).'}
+];
+
+/* ---------- Problems and fixes ---------- */
+const P = (id,sev,st,area,title,date,symptom,cause,fix,proof,ref) => ({id,sev,st,area,title,date,symptom,cause,fix,proof,ref});
+const PROBLEMS = [
+ /* open or unverified first */
+ P('OPEN-1','High','open','Detection','No readable address bar means no URL enforcement (audit #9)','2026-08-10','Fullscreen video, hidden toolbars and in-app WebViews can hide the address text.','The service reads URLs by scraping the visible address bar. The original repro did not reproduce, but a different gap was found: unreadable browsers.','BrowserRegistry / BrowserClassifier manage which browsers are trusted; "Block unsupported browsers" blocks the rest. A VpnService host layer is the recommended second layer, not built.','Partly closed by design; structural limit remains.','SECURITY_AUDIT #9, ARCHITECTURE §2, §7'),
+ P('OPEN-2','High','open','Tamper','Settings-bypass check is English text and path specific (audit #10)','2026-08-10','Changing system language or using the accessibility shortcut could slip past the Settings guard.','Guard matches known screens and strings.','Partly widened in 1.0.21 (Xiaomi App info + uninstall dialog) and 1.0.18 (battery prompt class names).','Detection device-verified for new screens; the block itself not exercised with Uninstall Protection off.','SECURITY_AUDIT #10, CHANGELOGS 1.0.21'),
+ P('OPEN-3','Low','open','Logging','Broken log interpolation in KeywordParser (audit #16)','2026-08-09','Malformed-line warnings print "$(" instead of values.','`$(parts.size)` and `$((errorRate*100).toInt())` are not Kotlin interpolation.','Two-character fix per audit: use ${...}.','Re-checked today: still present at data/KeywordParser.kt lines 28 and 69.','SECURITY_AUDIT #16'),
+ P('OPEN-4','Medium','open','UX / Product','Customize Blocked Screen does nothing (QA F16)','2026-10-08','Message, exit delay and redirect URL can be saved, but the block screen never shows them.','No reader of blockedMessage / blockedCountdown / redirectUrl besides Settings, ConfigManager, ViewModel and sync.','Decision needed: wire the values into the block screen or remove the setting.','Re-checked today with a code search.','QA §35 F16'),
+ P('OPEN-5','Medium','open','Reliability','Xiaomi RAM cleaner can still stop the service (F17, F1)','2026-08-16','After "Clear all" or memory pressure, blocking can stop until the service rebinds (about a minute) or Autostart restarts it (about 20 s).','OS/OEM kill; no public API prevents it or the rebind delay.','Foreground service (special use), honest "Protection stopped" status, Autostart required on Xiaomi/Redmi/POCO, lock-in-Recents tip.','Device-reproduced and mitigated; rebind delay is not fixable in app code.','CHANGELOGS 2026-08-16, QA F1/F17'),
+ P('OPEN-6','Medium','open','Social','Snapchat block message hidden by Snapchat permission request','2026-10-13','Spotlight/Search are left, but Snapchat asks for a denied permission and returns over the block screen.','Same code path as 1.0.21 with pop-ups allowed; not compared on 1.0.21.','Not changed.','Reported in release testing of 1.0.22.','CHANGELOGS 1.0.22 "Known, not changed"'),
+ P('OPEN-7','Low','open','Accountability','Friend unlock keeps a stale failed-send error on reopen','2026-10-13','After a failed send ("Sign in to use Friend unlock") the dialog stays failed until a different action.','FriendChallengeSession.begin() only starts from Idle.','Fixed on Windows (cdaae1c4). Android deferred by owner.','Windows test Failed_ReopenSendsAgain exists; no Android change.','Memory note'),
+ P('OPEN-8','Medium','open','Platform','Cloud Functions Node 20 runtime ends 2026-10-30','2026-10-18','Deploys and then running functions stop working after the deadline.','backend/functions/package.json pins engines.node = 20.','Not started: runtime upgrade not yet requested.','12 days from this page\'s date.','backend-node20-deadline memory'),
+ P('OPEN-9','Medium','open','Detection','Some Instagram/Facebook markers were widened without screen captures','2026-10-12','May block screens it should not (Facebook Reels fired on app launch on the test phone).','Separate patch merged into 1.0.21; markers not captured from real screens.','Not changed; the Instagram Search narrowing below is a first step.','Changelog states it is unverified.','CHANGELOGS 1.0.21'),
+ P('WIP-1','Medium','wip','Social','Instagram: Followers/Following list search was blocked','2026-10-18','Opening a friend\'s Followers/Following list and tapping its search box showed "Content Blocked".','Detector matched any EditText whose id contained "search"; the lists use row_search_edit_text (captured on Instagram 451.0.0.53.80).','isExploreSearchBox(): exact Explore ids, or an EditText in the action bar whose id says search. Five new tests.','Unit tests pass in today\'s run (699). Uncommitted; phone re-check pending.','working tree diff'),
+P('WIP-2','Medium','wip','Social','Snapchat: Discover stories played while Block Snapchat videos was on (QA F18), version bump to 1.0.23','2026-10-18','Discover stories (including ads) still played; they share the full-screen viewer (opera_viewer) with friends\' Stories, so nothing inside the viewer tells them apart.','Compared across 7 captures on Snapchat 14.27.0.53: only what was tapped to open the viewer differs (Discover tiles use df_ ids, friends use friend_card_frame).','New SnapchatStoryTracker remembers the tap kind; the service now also listens to TYPE_VIEW_CLICKED (Snapchat only, only while the video block is on, view ids only, never text) and blocks a viewer opened from a Discover tile. versionCode 28 / versionName 1.0.23.','Uncommitted and written by another session in the same working tree; new unit tests exist (SnapchatStoryTrackerTest). Not seen on a phone by this page.','working tree diff'),
+ P('UNV-1','Medium','unver','Detection','Redirect / rapid navigation timing window (audit #13)','2026-08-09','Brief flash of unblocked content.','Flat 150 ms throttle after each event.','Throttle is now 30 ms on a real URL change.','Code changed, not verified on a phone.','SECURITY_AUDIT #13'),
+ P('UNV-2','Medium','unver','Sync','Possible settings reset from an older cloud copy (F15)','2026-10-08','A change just before the app is killed might be overwritten by cloud.','Race between local write and reconcile.','Fix in 1.0.4, unit-tested only.','Never reproduced.','QA F15'),
+ P('UNV-3','Medium','unver','Onboarding','Battery step gave no dialog on some phones; Google sign-in "no account" on slow phones; no Autostart step on Oppo/Vivo (F26–F28)','2026-10-09','Testers in closed testing hit these.','Settings guard allowed only one prompt class; Credential Manager raced Play services; Oppo/OnePlus screens need system permissions.','1.0.18 widened the guard, retried sign-in, added written tips.','Built and tested on Xiaomi; not verified on the affected makers.','QA F26–F28'),
+ P('UNV-4','Low','unver','Security','Date-change then reboot still defeats timers','2026-10-12','Time Delay / Focus end can be shifted by changing the clock and rebooting.','TrustedClock covers date changes while running only.','TrustedClock added in 1.0.21.','Unit-tested only.','CHANGELOGS 1.0.21'),
+ P('OPEN-10','Low','open','UX','Cosmetic and decision items: large-font wrapping (F19), + button overlap (F20), bold headings not rendering (F25), Xiaomi battery hint (F30), keyboard apps listable (F21), biometric permissions from a library (F22), portrait lock excludes ~26 device types (F9-b)','2026-10-09','See QA §35.','Various.','Open.','From QA doc; not re-checked today.','QA §35'),
+ P('OPEN-11','Info','open','Release','Vision false-positive fix not ported to Android Vision; AGPL exposure','2026-10-13','Separate test app (android_vision) is not part of this app.','NudeNet is AGPL-3.0.','Out of scope for this page.','Memory notes','vision-image-model-decision'),
+ /* fixed */
+ P('FIX-1','High','fixed','Xiaomi','Block screen and relaunch silently dropped on Xiaomi (looked like "Reels not blocked on low-RAM phones")','2026-10-13','Reels detected and left, but no block screen on a POCO X4 Pro 5G.','MIUI "Display pop-up windows while running in the background" (app op 10021) was off, so every startActivity from the service was denied.','BlockOverlay (TYPE_ACCESSIBILITY_OVERLAY) when MainActivity does not report in 1.2 s; Xiaomi setup step, banner and Settings row reading op 10021.','Device-verified with the op off and on; 1.0.22.','CHANGELOGS 1.0.22'),
+ P('FIX-2','Medium','fixed','Setup','Accessibility reported on when only Blockerflow Vision\'s service was','2026-10-13','App said protection active.','Fallback matched any entry containing the package and class name.','Compare exact components.','Device-verified.','CHANGELOGS 1.0.22'),
+ P('FIX-3','High','fixed','Detection','Web proxies, base64 targets and proxy mirrors on bare IPs','2026-10-12','Adult content reachable through proxies.','No proxy category.','Web-proxy category + EmbeddedTargets + Steganos path rule.','4 hosts device-verified; unit tests.','CHANGELOGS 1.0.21'),
+ P('FIX-4','High','fixed','Tamper','Cloud sync could weaken a device that has a partner','2026-10-12','A cloud update could switch protections off.','Sync applied remote values blindly.','CloudApplyPolicy: only on / grow / shrink-allowlist, never replace partner.','Unit-tested.','CHANGELOGS 1.0.21'),
+ P('FIX-5','Medium','fixed','Tamper','Device-admin prompt exemption was a flag that could stay set','2026-10-12','Settings guard exemption could outlive the prompt.','Boolean flag.','90-second timestamp that ends when admin becomes active.','Unit-tested.','CHANGELOGS 1.0.21'),
+ P('FIX-6','Medium','fixed','Tamper','Block screen could show text not from the service','2026-10-12','Another app could launch MainActivity with arbitrary block text.','Extras trusted.','BLOCK_TOKEN: only text from Blockerflow\'s own service.','Device-verified.','CHANGELOGS 1.0.21'),
+ P('FIX-7','Medium','fixed','Account','Delete Account needed a Google re-prompt and left server documents','2026-10-12','Challenge takes longer than Firebase\'s recent-login window; challenge/link/usage docs stayed.','Client cannot reach those collections.','deleteAccount Cloud Function (Admin SDK), documents first, user last.','Device-verified end to end.','CHANGELOGS 1.0.21'),
+ P('FIX-8','Medium','fixed','Setup','Uninstall Protection switch stayed off when already a device admin','2026-10-12','Tapping opened an empty prompt.','Always launched the add-admin intent.','Switch follows real admin state.','Device-verified.','CHANGELOGS 1.0.21'),
+ P('FIX-9','High','fixed','Reliability','OutOfMemoryError loading the 23.7 MB adult list killed all blocking; then a ~41 MB leak per service restart; then a 2.5× read spike','2026-08-11','Four crashes on the Xiaomi in one session; nothing in the UI said so.','readBytes + Kotlin collections; blocklist owned by the service.','Streaming loader, process-owned BlocklistManagerHolder, domains.len sidecar for exact-size read, largeHeap as containment only.','Device-verified (audit #19, #19b, #19c).','SECURITY_AUDIT #19'),
+ P('FIX-10','Critical','fixed','Accountability','Whitelist Add bypassed the adult blocker with no challenge; BlocklistScreen used an isolated ViewModel so the gate silently never rendered (audit #24–#26)','2026-08-14','Any domain could be whitelisted forever.','Whitelist has top precedence and had no gate; screen got its own default ViewModel.','Gate at MODERATE; shared ViewModel passed explicitly.','Device-verified end to end.','SECURITY_AUDIT #24–#26'),
+ P('FIX-11','High','fixed','Accountability','"Block unsupported browsers" switchable off with one tap (audit #25); Danger Zone actions inert (audit #20)','2026-08-14','Unpoliced browsers; Reset/Uninstall did nothing.','No gate; dialog host only in Blocking tab.','STRICT gate; dialog host moved to AppNavigation.','Device-verified.','SECURITY_AUDIT #20, #25'),
+ P('FIX-12','High','fixed','Accountability','AI Coach could be talked past STRICT protections with a sob story; same excuse got different answers (audit #23)','2026-08-11','First adversarial excuse worked.','Model trusted alone.','Deterministic forbidden-justification pre-check (server), STRICT never trusts AI alone, 5 s / 2 s rejection delay.','Backend unit tests.','SECURITY_AUDIT #23'),
+ P('FIX-13','Critical','fixed','Security','Live SMTP credential committed in source (audit #2); search-query canceler bypass (audit #1)','2026-08-09','Credential exposure; "porn education" scored 0.','Hardcoded secret; cancelers summed unconditionally.','Credential rotated and removed; email moved server-side (now SES); binary canceler gate.','Fixed and verified against production assets.','SECURITY_AUDIT #1, #2'),
+ P('FIX-14','High','fixed','Detection','Encoding evasions: double percent-encoding, p.o.r.n, fragments, full-width letters, malformed hosts, IPv6 and decimal IPs (audit #3–#6, #11, #12, #18)','2026-08-09','Easy keyword bypasses.','Single-pass decoding, no fragment scan, no NFKC.','TextNormalizer, fragment scan, HostnameNormalizer sealed result, IpAddressUtil.','Unit-tested against real assets.','SECURITY_AUDIT'),
+ P('FIX-15','High','fixed','Browser','Blocked page re-blocked on every Chrome launch (infinite loop); stale MainActivity resurfacing an old block screen','2026-08-11','Browser unusable after one block.','Page never left; standard launchMode.','leaveBlockedPage() to about:blank, closeCurrentTab(); singleTask + onNewIntent.','Device-verified.','SECURITY_AUDIT #21, #22'),
+ P('FIX-16','High','fixed','Reliability','Xiaomi stopped blocking after the app was killed; foreground service added','2026-08-16','Blocking inactive for about a minute after Recents clear.','MIUI RAM cleaner.','startForeground() special-use, Autostart reset on accessibility loss, Recents-lock tip.','Device-reproduced; rebind delay not fixable.','CHANGELOGS 2026-08-16'),
+ P('FIX-17','Medium','fixed','Focus','Focus Mode auto-stop did not fire (WorkManager dropped)','2026-08-14','15-min and 2-min sessions still "Active" later.','setInitialDelay is a minimum, job silently dropped.','Service polls the wall-clock deadline every 10 s; Worker is best-effort.','Device-verified: stopped after 114 s of 120 s.','ARCHITECTURE §5a'),
+ P('FIX-18','High','fixed','Sync','Second device could overwrite real cloud settings with defaults','2026-08-13','Data-loss risk during reconciliation.','One fallible read decided overwrite vs pull.','Source.SERVER read with up to 3 attempts.','Found and fixed during implementation.','ARCHITECTURE §6'),
+ P('FIX-19','Medium','fixed','Social','WhatsApp Channels switch blocked WhatsApp Status; Instagram Lite Messages showed Content Blocked','2026-10-09','Wrong screens blocked.','Over-wide matching ("Search" text).','Narrower markers.','Confirmed on the Xiaomi (1.0.19).','CHANGELOGS, QA F29'),
+ P('FIX-20','Critical','fixed','Process','Uncommitted work lost to git reset --hard + clean (2026-08-15)','2026-08-15','Several subsystems wiped.','No commits since 2026-08-11.','Files rebuilt from scratch; two docs remain lost.','Documented in ARCHITECTURE §7.','ARCHITECTURE §7'),
+ P('FIX-21','Medium','fixed','Release','Release build crashed at startup under R8 (WorkManager DB class stripped); Play flagged low DEX optimisation (F5)','2026-10-08','Crash on first R8 build.','Missing keep rule.','Keep rule added; R8 on since 1.0.18.','Emulator and Xiaomi.','QA F5, §36')
+];
+
+/* ---------- Screens (App flow + UI) ---------- */
+const SCREENS = {
+ onboarding:{n:'Onboarding / Setup',f:'ui/OnboardingScreen.kt',s:'Shown first, and again whenever setup is incomplete (re-evaluated on every resume).',
+   el:['Title + "Blocking is inactive right now." banner','Numbered task cards: 1 Enable Accessibility Service (Required), 2 Remove Battery Restrictions, 3 Enable Autostart (Xiaomi/Redmi/POCO required), 4 Allow Pop-ups in Background (Xiaomi)','Info tip: lock the app in Recents','Accessibility disclosure dialog before the Settings jump'],
+   act:['Tap a task → opens the OS screen; state is read back on resume','Autostart is "acknowledged" only (cannot be read back)','Continue becomes available when SetupPolicy.isBlocking is false']},
+ main:{n:'Home (Blocking)',f:'ui/MainScreen.kt',s:'Start destination of the bottom navigation.',
+   el:['Wordmark + tagline "Stay focused and achieve more."','Account card: Sign in with Google / signed-in state / Edit partner','Protection status card (LOADING, READY, DEGRADED, stopped)','Accessibility Required banner with Accessibility Settings / App Info','Switch rows: adult content, piracy, image & video search, Facebook/Instagram reels, Instagram search, YouTube Shorts, WhatsApp channels, Snapchat videos/search, X videos','Advanced: Supported browsers strip, Blocked browsers strip, Block unsupported browsers, Block newly installed apps','Uninstall Protection','Protect Focus Mode','Play-button shortcut to Focus'],
+   act:['Turning a switch ON: immediate','Turning a switch OFF: requestAccountabilityChallenge(action) → challenge dialog','Edit partner → PartnerOptionsBottomSheet (Myself / Friend / Time Delay / AI)']},
+ blocklist:{n:'Blocklist',f:'ui/BlocklistScreen.kt',s:'Second bottom tab.',
+   el:['Segmented control: Websites | Apps (count)','Add field "e.g. reddit.com" + Add','Search installed apps…','Whitelist section (websites only; "Whitelist for apps is not supported on Android.")','Empty state "No apps blocked yet. Tap + to add."'],
+   act:['Add to blocklist/blocked apps: immediate','Add to whitelist: gated (MODERATE)','Remove from blocklist / unblock app: gated']},
+ focus:{n:'Focus Mode',f:'ui/FocusModeScreen.kt',s:'Third bottom tab.',
+   el:['Title + "Block distractions for a dedicated session."','Live countdown "hh:mm:ss left" or elapsed','Protected notice when Protect Focus Mode is on','Lists: Blocked by default while active / Also block during Focus / Allow during Focus','Start Focus Session dialog: Session name (presets + Other), Duration (presets + Custom minutes), Start / Cancel'],
+   act:['Start → ConfigManager writes start/end/name','Stop → gated if Protect Focus Mode is on','Auto-stop by AppBlockerService poll (10 s)']},
+ settings:{n:'Settings',f:'ui/SettingsScreen.kt',s:'Fourth bottom tab.',
+   el:['General: Uninstall Protection, Customize Blocked Screen (not wired, F16), theme','Permissions list: Accessibility, Battery, Autostart, Pop-ups in background, Device Admin','Account: Sign In / Sign Out','Danger Zone: Factory Reset, Uninstall App, Delete Account (each gated, STRICT)'],
+   act:['Delete Account → server function → "Account not deleted" error dialog on failure','Sign Out lives only here, by design (deliberate friction)']},
+ block:{n:'Block screen',f:'MainActivity.kt (BlockingScreen) · services/BlockOverlay.kt',s:'Raised by the service when something is blocked.',
+   el:['Title (for example "App Blocked", "Content Blocked")','Message from the service (validated by BLOCK_TOKEN)','Go Home button','Open Blockerflow Settings button'],
+   act:['Go Home → home intent + finish()','Open Settings → clears block state in the same instance (singleTask)','If MainActivity does not report in 1.2 s → service draws the same screen as an overlay']},
+ challenge:{n:'Challenge dialogs',f:'ui/components/ChallengeModals.kt',s:'Hosted once in AppNavigation so every screen is covered.',
+   el:['Weight badge (Lenient / Moderate / Strict)','Typing challenge: type the sentence, live accuracy %, passes at 95%','Time Delay: start 24 h timer, countdown hh:mm:ss, unlock when it ends','Friend: partner email, "waiting for approval", PIN entry fallback','AI Coach: type your reason, verdict + reason; if AI cannot answer, offer 24 h delay'],
+   act:['Success → onAccountabilitySuccess() runs the pending action','Dismiss → onAccountabilityDismiss()']}
+};
+
+/* ---------- Phases (App flow) ---------- */
+const PHASES = [
+ {id:'install',n:'1 · Install & first run',steps:[
+  ['User','Installs from Google Play and opens the app.','MainActivity.onCreate'],
+  ['App','Starts without an account; all features work offline. Loads theme, schedules ProtectionReminderWorker.','MainActivity.kt, ConfigManager'],
+  ['App','Shows the Accessibility prominent disclosure (what it reads, where it stays, what is optional) before sending the user to Settings.','ui/AccessibilityDisclosureDialog.kt'],
+  ['User','Accepts the disclosure. Accepted flag is stored.','ConfigManager.ACCESSIBILITY_DISCLOSURE_ACCEPTED']]},
+ {id:'setup',n:'2 · Setup',steps:[
+  ['App','Onboarding lists tasks. Accessibility is a hard requirement.','OnboardingScreen, SetupPolicy'],
+  ['User','Enables Blockerflow in Accessibility settings. If the accessibility page cannot be found a guide dialog helps.','AccessibilityFindGuideDialog'],
+  ['User','Removes battery restrictions (system dialog; REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).','SetupPolicy.BATTERY'],
+  ['User','On Xiaomi/Redmi/POCO: opens the Autostart screen (required) and allows background pop-ups (recommended).','AutostartScreens, BackgroundPopupPermission'],
+  ['App','Setup state is re-read on every resume; if accessibility is later lost the app asks again and clears the stale Autostart acknowledgement.','MainActivity.kt, SetupPolicy.autostartAcknowledgementIsStale'],
+  ['App','Onboarding completed → bottom navigation (Blocking, Blocklist, Focus, Settings).','AppNavigation']]},
+ {id:'protect',n:'3 · Daily protection',steps:[
+  ['OS','Every window change and content change reaches AppBlockerService as an AccessibilityEvent.','AppBlockerService.onAccessibilityEvent'],
+  ['Service','Extracts primitives into a SafeEvent immediately (events are recycled by Android) and drops them into a 1-slot buffer.','POLICY_RULES #1'],
+  ['Service','processEventSafely: ignore Blockerflow itself → app blocklist check first (before any window-tree work) → browser branch or native-app branch.','AppBlockerService.processEventSafely'],
+  ['Service','Browser: classify browser (supported / unverified / unsupported); read address bar; normalize host; ask BlocklistManager, classifier, search detector, category lists; hand signals to PolicyEngine.','UrlExtractor, BrowserClassifier'],
+  ['Service','Native app: traverse the accessibility tree for known markers (Reels viewer, Shorts, Explore search, Channels, Spotlight).','NativeContentDetector'],
+  ['Service','PolicyEngine returns a decision: ALLOW, BLOCK_ADULT, BLOCK_FOCUS_MODE, BLOCK_MANUAL, BLOCK_FEATURE, BLOCK_IMAGE_VIDEO_SEARCH, BLOCK_CATEGORY.','PolicyEngine.evaluateUrlPolicy'],
+  ['Service','Publishes ProtectionState (LOADING/READY/DEGRADED) so the UI never claims protection it does not have.','ProtectionStatus.kt']]},
+ {id:'block',n:'4 · A block happens',steps:[
+  ['Service','Leaves the offending page: browser goes to about:blank (or the tab is closed); native apps get Back/Home as needed.','leaveBlockedPage(), closeCurrentTab()'],
+  ['Service','Issues a one-time BLOCK_TOKEN and starts MainActivity with title/message.','showBlockingScreen()'],
+  ['App','MainActivity reports the token from onResume → block screen shows.','MainActivity.kt'],
+  ['Service','If no report within 1.2 s (for example Xiaomi denied the pop-up) → draws BlockOverlay itself and retries the real screen.','BlockOverlay.kt'],
+  ['User','Taps Go Home, or Open Blockerflow Settings.','BlockingScreen']]},
+ {id:'weaken',n:'5 · User tries to weaken protection',steps:[
+  ['User','Turns off a switch, adds to whitelist, removes from blocklist, stops a protected focus session, resets, uninstalls or deletes the account.','MainScreen / BlocklistScreen / SettingsScreen'],
+  ['App','requestAccountabilityChallenge(actionName){action}: looks up the weight (Lenient / Moderate / Strict) and the stored partner mode.','MainViewModel.requestAccountabilityChallenge'],
+  ['App','Shows the dialog for the mode: Myself, Friend, Time Delay, or AI Coach.','ChallengeModals.kt'],
+  ['Server','Friend: emails the partner via Amazon SES with an Approve / Deny link and a 6-digit PIN fallback; only a salted hash of the PIN is stored.','sendAccountabilityPinEmail'],
+  ['Partner','Opens the link, taps Approve or Deny on a confirmation page (a GET never decides).','friendApproval'],
+  ['App','Listens to friendChallengeStatus/{uid} and unlocks within about a second; or the user types the PIN → verifyFriendChallenge.','FriendChallengeRepository'],
+  ['Server','AI: verifies sign-in, known action name, forbidden-justification pre-check, daily limits, then Gemini.','evaluateExcusePro'],
+  ['App','Success → pending action runs. Dismiss → nothing changes.','onAccountabilitySuccess']]},
+ {id:'focus',n:'6 · Focus session',steps:[
+  ['User','Taps the Focus play button, names the session and picks a duration.','FocusModeScreen'],
+  ['App','Writes IS_FOCUS_MODE_ACTIVE, start time, end time and name; posts "<Name> Session Active".','FocusModeNotifier'],
+  ['Service','While active: blocks manual list + built-in social apps + extra list − allowlist. Polls the deadline every 10 s.','AppBlockerService'],
+  ['Service','On deadline: stops the session; notification becomes "<Name> Session Finished" in place.','FocusModeAutoStopWorker (best effort only)'],
+  ['User','Stopping early is gated when Protect Focus Mode is on.','FocusModePolicy']]},
+ {id:'cloud',n:'7 · Account & sync',steps:[
+  ['User','Signs in with Google (optional).','AuthRepository, Credential Manager'],
+  ['App','Reconciles: first sign-in pushes local settings; returning sign-in pulls cloud settings (bounded retry on the existence check).','MainViewModel.reconcileSettingsWithCloud'],
+  ['App','Pushes only allowlisted keys; device-local state never leaves the phone.','FirestoreSyncRepository.isSyncable'],
+  ['App','Remote updates pass CloudApplyPolicy: protections may switch on, lists grow, never the reverse; partner never replaced.','CloudApplyPolicy'],
+  ['User','Delete Account → STRICT challenge → deleteAccount function → local reset.','AccountDeletionRepository']]},
+ {id:'recover',n:'8 · Self-heal & recovery',steps:[
+  ['OS','Kills the process or revokes accessibility (Xiaomi RAM cleaner, force-stop, update).','—'],
+  ['App','Next launch: setup re-evaluated; stale Autostart acknowledgement cleared; ProtectionStatusCard says "Protection stopped".','SetupPolicy, ProtectionStatusPolicy'],
+  ['App','ProtectionNotifier / ProtectionReminderWorker re-notify if accessibility stays off.','ProtectionNotifier'],
+  ['Service','New package install receiver auto-blocks newly installed apps when enabled.','registerPackageInstallReceiver']]}
+];
+
+/* ---------- Architecture nodes (TRD) ---------- */
+const ARCH = [
+ {id:'svc',t:'AppBlockerService',s:'AccessibilityService · foreground (special use)',d:'Entry point of all enforcement. Builds an AppConfigSnapshot StateFlow from DataStore so events never read disk. 1-slot DROP_OLDEST event queue. Owns block screen launch, overlay fallback, tab closing, focus auto-stop poll, package-install receiver, ProtectionState publishing. Runs in the app process (no separate process), so an OOM here kills blocking: this drove the streaming loader.',f:'services/AppBlockerService.kt'},
+ {id:'det',t:'Detection layer',s:'BlocklistManager · classifiers · detectors',d:'BlocklistManager: streaming load of the domain asset, binary search over a byte array, Aho-Corasick keyword engine, tiered scoring (STRONG / ADULT / CONTEXT). AdultHostnameClassifier: 257 derived brands. AdultSearchQueryDetector: cumulative score with a binary canceler gate. CategoryBlocklistManager: piracy and web-proxy. NativeContentDetector and per-app detectors read the accessibility tree.',f:'data/BlocklistManager.kt · detector/*'},
+ {id:'pol',t:'PolicyEngine',s:'Pure function, no I/O',d:'Fixed precedence chain: search-query adult → allowlist (ALLOW) → adult domain/brand/keywords/raw IP → category lists → manual blocklist / focus list → feature blocks → ALLOW. Financial and recovery hosts are protected from query keyword scoring. Unit-tested without Android.',f:'services/PolicyEngine.kt'},
+ {id:'act',t:'Enforcement',s:'Block screen · overlay · tab close · Back/Home',d:'leaveBlockedPage() navigates the browser to about:blank, closeCurrentTab() uses Chrome\'s tab menu; BLOCK_TOKEN authenticates the block text; BlockOverlay draws the screen when the Activity cannot start.',f:'services/AppBlockerService.kt · BlockOverlay.kt · BlockedPageExit.kt'},
+ {id:'store',t:'ConfigManager (DataStore)',s:'Preferences DataStore · single source of truth',d:'All settings as typed preference keys (below). UI and service share the same store; the service snapshots it into a StateFlow.',f:'data/ConfigManager.kt'},
+ {id:'ui',t:'UI + MainViewModel',s:'Jetpack Compose · Navigation Compose · single Activity',d:'MainActivity hosts either the block screen or onboarding or the bottom-nav app. One shared MainViewModel drives all four screens and the accountability dialog. Launch mode singleTask.',f:'MainActivity.kt · MainViewModel.kt · ui/*'},
+ {id:'acc',t:'Accountability layer',s:'Weights · challenges · policies',d:'AccountabilitySensitivity maps ~22 action names to LENIENT / MODERATE / STRICT. ChallengeModals implements typing, time delay, friend and AI dialogs. Policy objects (TimeDelayPolicy, FriendApprovalPolicy, PartnerChangePolicy, DangerZonePolicy…) keep the rules unit-testable.',f:'data/AccountabilitySensitivity.kt · ui/components/ChallengeModals.kt'},
+ {id:'cloud',t:'Cloud layer (optional)',s:'Firebase Auth · Firestore · Cloud Functions over Retrofit/OkHttp',d:'AuthRepository (Credential Manager), FirestoreSyncRepository (users/{uid}), GeminiCoachRepository, FriendChallengeRepository, AccountDeletionRepository call functions with a fresh Firebase ID token.',f:'data/*Repository.kt'}
+];
+
+/* ---------- Stored settings ---------- */
+const SETTINGS_KEYS = [
+ ['Protection switches','block_adult_content (ON), block_unsupported_browsers (ON), uninstall_protection (ON); OFF by default: block_image_video_search, block_fb_reels, block_insta_reels, block_insta_search, block_youtube_shorts, block_whatsapp_channels, block_snap_videos, block_snap_search, block_x_videos, block_known_piracy_sites, block_newly_installed_apps, protect_focus_mode','synced'],
+ ['Lists','blocklist, whitelist, blocked_apps, auto_blocked_new_apps, focus_mode_extra_blocklist, focus_mode_allowlist','synced (lists only grow from cloud)'],
+ ['Partner','partner_mode_string (myself | friend | timedelay | ai), partner_email, time_delay_end_time_<action>','partner synced; timers local'],
+ ['Focus (live)','is_focus_mode_active, focus_mode_start_time, focus_mode_end_time, focus_mode_session_name, focus_mode_duration_minutes','device-local, never synced'],
+ ['Block screen','blocked_message, blocked_countdown, redirect_url (saved and synced, not displayed: F16)','synced'],
+ ['Setup & state','onboarding_completed, autostart_acknowledged, accessibility_disclosure_accepted, protection_baseline_time, auto_start, app_theme (auto | light | dark)','device-local'],
+ ['Sync bookkeeping','cloud_settings_synced_uid, last_synced_settings_fingerprint','device-local']
+];
+
+const TRD_STACK = [
+ ['Language / UI','Kotlin, Jetpack Compose, Material 3, material-icons-extended, Outfit variable font (weights 400/500/600 only)'],
+ ['Navigation','Navigation Compose 2.7.7 (also navigation3 artifacts on the classpath)'],
+ ['State','ViewModel + StateFlow; Preferences DataStore 1.1.1'],
+ ['Network','Retrofit 2.11, OkHttp 4.12, kotlinx-serialization 1.6.3'],
+ ['Firebase','BoM-managed Auth + Firestore; androidx.credentials + googleid (Google sign-in)'],
+ ['Background','WorkManager 2.10 (ProtectionReminderWorker, FocusModeAutoStopWorker)'],
+ ['Build','minSdk 24, targetSdk 36, R8 enabled in release, largeHeap, portrait only, allowBackup=false'],
+ ['Assets','shared/blocklists copied by the copyBlocklists task on preBuild (pornography domains.txt, keywords.txt, adult_hostname_keywords.txt; piracy and web-proxy categories)'],
+ ['Tests','JUnit 4, kotlinx-coroutines-test, Mockito 5.12, MockWebServer 4.12; Android instrumented tests for device behaviour']
+];
+
+const PERMS = [
+ ['BIND_ACCESSIBILITY_SERVICE (on the service)','The detection mechanism.'],
+ ['FOREGROUND_SERVICE + FOREGROUND_SERVICE_SPECIAL_USE','Keeps the process alive under MIUI memory pressure.'],
+ ['POST_NOTIFICATIONS','Protection-off reminder, focus session status.'],
+ ['REQUEST_DELETE_PACKAGES','Danger Zone "Uninstall App" (crashed without it on targetSdk 36).'],
+ ['REQUEST_IGNORE_BATTERY_OPTIMIZATIONS','"Remove Battery Restrictions" dialog.'],
+ ['QUERY_ALL_PACKAGES + <queries>','Installed-app picker; browser detection has its own <queries> intent so it does not lean on the Play-restricted permission.'],
+ ['INTERNET','Firebase and Cloud Functions only.'],
+ ['BIND_DEVICE_ADMIN (on the receiver)','Uninstall Protection.']
+];
+
+/* ---------- Backend ---------- */
+const COLLECTIONS = [
+ ['users/{uid}','Owner read; create (no entitlements field); update (entitlements must not change); delete','Profile + synced settings. entitlements (for example aiCoach) is written only by server/console.'],
+ ['aiCoachProUsage/{uid}','No client access','Per-user daily AI counter {date, count}.'],
+ ['aiCoachGlobalUsage/{day}_{shard}','No client access','Project-wide daily AI counter, 10 shards summed (cap 3,000/day).'],
+ ['accountabilityEmailUsage/{uid}','No client access','Daily email counter (cap 20/day).'],
+ ['friendChallenges/{uid}','No client access','Salted PIN hash, expiry, attempt count, challengeId, actionName, linkTokenHash. Never plaintext.'],
+ ['friendChallengeStatus/{uid}','Owner read only','{challengeId, actionName, status: pending|approved|denied, expiresAt, decidedAt}. The app listens to this.'],
+ ['approvalLinks/{sha256(token)}','No client access','Maps a hashed one-time link token to its challenge.']
+];
+const FUNCS = [
+ ['evaluateExcusePro','POST · Bearer ID token · secret GEMINI_API_KEY · minInstances 1','AI Coach. Validate token → known actionName → forbidden-justification pre-check (free) → global cap → per-user cap (10, or 50 with entitlements.aiCoach) → Gemini (gemini-flash-latest) → parse JSON decision. Rejections are delayed 5 s (STRICT) / 2 s (MODERATE). Errors: 401, 400, 429 user_limit, 503 global_limit, 502.'],
+ ['sendAccountabilityPinEmail','POST · Bearer · secrets SMTP_EMAIL, SES_SMTP_USER, SES_SMTP_PASSWORD','Starts a Friend challenge: validates address and action, daily cap 20, generates a 6-digit PIN and link token itself, stores hashes, writes the status doc, sends a fixed-template email via Amazon SES SMTP (eu-central-1) with Approve / Deny buttons.'],
+ ['verifyFriendChallenge','POST · Bearer','Compares a typed PIN against the stored hash in a transaction. 24 h expiry, 5 attempts per challenge, single use (doc deleted on success). Reasons: no_active_challenge, expired, too_many_attempts, incorrect.'],
+ ['friendApproval','Browser · no Firebase auth · signed one-time link','GET shows a confirmation form (prefetch by mail scanners changes nothing); only a POST from the button approves or denies, then updates friendChallengeStatus.'],
+ ['deleteAccount','POST · Bearer','Deletes the caller\'s documents (including challenge, link, usage), then the Auth user. A repeated call after the user is gone succeeds.']
+];
+const SECRETS = [
+ ['GEMINI_API_KEY','Firebase Secret Manager','Server only (evaluateExcusePro).'],
+ ['SMTP_EMAIL','Secret Manager','"From" address, a verified SES identity (domain khaleel.eu and the address).'],
+ ['SES_SMTP_USER / SES_SMTP_PASSWORD','Secret Manager','IAM-scoped to ses:SendEmail / SendRawEmail; replaced Gmail SMTP on 2026-09-06 (Gmail capped near 500/day; SES production access allows 50,000 per 24 h at 14/s).'],
+ ['Firebase web API key + project config','android/app/google-services.json (gitignored)','Normal for Firebase, must be restricted in Google Cloud (QA-SEC-006 not verified).'],
+ ['GOOGLE_WEB_CLIENT_ID','android/local.properties (gitignored)','Needed for Google sign-in.'],
+ ['User API keys','—','None. The old NVIDIA bring-your-own-key was removed; ai_api_key is cleared on startup and never synced.']
+];
+
+/* ---------- Test descriptions (hand written for the important classes) ---------- */
+const TEST_NOTES = {
+ PolicyEngineTest:'Decision precedence: allowlist, adult domain, keywords, manual list, features.',
+ PolicyPropagationIntegrationTest:'A detector result must actually reach the final decision (the "wired but dead" failure).',
+ UrlExtractorTest:'Reading the address bar across browsers and layouts.',
+ NativeContentDetectorTest:'Reels, Shorts, Explore search and Lite apps from mocked accessibility trees; includes the in-progress Instagram friends-list case.',
+ TextNormalizerTest:'Percent-decoding, NFKC, letter-splitting collapse.',
+ UrlEvasionDetectionTest:'Encoding and punctuation bypasses stay closed.',
+ SearchQueryCancelerHardeningTest:'"porn education" style cancelation bypass stays closed.',
+ AdultSearchQueryDetectorTest:'Search query scoring and health/education protection.',
+ SettingsBypassPolicyTest:'Which Settings screens are guarded and which prompts are exempt.',
+ SetupPolicyTest:'When setup interrupts the user (accessibility, battery, Autostart, pop-ups).',
+ ProtectionStatusPolicyTest:'Never claim "protected" when degraded or stopped.',
+ BrowserRegistryTest:'Which browsers are supported / blocked and their icons.',
+ BrowserClassifierTest:'Browser vs not-browser classification.',
+ WhatsappChannelDetectorTest:'Channels blocked, Status allowed.',
+ SnapchatContentDetectorTest:'Spotlight / Search markers.',
+ FalsePositiveGatesTest:'Real lists must not block ordinary sites (2 skipped by design when assets are absent).',
+ DifferentialCorrectnessTest:'Production lookup agrees with a naive reference across all 1.13M entries.',
+ MemoryBenchmarkTest:'Memory ceiling of the loader.',
+ DomainLoaderStreamingTest:'Streaming loader behaves with large and malformed input.',
+ AiCoachOutcomePolicyTest:'What the dialog does for approve / reject / cannot-answer.',
+ GeminiCoachRepositoryTest:'Client side of evaluateExcusePro, via MockWebServer.',
+ FriendApprovalPolicyTest:'Approve / deny / expiry handling in the dialog.',
+ CloudApplyPolicyTest:'Cloud may switch protections on, never off.',
+ CloudReconcilePolicyTest:'First sign-in pushes, returning sign-in pulls.',
+ AccountabilitySensitivityTest:'Weights per action.',
+ TypingAccuracyTest:'95% typing rule.',
+ LogHygieneTest:'Release code must not log sensitive data.',
+ ThemeContrastTest:'WCAG contrast of theme colors.',
+ ReleaseConfigTest:'Release build settings stay safe.'
+};
+const GAPS = ['Reboot behaviour (QA §33)','Offline suite (§22)','Friend approval, PIN and expiry on a phone (§13)','Time Delay (§12)','AI Coach limits and offline (§16)','Delete Account end to end on a throwaway account (§19)','Two-device cloud sync (§18)','Upgrade from the Play version','TalkBack (§24)','Android 7–15, tablets and other makers','Battery drain'];
+
+/* ===================================================================================
+   Code map descriptions (hand written; sizes come from LIVE.files)
+   =================================================================================== */
+const CODE = {
+ 'MainActivity.kt':['Single Activity. Chooses between the block screen, onboarding and the bottom-nav app; hosts the shared challenge dialog; handles onNewIntent for new block text; re-reads setup on resume.','BlockerflowTheme, NavHost("blocked"), AppNavigation, BlockingScreen()','Start here for UI'],
+ 'MainViewModel.kt':['The one ViewModel for all screens. Setters for every setting, sign-in/out/delete, cloud reconcile, AI and Friend calls, focus start/stop, and requestAccountabilityChallenge().','requestAccountabilityChallenge, reconcileSettingsWithCloud, evaluateAiCoach, sendFriendPin, verifyFriendPin, startFocusMode','Read second'],
+ 'services/AppBlockerService.kt':['The enforcement engine (AccessibilityService).','onServiceConnected, onAccessibilityEvent, processEventSafely, leaveBlockedPage, closeCurrentTab, showBlockingScreen, registerPackageInstallReceiver, publishProtectionState','The heart of the app'],
+ 'services/PolicyEngine.kt':['Pure decision function from signals to PolicyDecision.','evaluateUrlPolicy, PolicyDecision, SEARCH_ENGINE_HOSTS','Read with PolicyEngineTest'],
+ 'services/BlockOverlay.kt':['Draws the block screen as an accessibility overlay when the Activity cannot start.','show/hide on TYPE_ACCESSIBILITY_OVERLAY',''],
+ 'services/FocusModeNotifier.kt':['Ongoing "Session Active" and in-place "Session Finished" notification.','',''],
+ 'services/FocusModeAutoStopWorker.kt':['Best-effort WorkManager assist for auto-stop; the service poll is the real mechanism.','',''],
+ 'services/ProtectionNotifier.kt':['Notification when accessibility is off.','',''],
+ 'services/ProtectionReminderWorker.kt':['Periodic re-notification if protection stays off.','schedule() called from MainActivity.onCreate',''],
+ 'services/ActiveWindowPolicy.kt':['Decides whether an event belongs to the currently active window (fixes block screen returning after Exit to Home).','',''],
+ 'services/KeyboardWindowPolicy.kt':['Ignore a blocked keyboard app when it is only the keyboard.','',''],
+ 'services/BlockedPageExit.kt':['Neutral page used to leave a blocked page (about:blank).','NEUTRAL_PAGE_URL',''],
+ 'data/ConfigManager.kt':['All persisted settings (DataStore keys and flows).','booleanPreferencesKey… , flows, clearAll()','Key table in TRD'],
+ 'data/BlocklistManager.kt':['Loads and queries the adult blocklist: streaming loader, binary search, Aho-Corasick keywords, ProtectionState.','load, check, matchedSourceMask, MatchLocation','Biggest data file'],
+ 'data/BlocklistManagerHolder.kt':['Process-owned singleton so a service restart does not leak a new copy of the list.','get(context)',''],
+ 'data/CategoryBlocklistManager.kt':['Piracy and web-proxy lists with allowlists.','',''],
+ 'data/AdultHostnameClassifier.kt':['257-brand classifier for numbered/TLD variants.','',''],
+ 'data/AdultSearchQueryDetector.kt':['Search-query scoring with the binary canceler gate.','',''],
+ 'data/TextNormalizer.kt':['Repeated percent-decoding, NFKC, letter-splitting collapse.','decodeRepeatedly, foldUnicode','Every consumer routes through it'],
+ 'data/HostnameNormalizer.kt':['Canonical host (punycode, ports, userinfo) with a sealed result.','',''],
+ 'data/IpAddressUtil.kt':['Literal IPv4/IPv6/decimal IP parsing; never does DNS.','',''],
+ 'data/EmbeddedTargets.kt':['Judge base64 targets by where they point.','',''],
+ 'data/KeywordParser.kt':['Parses keyword assets (audit #16 log bug lives here).','',''],
+ 'data/KeywordTiers.kt':['STRONG / ADULT / CONTEXT tiers and weights.','',''],
+ 'data/AccountabilitySensitivity.kt':['Action names and their weights.','weightFor, STRICT_ACTIONS, LENIENT_ACTIONS',''],
+ 'data/PartnerModes.kt':['myself | friend | timedelay | ai; unknown → timedelay.','challengeFor',''],
+ 'data/TrustedClock.kt':['Clock that ignores date changes for timers.','now()',''],
+ 'data/AuthRepository.kt':['Google sign-in through Credential Manager + Firebase Auth. Never throws.','',''],
+ 'data/FirestoreSyncRepository.kt':['users/{uid} document and the isSyncable allowlist.','isSyncable',''],
+ 'data/CloudApplyPolicy.kt':['What a cloud update is allowed to change on a device with a partner.','',''],
+ 'data/CloudReconcilePolicy.kt':['Push vs pull on sign-in.','',''],
+ 'data/GeminiCoachRepository.kt':['Client of evaluateExcusePro.','',''],
+ 'data/FriendChallengeRepository.kt':['Client of sendAccountabilityPinEmail / verifyFriendChallenge.','',''],
+ 'data/FriendChallengeStatus.kt':['Listener model of friendChallengeStatus/{uid}.','',''],
+ 'data/AccountDeletionRepository.kt':['Client of deleteAccount plus on-device fallback.','',''],
+ 'data/NewAppInstallPolicy.kt':['Messages and rules for newly installed apps.','',''],
+ 'data/FocusModeDefaults.kt':['Built-in app list blocked during Focus.','APPS',''],
+ 'data/ProtectionStatus.kt':['Observable mirror of ProtectionState for the UI.','',''],
+ 'data/DiagnosticLog.kt':['Debug-only logging so release builds log nothing sensitive.','',''],
+ 'detector/NativeContentDetector.kt':['Accessibility-tree marker detection for Instagram, Facebook, YouTube and Lite apps. Has an uncommitted change.','detect, isExploreSearchBox','Where most social fixes land'],
+ 'detector/UrlExtractor.kt':['Pulls the URL from browser nodes.','',''],
+ 'detector/BrowserRegistry.kt':['Known browsers, support level and icons.','',''],
+ 'detector/BrowserClassifier.kt':['Browser / not-browser decision.','',''],
+ 'detector/SettingsBypassPolicy.kt':['Which Settings screens to guard.','isWatchedScreen',''],
+ 'detector/WhatsappChannelDetector.kt':['WhatsApp / Business Channels.','',''],
+ 'detector/SnapchatContentDetector.kt':['Spotlight and Search in Snapchat.','',''],
+ 'detector/XWebContentDetector.kt':['X.com video blocking in browsers.','',''],
+ 'detector/ChromeTabMenu.kt':['Closes the current Chrome tab through its menu.','',''],
+ 'ui/MainScreen.kt':['Home tab.','',''],
+ 'ui/BlocklistScreen.kt':['Blocklist tab.','',''],
+ 'ui/FocusModeScreen.kt':['Focus tab.','',''],
+ 'ui/SettingsScreen.kt':['Settings tab, Danger Zone.','',''],
+ 'ui/OnboardingScreen.kt':['Setup tasks.','rememberSetupState, OnboardingScreen',''],
+ 'ui/PermissionsSection.kt':['Permissions list in Settings.','',''],
+ 'ui/ProtectionStatusCard.kt':['Visible protection state.','',''],
+ 'ui/components/ChallengeModals.kt':['Typing, Time Delay, Friend and AI dialogs; partner picker.','ChallengeModals, TypingChallengeModal, TimeDelayModal, FriendChallengeModal, AIChallengeModal','Accountability UI'],
+ 'ui/components/UIComponents.kt':['Shared building blocks.','OptionRow, CardWithTab, SegmentedControl, PillButton, BottomSheetModal',''],
+ 'setup/SetupPolicy.kt':['When setup interrupts the user.','isBlocking',''],
+ 'setup/AutostartScreens.kt':['Known OEM autostart screens.','KNOWN',''],
+ 'receivers/AdminReceiver.kt':['Device Admin receiver for Uninstall Protection.','',''],
+ 'theme/Theme.kt':['Material 3 theme; does not assume an Activity (overlay).','BlockerflowTheme','']
+};
+const READING_ORDER = [
+ ['AndroidManifest.xml','Permissions, the single Activity, the accessibility service, the device-admin receiver. Comments explain why each exists.'],
+ ['MainActivity.kt','Three modes: block screen, onboarding, app. Look at onNewIntent and the setup re-check.'],
+ ['data/ConfigManager.kt','What the app remembers.'],
+ ['services/AppBlockerService.kt','onServiceConnected (config snapshot) then processEventSafely (the pipeline).'],
+ ['services/PolicyEngine.kt','How signals become a decision.'],
+ ['data/BlocklistManager.kt','How a URL is matched against 1.13M domains and keywords.'],
+ ['detector/NativeContentDetector.kt','How Reels / Shorts are recognised without URLs.'],
+ ['MainViewModel.kt → requestAccountabilityChallenge','How turning protection down opens a challenge.'],
+ ['ui/components/ChallengeModals.kt','The four challenge dialogs.'],
+ ['backend/functions/index.js + lib/','What the server does for AI Coach, Friend email and account deletion.'],
+ ['shared/docs/POLICY_RULES.md','Rules learned from bugs. Read before changing the engine.']
+];
+const GLOSSARY = [
+ ['AccessibilityService','Android API that lets the app read the screen. Blockerflow\'s only way to see URLs and native-app UI.'],
+ ['SafeEvent','A copy of the few event fields the app needs, because Android recycles the original.'],
+ ['ProtectionState','LOADING / READY / DEGRADED of the blocklist engine; shown to the user.'],
+ ['Weight','LENIENT / MODERATE / STRICT: how hard it is to turn a protection off.'],
+ ['BLOCK_TOKEN','One-time value so the block screen only shows text from the service.'],
+ ['Overlay','Block screen drawn by the service itself when the Activity cannot start.'],
+ ['Allowlist / whitelist','Highest precedence in PolicyEngine: always allowed.'],
+ ['Sidecar (domains.len)','Small file with the exact domain asset size so it is read once, without a 2.5× spike.']
+];
+
+/* ===================================================================================
+   Rendering
+   =================================================================================== */
+const SECTIONS = [
+ ['overview','◎','Overview · live status'],['prd','1','Product Requirements (PRD)'],['trd','2','Technical Requirements (TRD)'],
+ ['flow','3','App Flow'],['uiux','4','UI / UX Design Brief'],['backend','5','Backend & Data'],['problems','6','Problems & Fixes'],
+ ['code','7','Code Map'],['tests','8','Test Cases']
+];
+const $ = (s,r=document) => r.querySelector(s);
+const $$ = (s,r=document) => [...r.querySelectorAll(s)];
+let current = 'overview';
+
+function liveStats(){
+  const u = LIVE.unitTests||{}, b = (LIVE.backend||{}), g = LIVE.git||{};
+  const open = PROBLEMS.filter(p=>p.st==='open').length;
+  return {u,b,g,open};
+}
+
+function renderTopChips(){
+  if(!hasLive){ $('#topchips').innerHTML = '<span class="chip warn"><b>No live data</b> run refresh-live-docs.py</span>'; return; }
+  const {u,g} = liveStats();
+  const bad = (u.failed||0)>0;
+  $('#topchips').innerHTML =
+   `<span class="chip"><b>v${esc(LIVE.app.versionName)}</b> (${esc(LIVE.app.versionCode)})</span>`+
+   `<span class="chip ${bad?'warn':'ok'}"><b>${u.ran}</b> unit tests · ${u.failed} failed · ${u.skipped} skipped</span>`+
+   `<span class="chip"><b>${esc(g.branch)}</b> @ ${esc((g.head||'').split(' ')[0])}</span>`+
+   (g.dirty&&g.dirty.length?`<span class="chip warn"><b>${g.dirty.length}</b> uncommitted file${g.dirty.length>1?'s':''}</span>`:'')+
+   `<span class="chip">data ${esc(LIVE.generated)}</span>`;
+}
+
+function renderNav(){
+  $('#nav').innerHTML = SECTIONS.map(([id,n,t],i)=>
+    (i===1?'<div class="sep">Documents</div>':'')+(i===7?'<div class="sep">For developers</div>':'')+
+    `<a href="#${id}" data-id="${id}"><span class="n">${n}</span>${t}</a>`).join('');
+}
+
+function show(id){
+  if(!SECTIONS.find(s=>s[0]===id)) id='overview';
+  current=id;
+  $$('section.doc').forEach(s=>s.classList.toggle('show',s.id===id));
+  $$('#nav a').forEach(a=>a.classList.toggle('active',a.dataset.id===id));
+  $('#nav').classList.remove('open');
+  window.scrollTo({top:0});
+  history.replaceState(null,'','#'+id);
+}
+
+/* ---------- Overview ---------- */
+function secOverview(){
+  const {u,b,g,open} = liveStats();
+  const by = k => FEATURES.filter(f=>f.ev===k).length;
+  const dev = by('device'), unit = by('unit'), part = by('partial')+by('wip'), spec = by('spec'), opn = by('open');
+  const dirty = (g.dirty||[]).map(l=>`<li><code>${esc(l.trim())}</code></li>`).join('');
+  return `
+  <div class="hero">
+   <span class="eyebrow">Live field manual · ${esc(LIVE.generated||'')}</span>
+   <h2>How Blockerflow guards an Android phone</h2>
+   <p>Everything on a phone window passes through one accessibility service. This manual shows what the app does today, how it is built, and where it still fails. Numbers are measured from the repository; prose says what backs each claim.</p>
+   <div class="pipe"><span class="pulse"></span>
+    <div class="st"><b>See</b><span>AccessibilityEvent</span></div>
+    <div class="st"><b>Detect</b><span>${(LIVE.files||[]).filter(x=>x.path.startsWith('detector/')).length} detector files · 1.13M domains</span></div>
+    <div class="st hot"><b>Decide</b><span>PolicyEngine · 7 decisions</span></div>
+    <div class="st"><b>Enforce</b><span>block screen · overlay</span></div>
+    <div class="st"><b>Hold</b><span>4 challenge modes</span></div></div>
+   <div class="heros">
+    <div><div class="v">${hasLive?esc(LIVE.app.versionName):'?'}</div><div class="l">version (code ${hasLive?esc(LIVE.app.versionCode):'?'}) · minSdk ${hasLive?esc(LIVE.app.minSdk):'?'}</div></div>
+    <div><div class="v">${u.ran??'?'}<small class="${(u.failed||0)?'bad':''}">${(u.failed||0)?u.failed+' failed':'pass'}</small></div><div class="l">unit tests · ${u.skipped??'?'} skipped</div></div>
+    <div><div class="v">${(b.result&&b.result.pass)||b.declared||'?'}</div><div class="l">backend tests ${b.result?'passing':'declared'}</div></div>
+    <div><div class="v">${open}</div><div class="l">open problems</div></div>
+    <div><div class="v">${(LIVE.files||[]).length}</div><div class="l">Kotlin files · ${fmt((LIVE.files||[]).reduce((a,f)=>a+f.lines,0))} lines</div></div>
+    <div><div class="v">${dev}<small>/${FEATURES.length}</small></div><div class="l">features device-verified</div></div>
+   </div>
+  </div>
+  <h3>Release and branch state</h3>
+  <div class="card">
+   <ul class="tight">
+    <li>Source of record: branch <code>${esc(g.branch||'?')}</code>, latest commit <code>${esc(g.head||'?')}</code>.</li>
+    <li>Version in <code>build.gradle.kts</code>: <b>${hasLive?esc(LIVE.app.versionName):'?'} (${hasLive?esc(LIVE.app.versionCode):'?'})</b>. The release branch <code>release/android-1.0.22</code> exists; its Play upload status is not recorded in the repository, so this page does not claim it.</li>
+    <li>Uncommitted work right now: ${g.dirty&&g.dirty.length?`<ul class="tight">${dirty}</ul> These are in progress (Problems, WIP-1 and WIP-2) and are included in the test counts above, so those counts describe the working tree, not a commit.`:'none.'}</li>
+    <li>Manual QA manual (<code>docs/QA_Testing_Android.md</code>) was last written for build 1.0.19 and says 301 cases, 99 passed, 122 never tested. It is older than this page: treat it as a checklist, not a status.</li>
+   </ul>
+  </div>
+  <h3>Feature status</h3>
+  <p class="lead">Click a tile for what it does, where the code is, and what is not known.</p>
+  ${featureTable(false)}
+  <h3>What is not true yet</h3>
+  <div class="note warn"><b>Honest gaps.</b> Friend approval, Time Delay and AI Coach limits have unit tests and a server, but the QA doc lists them as never hand-tested on a phone. Customize Blocked Screen saves values nothing reads. App Check is a written plan, not code. Protection can still lapse for about a minute after a Xiaomi memory kill.</div>`;
+}
+
+function featureTable(full){
+  const groups = [...new Set(FEATURES.map(f=>f.g))];
+  const filters = `<div class="filters" data-for="feat">${['all','device','unit','partial','wip','open','spec'].map(k=>`<button data-f="${k}" class="${k==='all'?'on':''}">${k==='all'?'All':EV[k].t}</button>`).join('')}</div>`;
+  return filters+`<div class="feat">`+groups.map(g=>`<div class="tgroup" data-g>${esc(g)}</div><div class="tiles">`+FEATURES.filter(f=>f.g===g).map(f=>
+    `<div class="tile" data-ev="${f.ev}" tabindex="0" role="button" aria-expanded="false"><span class="nm">${esc(f.n)}</span><div class="meta">${badge(f.ev)}<span class="badge b-mute">default ${esc(f.def)}</span>${full&&f.w!=='—'?`<span class="badge b-mute">${esc(f.w)}</span>`:''}</div>
+    <div class="x"><p style="margin:0 0 8px">${esc(f.what)}</p>${f.note?`<p style="margin:0 0 8px"><b>Not known / caveat:</b> ${esc(f.note)}</p>`:''}<p style="margin:0">${f.code.map(c=>`<code>${esc(c)}</code>`).join(' ')}</p></div></div>`).join('')+`</div>`).join('')+`</div>`;
+}
+
+/* ---------- PRD ---------- */
+function secPrd(){
+  return `
+  <h2>1 · Product Requirements Document</h2>
+  <p class="lead">Written from what the Android app does today (version ${hasLive?esc(LIVE.app.versionName):'?'}), not from a wish list. Where the repository records no product data (users, retention, revenue) this page says so instead of inventing it.</p>
+  <div class="grid g2">
+   <div class="card"><h4>Product</h4><p style="margin:0">Blockerflow is a self-install Android app that blocks adult content, short-video feeds and other distractions, and makes turning that protection off hard on purpose. It is an <b>accountability tool</b> for your own phone, not a parental device lock.</p></div>
+   <div class="card"><h4>Problem</h4><p style="margin:0">Willpower fails at the weak moment. Filters that can be switched off in two taps do not help. People need friction that sits between the urge and the off switch, on the phone they already use, without factory-reset enrolment.</p></div>
+   <div class="card"><h4>Who it is for</h4><ul class="tight"><li>Primary: a person managing their own phone who wants friction against their future self.</li><li>Secondary: someone with a chosen accountability partner who gets an email when they try to unlock.</li><li>Distribution: Google Play, package <code>eu.khaleel.blockerflow</code>, Android 7.0 and up.</li></ul></div>
+   <div class="card"><h4>Success looks like</h4><ul class="tight"><li>Protection stays on and the user can see whether it is.</li><li>A bypass attempt meets a challenge proportional to what it removes.</li><li>No false claims of protection when the engine is degraded or stopped.</li></ul><p style="margin:6px 0 0;color:var(--ink2)">No numeric product metrics are recorded in the repository.</p></div>
+  </div>
+  <h3>Goals, non-goals, anti-goals</h3>
+  <div class="grid g3">
+   <div class="card"><h4>Goals</h4><ul class="tight"><li>Block adult sites across readable browsers, including evasions.</li><li>Block specific distraction surfaces in native apps (Reels, Shorts, Explore search, Channels).</li><li>Gate every action that weakens protection.</li><li>Work offline, with no account.</li><li>Optional cloud backup and a second device.</li></ul></div>
+   <div class="card"><h4>Non-goals</h4><ul class="tight"><li>Device Owner / MDM lockdown (needs a fresh device).</li><li>A VPN or DNS filter as the main mechanism (one VPN slot, no path/query, no custom block screen). Recommended later as a second layer.</li><li>Root, Xposed, browser extensions.</li><li>Payments (no Play Billing; the free AI Coach has a daily cap instead).</li></ul></div>
+   <div class="card"><h4>Anti-goals</h4><ul class="tight"><li>Overclaiming protection (POLICY_RULES #15): a green tick the app cannot verify.</li><li>A block that traps the user with no exit (audit #21).</li><li>False positives on banks, recovery sites, health and education.</li><li>Silent failure: protection down with nothing in the UI.</li></ul></div>
+  </div>
+  <h3>Feature requirements and live status</h3>
+  ${featureTable(true)}
+  <h3>Accountability: how hard is each action to undo?</h3>
+  <p class="lead">Interactive: pick an action and a partner mode to see the friction the code applies.</p>
+  ${simulator()}
+  <h3>Requirements the app must keep (from the audits)</h3>
+  <div class="grid g2">
+   <div class="card"><ul class="tight">
+    <li><b>R1</b> Every weakening action routes through <code>requestAccountabilityChallenge</code> and the dialog watches the shared ViewModel (POLICY_RULES #20).</li>
+    <li><b>R2</b> The manual blocklist is 24/7; Focus Mode only adds to it.</li>
+    <li><b>R3</b> Never cache a verdict made while the blocklist is still loading.</li>
+    <li><b>R4</b> A cloud update never weakens a device that has a partner.</li>
+    <li><b>R5</b> Release builds never log queries, hosts or settings.</li></ul></div>
+   <div class="card"><ul class="tight">
+    <li><b>R6</b> Rejection by the AI is final: no Time Delay offer after "rejected", only after "could not answer".</li>
+    <li><b>R7</b> An unknown partner mode gets the 24-hour delay, not a free pass.</li>
+    <li><b>R8</b> Protection status must say stopped / degraded when true.</li>
+    <li><b>R9</b> Sign Out, Factory Reset, Uninstall and Delete Account live only in Settings, on purpose.</li>
+    <li><b>R10</b> Detection changes must be proven to reach the decision (PolicyPropagationIntegrationTest).</li></ul></div>
+  </div>
+  <h3>Open product decisions</h3>
+  <ul class="tight"><li>Customize Blocked Screen: wire it up or remove it (F16).</li><li>Portrait lock excludes about 26 tablet / TV / car device types (F9-b).</li><li>Remove unused biometric permissions pulled in by a library (F22).</li><li>Add a VPN host layer as a second line (audit #9)?</li><li>Official-apps-only backend: approved design, not built.</li></ul>`;
+}
+
+function simulator(){
+  const acts = [
+   ['Disable Adult Content Blocker','STRICT'],['Disable Known Piracy Sites Blocker','STRICT'],['Disable Unsupported Browser Blocker','STRICT'],
+   ['Disable Uninstall Protection','STRICT'],['Factory Reset Blockerflow','STRICT'],['Uninstall Blockerflow','STRICT'],['Delete Account','STRICT'],
+   ['Disable Image/Video Search Blocker','MODERATE'],['Add Website to Whitelist','MODERATE'],['Remove Website from Blocklist','MODERATE'],['Unblock App','MODERATE'],['Disable Focus Mode','MODERATE'],['Disable New App Blocker','MODERATE'],['Disable X.com / Twitter Videos Blocker','MODERATE'],
+   ['Disable Facebook Reels Blocker','LENIENT'],['Disable Instagram Reels Blocker','LENIENT'],['Disable Youtube Shorts Blocker','LENIENT'],['Disable Snapchat Videos Blocker','LENIENT']];
+  return `<div class="card sim"><div style="display:flex;gap:10px;flex-wrap:wrap">
+   <label>Action<br><select id="simAct">${acts.map(a=>`<option value="${a[1]}">${esc(a[0])}</option>`).join('')}</select></label>
+   <label>Partner mode<br><select id="simMode"><option value="myself">Myself</option><option value="friend">Friend</option><option value="timedelay">Time Delay</option><option value="ai">AI Coach</option><option value="x">Unknown / corrupted value</option></select></label></div>
+   <div id="simOut"></div></div>`;
+}
+function runSim(){
+  const w=$('#simAct'); if(!w) return; const weight=w.value, mode=$('#simMode').value;
+  const wb = {STRICT:'b-bad',MODERATE:'b-warn',LENIENT:'b-ok'}[weight];
+  let t='';
+  if(mode==='myself') t='Type a fixed sentence. Passes at <b>95% accuracy</b> (Levenshtein; an imperfect attempt is never rounded up to 100). Local only, no network.';
+  if(mode==='friend') t='Partner gets an email via Amazon SES with <b>Approve / Deny</b> buttons and a 6-digit PIN. The app unlocks within about a second of Approve, or the PIN is typed. Link and PIN live <b>24 hours</b>; <b>5</b> wrong PINs kill the challenge; max <b>20</b> emails per day; needs sign-in.';
+  if(mode==='timedelay') t='Start a <b>24-hour</b> timer for this action. Countdown on screen; the action unlocks when it ends. Uses a trusted clock, so changing the date does not skip it (a date change plus reboot still does).';
+  if(mode==='ai') t='Server checks sign-in and a fixed list of action names, then a <b>deterministic forbidden-justification filter</b>, then Gemini. '+(weight==='STRICT'?'<b>STRICT: the AI is never trusted alone</b>; a rejection is delayed 5 s.':weight==='MODERATE'?'A specific, plausible reason can pass; a rejection is delayed 2 s.':'Easy to pass; no extra delay.')+' Limit <b>10 checks per day</b> per user and 3,000 project-wide. If the AI cannot answer, the dialog offers the 24-hour delay; if it rejects, it does not.';
+  if(mode==='x') t='Unknown value → treated as <b>Time Delay (24 hours)</b>, never a free pass (PartnerModes.challengeFor).';
+  $('#simOut').innerHTML = `<div><span class="badge ${wb}">${weight}</span> ${weight==='STRICT'?'Core protection or the app\'s own survival: should be hard.':weight==='MODERATE'?'Real commitment; a specific reason can hold.':'Single-platform distraction feature: friction is about intent.'}</div><div class="note">${t}</div>`;
+}
+
+/* ---------- TRD ---------- */
+function secTrd(){
+  return `
+  <h2>2 · Technical Requirements Document</h2>
+  <p class="lead">How the app is built and the constraints it must respect. Click a box to read what it does.</p>
+  <h3>Architecture (click)</h3>
+  <div class="split"><div style="display:grid;gap:4px" id="archList">
+   ${ARCH.map((a,i)=>`${i?'<div class="arrow">↓</div>':''}<button class="node ${i===0?'sel':''}" data-arch="${a.id}"><div class="t">${esc(a.t)}</div><div class="s">${esc(a.s)}</div></button>`).join('')}
+  </div><div class="card" id="archBox"></div></div>
+  <h3>Technology</h3>
+  <div class="tablewrap"><table><tbody>${TRD_STACK.map(r=>`<tr><td style="width:160px"><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table></div>
+  <h3>Policy precedence (PolicyEngine.evaluateUrlPolicy)</h3>
+  <ol class="tight">
+   <li><b>Search query adult</b> (adult blocking on) → BLOCK_ADULT</li>
+   <li><b>Allowlist</b> host or subdomain → ALLOW (highest precedence; hence its gate)</li>
+   <li><b>Adult</b>: domain list sources ≥ minAdultSources, brand classifier, tiered keyword score (path always; query/fragment skipped only on verified search hosts; banks and recovery sites exempt), public raw IP → BLOCK_ADULT</li>
+   <li><b>Category lists</b> (piracy, web-proxy) → BLOCK_CATEGORY</li>
+   <li><b>Manual blocklist</b> and Focus extra list → BLOCK_MANUAL / BLOCK_FOCUS_MODE</li>
+   <li><b>Feature blocks</b> (image/video search, etc.) → BLOCK_FEATURE / BLOCK_IMAGE_VIDEO_SEARCH</li>
+   <li>Otherwise ALLOW</li></ol>
+  <div class="note">Native-app features (Reels, Shorts, Explore search) do not go through URLs: NativeContentDetector decides from the accessibility tree and AppBlockerService enforces.</div>
+  <h3>Event pipeline rules that cannot be broken</h3>
+  <ul class="tight">
+   <li>Copy event fields into <code>SafeEvent</code> before any async work (Android recycles events).</li>
+   <li>App blocking runs <b>before</b> any <code>rootInActiveWindow</code> null check.</li>
+   <li>Clear <code>lastCheckedUrl</code> when the package changes and on every block; never cache while the engine is not READY.</li>
+   <li>Browser list must be exhaustive; unknown ones are blocked, not ignored.</li>
+   <li>Search-engine exemptions only for verified hosts (never substring).</li></ul>
+  <h3>Stored settings (DataStore)</h3>
+  <div class="tablewrap"><table><thead><tr><th>Group</th><th>Keys</th><th>Cloud</th></tr></thead><tbody>${SETTINGS_KEYS.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div>
+  <h3>Non-functional requirements</h3>
+  <div class="grid g2">
+   <div class="card"><h4>Memory</h4><p style="margin:0">Adult asset is 23.7 MB / 1,127,171 domains. Streaming loader, byte-array binary search, exact-size sidecar read, process-owned holder (no ~41 MB leak per restart). <code>largeHeap</code> is containment, not the fix. The accessibility service shares the app process, so an OOM stops blocking.</p></div>
+   <div class="card"><h4>Latency</h4><p style="margin:0">Event buffer of one slot (DROP_OLDEST); first event after arrival is treated as state-changed. 30 ms delay after a real URL change, 150 ms for repeats. Tab-switch jank measured 14% janky frames (F10, open).</p></div>
+   <div class="card"><h4>Reliability</h4><p style="margin:0">Foreground service (special use) against OEM kills; honest status; reminder worker; focus deadline polled every 10 s; overlay fallback for denied background activity starts; Autostart required on Xiaomi family.</p></div>
+   <div class="card"><h4>Privacy & security</h4><p style="margin:0">No credentials in the app; email, PIN and AI run server-side. Release logs carry no hosts or queries (LogHygieneTest). <code>allowBackup=false</code>. Sync excludes device-local keys. Details in <code>shared/docs/PRIVACY.md</code>.</p></div>
+  </div>
+  <h3>Android permissions in the manifest</h3>
+  <div class="tablewrap"><table><tbody>${PERMS.map(r=>`<tr><td><code>${esc(r[0])}</code></td><td>${esc(r[1])}</td></tr>`).join('')}</tbody></table></div>
+  <div class="note warn">QA finding F22: the built APK also requests <code>USE_BIOMETRIC</code> / <code>USE_FINGERPRINT</code> through a library, and PRIVACY.md lists fewer permissions than the APK. Decision pending.</div>
+  <h3>Build, test and release</h3>
+  <div class="card"><pre class="mono" style="margin:0;white-space:pre-wrap">cd android
+./gradlew assembleDebug            # build APK
+./gradlew testDebugUnitTest        # unit suite (JVM, no phone)
+./gradlew connectedDebugAndroidTest   # device tests, needs a phone/emulator
+python3 docs/refresh-live-docs.py --run-tests   # refresh this page</pre>
+   <p style="margin:8px 0 0">Needs <code>android/local.properties</code> (<code>sdk.dir</code>, <code>GOOGLE_WEB_CLIENT_ID</code>) and <code>app/google-services.json</code>, both gitignored. Releases are built as an AAB with R8, signed with the upload key, and shipped through Google Play.</p></div>
+  <h3>Known structural limits</h3>
+  <ul class="tight"><li>Cannot see inside browsers whose address is unreadable or in-app WebViews.</li><li>Autostart and "locked in Recents" cannot be read back.</li><li>Android allows the user to revoke Device Admin and Accessibility; nothing can prevent it.</li><li>A rebind delay after an OS kill is outside app control.</li></ul>`;
+}
+
+/* ---------- Flow ---------- */
+function secFlow(){
+  return `
+  <h2>3 · App Flow</h2>
+  <p class="lead">Pick a phase to see who does what and which code does it. Actors: <span class="actor a-User">User</span> <span class="actor a-App">App</span> <span class="actor a-Service">Service</span> <span class="actor a-Server">Server</span> <span class="actor a-Partner">Partner</span> <span class="actor a-OS">OS</span></p>
+  <div class="phases" id="phaseTabs">${PHASES.map((p,i)=>`<button data-ph="${p.id}" class="${i===0?'on':''}">${esc(p.n)}</button>`).join('')}</div>
+  <div class="card" id="phaseBox"></div>
+  <h3>Decision path of one accessibility event</h3>
+  <div class="card"><div style="display:grid;gap:4px;max-width:640px">
+   ${['Event arrives (window changed / content changed)','Own package? → ignore','App on blocklist (or Focus list)? → block app','Browser? → read address → PolicyEngine → block page','Other app? → NativeContentDetector → block feature','Allowed → do nothing'].map((t,i)=>`${i?'<div class="arrow">↓</div>':''}<div class="node" style="cursor:default"><div class="t">${esc(t)}</div></div>`).join('')}</div></div>
+  <h3>Screens (click)</h3>
+  <p class="lead">Navigation: bottom bar with Blocking · Blocklist · Focus · Settings. The block screen and onboarding replace the whole app when needed.</p>
+  <div class="phases" id="screenTabs">${Object.entries(SCREENS).map(([k,s],i)=>`<button data-sc="${k}" class="${i===0?'on':''}">${esc(s.n)}</button>`).join('')}</div>
+  <div class="card" id="screenBox"></div>
+  <h3>Screen map</h3>
+  <div class="card"><pre class="mono" style="margin:0;white-space:pre-wrap">Launch ─▶ [block text present?] ─yes─▶ Block screen ─▶ Go Home | Open Settings
+          └no─▶ [setup incomplete?] ─yes─▶ Onboarding ─▶ (setup complete)
+                              └no─▶ Bottom nav:
+                                   Blocking ─▶ switches ─▶ (off) Challenge dialog
+                                   Blocklist ─▶ add / remove ─▶ (whitelist, remove) Challenge dialog
+                                   Focus ─▶ Start dialog ─▶ live session ─▶ (stop) Challenge dialog
+                                   Settings ─▶ Permissions, Account, Danger Zone ─▶ Challenge dialog</pre></div>`;
+}
+function renderPhase(id){
+  const p = PHASES.find(x=>x.id===id);
+  $('#phaseBox').innerHTML = `<h4>${esc(p.n)}</h4>`+p.steps.map(s=>`<div class="step"><span class="actor a-${s[0]}">${s[0]}</span><div>${esc(s[1])}<div style="font-size:12px;color:var(--ink2)"><code>${esc(s[2])}</code></div></div></div>`).join('');
+}
+function renderScreen(id){
+  const s = SCREENS[id];
+  $('#screenBox').innerHTML = `<div class="split"><div><h4>${esc(s.n)}</h4><p style="margin:0 0 6px">${esc(s.s)}</p><p style="margin:0 0 10px"><code>${esc(s.f)}</code></p><h4>Actions</h4><ul class="tight">${s.act.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div>
+   <div><div class="phone"><div class="scr"><b style="font-size:12px">${esc(s.n)}</b>${s.el.map(e=>`<div class="el">${esc(e)}</div>`).join('')}</div></div></div></div>`;
+}
+
+/* ---------- UI/UX ---------- */
+function secUiux(){
+  const sw = [['Indigo primary (light)','#4F46E5','BluePrimaryLight'],['Indigo primary (dark)','#818CF8','BluePrimaryDark'],['Background light','#F8FAFC','LightBackground'],['Surface dark','#111827','DarkSurface'],['Background dark','#0B0F19','DarkBackground'],['Success','#10B981','GreenSuccess'],['Danger','#EF4444','RedDanger'],['Gold (light / dark)','#F59E0B','GoldLight']];
+  return `
+  <h2>4 · UI / UX Design Brief</h2>
+  <p class="lead">The interface as built: a calm, high-contrast Material 3 app with a premium indigo accent, designed so the safe action is easy and the unsafe action is deliberate.</p>
+  <div class="grid g2">
+   <div class="card"><h4>Principles (from the code and audits)</h4><ul class="tight">
+    <li><b>Honest status.</b> Never show "protected" when it is not true.</li>
+    <li><b>Friction where it matters.</b> Adding protection is one tap; removing it opens a challenge sized by weight.</li>
+    <li><b>Dangerous things are far away.</b> Sign Out, Factory Reset, Uninstall, Delete live only in Settings.</li>
+    <li><b>Always an exit.</b> The block screen has Go Home; a block never traps the user.</li>
+    <li><b>One dialog host.</b> Challenges render once at the navigation root for every screen.</li></ul></div>
+   <div class="card"><h4>Platform choices</h4><ul class="tight"><li>Phones, portrait only (landscape left almost no height).</li><li>Light, dark and system theme (<code>app_theme</code>: auto / light / dark).</li><li>Single Activity, bottom navigation with four tabs.</li><li>Font: Outfit variable, weights 400 / 500 / 600. <b>No bold renders</b> (F25), so do not rely on bold for hierarchy.</li><li>Rounded shapes from <code>theme/Shapes.kt</code> (6, 8 dp and larger).</li></ul></div>
+  </div>
+  <h3>Colour tokens</h3>
+  <div class="grid g3 card">${sw.map(s=>`<div class="swatch"><i style="background:${s[1]}"></i><div><b>${esc(s[0])}</b><br><span class="mono">${s[1]}</span> · <span class="mono">${s[2]}</span></div></div>`).join('')}</div>
+  <p style="font-size:13px;color:var(--ink2)">Dark primary is a light tone, so on-primary text uses a near-black ink (white failed contrast at 2.98:1). ThemeContrastTest guards the roles. See <code>docs/UI_THEME_AUDIT.md</code>.</p>
+  <h3>Shared components</h3>
+  <div class="tablewrap"><table><tbody>
+   <tr><td><code>OptionRow</code></td><td>Title, subtitle and switch row used for every protection.</td></tr>
+   <tr><td><code>CardWithTab</code></td><td>Card with a titled tab (Advanced, Account…).</td></tr>
+   <tr><td><code>SegmentedControl</code>, <code>PillButton</code></td><td>Websites/Apps switch; primary actions.</td></tr>
+   <tr><td><code>SiteIconStrip</code>, <code>SiteLogoBadge</code></td><td>Two strips of browser icons: supported, and blocked.</td></tr>
+   <tr><td><code>BottomSheetModal</code></td><td>Partner options.</td></tr>
+   <tr><td><code>bounceClick</code></td><td>Press feedback.</td></tr>
+   <tr><td><code>ProtectionStatusCard</code>, <code>SetupWarningBanner</code></td><td>Visible failure states on Home.</td></tr></tbody></table></div>
+  <h3>Key states every screen must cover</h3>
+  <div class="grid g3">
+   <div class="card"><h4>Protection</h4><ul class="tight"><li>Loading, ready, degraded</li><li>Accessibility off ("Accessibility Required")</li><li>Service stopped ("Protection stopped")</li></ul></div>
+   <div class="card"><h4>Setup</h4><ul class="tight"><li>Each task: not done / done</li><li>Autostart: "marked as done" only</li><li>Xiaomi extras</li></ul></div>
+   <div class="card"><h4>Challenge</h4><ul class="tight"><li>Typing: live accuracy</li><li>Time delay: countdown</li><li>Friend: waiting, approved, denied, expired</li><li>AI: verdict, cannot answer, limit reached</li></ul></div>
+  </div>
+  <h3>Writing rules</h3>
+  <ul class="tight"><li>Plain, specific sentences; no em-dash style punctuation in UI strings (a unit test guards the source).</li><li>Say what was and was not verified; never promise what the OS can decide (Autostart, Recents lock).</li></ul>
+  <h3>Known UX issues (live)</h3>
+  <div class="tablewrap"><table><thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead><tbody>
+   <tr><td>F16 Customize Blocked Screen</td><td>${badge('open')}</td><td>Saved values never shown. Decision needed.</td></tr>
+   <tr><td>F19 / F20 Large fonts</td><td>${badge('open')}</td><td>At font 2.0 the wordmark and tab labels wrap; + button may overlap the last row.</td></tr>
+   <tr><td>F25 Bold headings</td><td>${badge('open')}</td><td>Disclosure headings are set bold but the font renders none.</td></tr>
+   <tr><td>F30 Xiaomi battery</td><td>${badge('open')}</td><td>Step stays unticked until "No restrictions" is tapped; app does not say so.</td></tr>
+   <tr><td>F24 Autostart tick</td><td>${badge('open')}</td><td>Green tick can be shown while the real switch is off. Wording work needed.</td></tr>
+   <tr><td>F21 Keyboard apps</td><td>${badge('open')}</td><td>Can be added to the blocklist; entry does nothing.</td></tr>
+   <tr><td>Snapchat block message</td><td>${badge('open')}</td><td>Hidden by Snapchat's own permission request.</td></tr></tbody></table></div>
+  <h3>Accessibility</h3>
+  <p>Contrast is unit-tested (ThemeContrastTest). TalkBack was never tested (QA §24).</p>`;
+}
+
+/* ---------- Backend ---------- */
+function secBackend(){
+  const be = LIVE.backend||{};
+  return `
+  <h2>5 · Backend & Data</h2>
+  <p class="lead">Firebase project <code>blockerflow-34d42</code>: Auth, Firestore and five HTTPS Cloud Functions (v2, region us-central1, Node 20). The app works without any of it; the backend adds sign-in, settings sync, the AI Coach, partner email and account deletion.</p>
+  <h3>Data flow</h3>
+  <div class="card"><pre class="mono" style="margin:0;white-space:pre-wrap">Android app ──(Google sign-in)──▶ Firebase Auth ──▶ ID token
+     │
+     ├─ settings sync ───────────▶ Firestore  users/{uid}            (owner read/write, no entitlements)
+     │
+     ├─ AI Coach ── Bearer token ▶ evaluateExcusePro ──▶ Gemini (key in Secret Manager)
+     │                              └ counters: aiCoachProUsage, aiCoachGlobalUsage
+     │
+     ├─ Friend unlock ─ Bearer ──▶ sendAccountabilityPinEmail ──▶ Amazon SES (eu-central-1) ──▶ partner's inbox
+     │      ▲                       └ friendChallenges, approvalLinks, friendChallengeStatus
+     │      └─ live listener on friendChallengeStatus/{uid} ◀── friendApproval (partner taps Approve / Deny in a browser)
+     │
+     ├─ PIN typed ───────────────▶ verifyFriendChallenge (hash compare, single use)
+     └─ Delete Account ──────────▶ deleteAccount (Admin SDK: docs first, then Auth user)</pre></div>
+  <h3>Cloud Functions</h3>
+  <div class="tablewrap"><table><thead><tr><th>Function</th><th>Access</th><th>What it does</th></tr></thead><tbody>${FUNCS.map(r=>`<tr><td><code>${esc(r[0])}</code></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div>
+  <p style="font-size:13px;color:var(--ink2)">Functions found in index.js now: ${(be.functions||[]).map(f=>`<code>${esc(f)}</code>`).join(' ')||'(run refresh)'}.</p>
+  <h3>AI logic step by step</h3>
+  <ol class="tight">
+   <li>App sends <code>{actionName, excuse}</code> with the user's fresh Firebase ID token.</li>
+   <li>Server verifies the token (401 if missing/invalid) and that <code>actionName</code> is one of the fixed action names (never free text in the prompt).</li>
+   <li><b>Deterministic pre-check</b> (<code>forbiddenJustifications</code>): for STRICT actions certain excuses are refused without calling the model and without using quota.</li>
+   <li>Counters in one Firestore transaction: project-wide 3,000/day (10 shards) then per-user 10/day (50 with <code>entitlements.aiCoach</code>). 503 / 429 when exceeded.</li>
+   <li><code>promptBuilder</code> builds the system + user prompt; Gemini <code>gemini-flash-latest</code> answers; <code>decisionParser</code> extracts JSON <code>{decision, reason}</code>. Unusable output → 502.</li>
+   <li>Rejections wait 5 s (STRICT) or 2 s (MODERATE) before the response, so brute-forcing excuses is slow.</li>
+   <li>App: APPROVED runs the action; rejected shows the reason; "cannot answer" offers the 24-hour delay.</li></ol>
+  <h3>Friend email (Amazon SES)</h3>
+  <ul class="tight">
+   <li>Why SES: Gmail SMTP capped near 500 sends a day. SES production access allows 50,000 per 24 h at 14 per second. Switched 2026-09-06.</li>
+   <li>Region eu-central-1 (Frankfurt). Identities: domain <code>khaleel.eu</code> and the sender address. If the identity moves region, <code>SES_SMTP_HOST</code> must move.</li>
+   <li>The email is a <b>fixed template</b>: only the server-made PIN, a validated action and the requester's first name (HTML-escaped, max 40 chars) are inserted. A signed-in user cannot use it as a relay for free text.</li>
+   <li>PIN: 6 digits, server generated, stored as salted hash; 24 h expiry; 5 attempts; deleted on first success. Approval link: 32 random bytes, only its SHA-256 is stored; a GET shows a page, only a POST decides (mail scanners cannot approve).</li>
+   <li>Cap: 20 emails per user per day.</li></ul>
+  <h3>Firestore collections and rules</h3>
+  <div class="tablewrap"><table><thead><tr><th>Path</th><th>Client access</th><th>Holds</th></tr></thead><tbody>${COLLECTIONS.map(r=>`<tr><td><code>${esc(r[0])}</code></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div>
+  <h3>Where user data lives, and why</h3>
+  <div class="grid g2">
+   <div class="card"><h4>On the phone only</h4><ul class="tight"><li>Every setting (DataStore) so the service can read it without a network.</li><li>Live focus state, onboarding and acknowledgement flags, sync bookkeeping.</li><li>What you browse: never stored or sent. URLs are judged in memory.</li></ul></div>
+   <div class="card"><h4>In the cloud, only after sign-in</h4><ul class="tight"><li>Allowlisted settings in <code>users/{uid}</code> (restore after reinstall, second device).</li><li>Short-lived challenge data (hashes, expiry) and daily counters.</li><li>The partner's email address is sent to the function to deliver the message; it is saved on-device as <code>partner_email</code> and synced as a setting.</li></ul></div>
+  </div>
+  <h3>Secrets and keys (names only, no values)</h3>
+  <div class="tablewrap"><table><thead><tr><th>Name</th><th>Stored in</th><th>Note</th></tr></thead><tbody>${SECRETS.map(r=>`<tr><td><code>${esc(r[0])}</code></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div>
+  <h3>Planned: only official apps may use the backend</h3>
+  <div class="note warn">${badge('spec')} Approved 2026-10-14 for when the repository goes public: Play Integrity App Check on Android, an <code>X-Blockerflow-Client</code> header on every call, and a <code>config/clientPolicy</code> document (record or enforce, block lists) read by a new <code>lib/clientPolicy.js</code>. Not implemented; searched android/ and backend/ today. Owner steps in Play Console and Firebase are still needed.</div>
+  <h3>Backend operations</h3>
+  <ul class="tight"><li><b>Runtime deadline:</b> Node 20 stops running on 2026-10-30 (12 days from this snapshot). Upgrade not started.</li><li><code>evaluateExcusePro</code> keeps one warm instance (small continuous cost, deliberate).</li><li>Tests: <code>npm test</code> (${be.result?be.result.pass+' pass, '+be.result.fail+' fail':(be.declared||'?')+' declared'}); Firestore rules test needs the emulator (<code>npm run test:rules</code>).</li></ul>`;
+}
+
+/* ---------- Problems ---------- */
+function secProblems(){
+  const counts = k => PROBLEMS.filter(p=>p.st===k).length;
+  const areas = [...new Set(PROBLEMS.map(p=>p.area))].sort();
+  return `
+  <h2>6 · Problems & Fixes so far</h2>
+  <p class="lead">${PROBLEMS.length} entries grouped from the security audit (26 findings), the changelog, the QA manual, and today's own checks. "Fix not verified" means the code changed but no phone test is recorded.</p>
+  <div class="grid g4">
+   <div class="card stat"><div class="v">${counts('open')}</div><div class="l">open</div></div>
+   <div class="card stat"><div class="v">${counts('wip')+counts('unver')}</div><div class="l">in progress or not verified</div></div>
+   <div class="card stat"><div class="v">${counts('fixed')}</div><div class="l">fixed</div></div>
+   <div class="card stat"><div class="v">${PROBLEMS.filter(p=>p.sev==='Critical').length}</div><div class="l">critical ever found</div></div>
+  </div>
+  <div class="filters" id="pf">${[['all','All'],['open','Open'],['wip','In progress'],['unver','Not verified'],['fixed','Fixed']].map(([k,t])=>`<button data-f="${k}" class="${k==='all'?'on':''}">${t}</button>`).join('')}
+   <select id="pa"><option value="">All areas</option>${areas.map(a=>`<option>${esc(a)}</option>`).join('')}</select></div>
+  <div id="plist">${PROBLEMS.map(p=>`
+   <details data-st="${p.st}" data-area="${esc(p.area)}"><summary><span class="badge ${p.st==='fixed'?'b-ok':p.st==='open'?'b-bad':'b-warn'}">${EV[p.st].t}</span><span class="badge b-mute">${esc(p.sev)}</span><span style="font-weight:600">${esc(p.title)}</span></summary>
+   <div class="body"><p style="margin:0 0 6px;color:var(--ink2)">${esc(p.id)} · ${esc(p.area)} · ${esc(p.date)}</p>
+    <h4>What happened</h4><p style="margin:0">${esc(p.symptom)}</p>
+    <h4>Cause</h4><p style="margin:0">${esc(p.cause)}</p>
+    <h4>Fix</h4><p style="margin:0">${esc(p.fix)}</p>
+    <h4>Evidence</h4><p style="margin:0">${esc(p.proof)}</p>
+    <p style="margin:8px 0 0;font-size:12.5px;color:var(--ink2)">Source: ${esc(p.ref)}</p></div></details>`).join('')}</div>
+  <h3>Patterns worth remembering</h3>
+  <ul class="tight">
+   <li><b>Wired but dead.</b> Code compiled, tests passed, nothing ran at runtime (ProtectionReminderWorker never scheduled; BlocklistScreen with its own ViewModel). Only exercising the flow on a phone, or grepping call sites, finds these.</li>
+   <li><b>Phone makers differ.</b> Most real-world failures were Xiaomi-specific (pop-ups, RAM cleaner, Autostart).</li>
+   <li><b>Convenience beats protection.</b> The biggest bypasses needed no skill: whitelist add, a browser toggle, a sob story to the AI.</li>
+   <li><b>Commit early.</b> A reset wiped a month of uncommitted work (2026-08-15).</li></ul>`;
+}
+
+/* ---------- Code map ---------- */
+function secCode(){
+  const files = (LIVE.files||[]);
+  const total = files.reduce((a,f)=>a+f.lines,0);
+  const dirs = {};
+  files.forEach(f=>{ const d = f.path.includes('/')?f.path.split('/').slice(0,-1).join('/'):'(root)'; (dirs[d]=dirs[d]||[]).push(f); });
+  const order = ['(root)','services','data','detector','ui','ui/components','setup','receivers','theme','debug'];
+  const names = Object.keys(dirs).sort((a,b)=>{const ia=order.indexOf(a),ib=order.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b)});
+  return `
+  <h2>7 · Code Map: understand the app from the code</h2>
+  <p class="lead">${files.length} Kotlin files, ${fmt(total)} lines under <code>android/app/src/main/java/eu/khaleel/blockerflow</code> (measured). Click a file for its role, its key functions and its tests.</p>
+  <h3>Read it in this order</h3>
+  <ol class="tight">${READING_ORDER.map(r=>`<li><code>${esc(r[0])}</code>: ${esc(r[1])}</li>`).join('')}</ol>
+  <h3>Files</h3>
+  <div class="split">
+   <div class="card tree" style="max-height:640px;overflow:auto"><input type="search" id="cq" placeholder="Filter files…" style="width:100%;margin-bottom:8px">
+   ${names.map(d=>`<div class="dir">${esc(d)}/</div>`+dirs[d].sort((a,b)=>b.lines-a.lines).map(f=>`<div class="file" data-path="${esc(f.path)}"><span>${esc(f.path.split('/').pop())}</span><span>${f.lines}${CODE[f.path]?'':' ·'}</span></div>`).join('')).join('')}
+   </div>
+   <div class="card" id="codeBox" style="position:sticky;top:70px;align-self:flex-start"></div>
+  </div>
+  <h3>Glossary</h3>
+  <div class="tablewrap"><table><tbody>${GLOSSARY.map(g=>`<tr><td style="width:190px"><b>${esc(g[0])}</b></td><td>${esc(g[1])}</td></tr>`).join('')}</tbody></table></div>
+  <h3>How to add a blocker (the repo's own checklist)</h3>
+  <ol class="tight"><li>Add an <code>OptionRow</code> in MainScreen.kt.</li><li>Add the preference in ConfigManager, expose it in MainViewModel, add it to AppConfigSnapshot.</li><li>Wire the flag in PolicyEngine or NativeContentDetector.</li><li>Add tests, including one proving the detection reaches the decision (PolicyPropagationIntegrationTest).</li><li>If it can weaken protection: wrap the off-transition in <code>requestAccountabilityChallenge</code> and pass the <b>shared</b> MainViewModel to any new screen.</li></ol>`;
+}
+function renderCode(path){
+  const f = (LIVE.files||[]).find(x=>x.path===path); if(!f) return;
+  const d = CODE[path];
+  const base = path.split('/').pop().replace('.kt','');
+  const tests = [...(LIVE.unitTests?.classes||[]),...(LIVE.deviceTests?.classes||[])].filter(c=>c.cls===base+'Test'||c.cls.startsWith(base)||(base==='AppBlockerService'&&/Device/.test(c.cls)));
+  const lines = f.lines;
+  $('#codeBox').innerHTML = `<h4>${esc(path)}</h4><div class="bar" title="${lines} lines"><i style="width:${Math.min(100,lines/13)}%"></i></div><p style="margin:4px 0 8px;font-size:12.5px;color:var(--ink2)">${lines} lines${d&&d[2]?' · '+esc(d[2]):''}</p>
+   <p style="margin:0 0 8px">${d?esc(d[0]):'Not described by hand yet. Open the file; the doc comment at the top of most files explains why it exists.'}</p>
+   ${d&&d[1]?`<h4>Key names</h4><p style="margin:0"><code>${esc(d[1])}</code></p>`:''}
+   <h4>Tests</h4>${tests.length?`<ul class="tight">${tests.map(t=>`<li><code>${esc(t.cls)}</code> · ${t.names.length} tests</li>`).join('')}</ul>`:'<p style="margin:0;color:var(--ink2)">No test class named after this file (it may be covered through an integration test).</p>'}`;
+}
+
+/* ---------- Tests ---------- */
+function secTests(){
+  const u = LIVE.unitTests||{classes:[]}, dv = LIVE.deviceTests||{classes:[]}, be = LIVE.backend||{files:[]};
+  const areas = [...new Set(u.classes.map(c=>c.area))].sort();
+  const total = u.classes.reduce((a,c)=>a+(c.ran||c.names.length),0);
+  return `
+  <h2>8 · Test Cases</h2>
+  <p class="lead">Test classes found in the repository and the result of the last run on disk (${esc(u.resultsAge||'?')}). Click a class to list every test name. Test names describe the rule they protect.</p>
+  <div class="grid g4">
+   <div class="card stat"><div class="v">${u.ran??'?'}</div><div class="l">unit tests run · ${u.failed??'?'} failed · ${u.skipped??'?'} skipped</div></div>
+   <div class="card stat"><div class="v">${u.classes.length}</div><div class="l">unit test classes</div></div>
+   <div class="card stat"><div class="v">${dv.declared??'?'}</div><div class="l">device tests (${dv.classes.length} classes, need a phone)</div></div>
+   <div class="card stat"><div class="v">${be.result?be.result.pass:(be.declared??'?')}</div><div class="l">backend tests ${be.result?'passing':'declared'}</div></div>
+  </div>
+  <div class="note">Unit tests run on the JVM with mocks; they prove logic, not phone behaviour. Items marked "Device-verified" elsewhere in this page were checked by hand on a Xiaomi 23117RA68G (HyperOS, Android 16) unless stated.</div>
+  <h3>How to run</h3>
+  <div class="card"><pre class="mono" style="margin:0;white-space:pre-wrap">cd android && ./gradlew testDebugUnitTest                      # 1 class: --tests '*PolicyEngineTest'
+cd android && ./gradlew connectedDebugAndroidTest              # device tests
+cd backend/functions && npm test                               # backend (node --test)
+cd backend/functions && npm run test:rules                     # Firestore rules, needs emulator</pre></div>
+  <h3>Unit test classes</h3>
+  <div class="filters" id="tf"><button data-a="" class="on">All</button>${areas.map(a=>`<button data-a="${esc(a)}">${esc(a)}</button>`).join('')}<input type="search" id="tq" placeholder="Filter classes or test names…"></div>
+  <div id="tlist">${u.classes.sort((a,b)=>(b.ran||b.names.length)-(a.ran||a.names.length)).map(c=>`
+   <details data-area="${esc(c.area)}" data-text="${esc((c.cls+' '+c.names.join(' ')).toLowerCase())}"><summary><span>${esc(c.cls)}</span><span class="badge b-info">${c.ran??c.names.length}</span>${c.failed?'<span class="badge b-bad">failed '+c.failed+'</span>':''}${c.skipped?'<span class="badge b-warn">skipped '+c.skipped+'</span>':''}<span style="color:var(--ink2);font-weight:400;font-size:13px">${esc(c.area)}</span></summary>
+   <div class="body">${TEST_NOTES[c.cls]?`<p style="margin:0 0 6px"><b>Protects:</b> ${esc(TEST_NOTES[c.cls])}</p>`:''}<ul class="tight">${c.names.map(n=>`<li>${esc(n.replace(/_/g,' '))}</li>`).join('')}</ul></div></details>`).join('')}</div>
+  <h3>Device tests (instrumented)</h3>
+  ${dv.classes.map(c=>`<details><summary><span>${esc(c.cls)}</span><span class="badge b-info">${c.names.length}</span><span style="color:var(--ink2);font-weight:400;font-size:13px">${esc(c.area)}</span></summary><div class="body"><ul class="tight">${c.names.map(n=>`<li>${esc(n.replace(/_/g,' '))}</li>`).join('')}</ul></div></details>`).join('')}
+  <h3>Backend tests</h3>
+  ${be.files.map(f=>`<details><summary><span>${esc(f.file)}</span><span class="badge b-info">${f.names.length}</span></summary><div class="body"><ul class="tight">${f.names.map(n=>`<li>${esc(n)}</li>`).join('')}</ul></div></details>`).join('')}
+  <h3>Manual QA</h3>
+  <div class="card"><p style="margin:0 0 6px"><code>android/docs/QA_Testing_Android.md</code>: 37 sections (smoke test, accessibility, blocking, Focus, Time Delay, Friend, AI Coach, auth, sync, delete account, lifecycle, offline, security, upgrade, reboot, Play checklist). It records 301 cases written for 1.0.19; most were never run. Use it as the checklist for the next release build.</p>
+   <h4>Coverage gaps it names</h4><ul class="tight">${GAPS.map(g=>`<li>${esc(g)}</li>`).join('')}</ul></div>
+  <h3>What the suite does not prove</h3>
+  <ul class="tight"><li>Real apps change their ids between versions; detector tests use captured ids from specific versions (for example Instagram 451.0.0.53.80).</li><li>The release (R8) build was not run on a device for 1.0.21 (stated in the changelog); 1.0.22 release code was tested on the Xiaomi.</li><li>Skipped tests: ${u.skipped??'?'} (the false-positive gates skip when real list assets are absent).</li></ul>`;
+}
+
+/* ---------- Mount ---------- */
+function mount(){
+  const m = $('#main');
+  m.innerHTML = [['overview',secOverview],['prd',secPrd],['trd',secTrd],['flow',secFlow],['uiux',secUiux],['backend',secBackend],['problems',secProblems],['code',secCode],['tests',secTests]]
+    .map(([id,fn])=>`<section class="doc" id="${id}">${fn()}</section>`).join('') +
+    `<footer>Generated ${esc(LIVE.generated||'')} from the repository. Prose is hand written from the code and docs listed under each item; numbers are measured by <code>android/docs/refresh-live-docs.py</code>. Android only; Mac, Windows and Android Vision are covered separately.</footer>`;
+  renderTopChips(); renderNav();
+  // feature tiles
+  $$('.tile').forEach(r=>{const tog=()=>{const o=r.classList.toggle('openx');r.setAttribute('aria-expanded',o)};r.addEventListener('click',tog);r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}})});
+  $$('.filters[data-for="feat"]').forEach(box=>box.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return; $$('button',box).forEach(x=>x.classList.toggle('on',x===b));
+    const wrap=box.nextElementSibling; $$('.tile',wrap).forEach(r=>{r.hidden=!(b.dataset.f==='all'||r.dataset.ev===b.dataset.f);r.classList.remove('openx')});
+    $$('.tiles',wrap).forEach(g=>{const any=[...g.children].some(c=>!c.hidden);g.hidden=!any;g.previousElementSibling.hidden=!any});
+  }));
+  // eyebrows
+  $$('section.doc h2').forEach(h=>{const m=h.textContent.match(/^(\d) · (.*)$/);if(m)h.innerHTML=`<span class="eyebrow">Document ${m[1]} of 6</span>${esc(m[2])}`});
+  // simulator
+  $('#simAct')?.addEventListener('change',runSim); $('#simMode')?.addEventListener('change',runSim); runSim();
+  // arch
+  const setArch = id=>{const a=ARCH.find(x=>x.id===id);$$('#archList .node').forEach(n=>n.classList.toggle('sel',n.dataset.arch===id));$('#archBox').innerHTML=`<h4>${esc(a.t)}</h4><p>${esc(a.d)}</p><p><code>${esc(a.f)}</code></p>`};
+  $('#archList').addEventListener('click',e=>{const n=e.target.closest('.node');if(n)setArch(n.dataset.arch)}); setArch('svc');
+  // flow
+  $('#phaseTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#phaseTabs button').forEach(x=>x.classList.toggle('on',x===b));renderPhase(b.dataset.ph)}); renderPhase(PHASES[0].id);
+  $('#screenTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#screenTabs button').forEach(x=>x.classList.toggle('on',x===b));renderScreen(b.dataset.sc)}); renderScreen('onboarding');
+  // problems
+  const applyP=()=>{const f=$('#pf .on').dataset.f,a=$('#pa').value;$$('#plist details').forEach(d=>{d.hidden=!((f==='all'||d.dataset.st===f)&&(!a||d.dataset.area===a))})};
+  $('#pf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#pf button').forEach(x=>x.classList.toggle('on',x===b));applyP()}); $('#pa').addEventListener('change',applyP);
+  // code
+  $$('.file').forEach(f=>f.addEventListener('click',()=>{$$('.file').forEach(x=>x.classList.toggle('sel',x===f));renderCode(f.dataset.path)}));
+  $('#cq')?.addEventListener('input',e=>{const q=e.target.value.toLowerCase();$$('.file').forEach(f=>f.hidden=!f.dataset.path.toLowerCase().includes(q))});
+  const first=$('.file[data-path="services/AppBlockerService.kt"]'); if(first){first.classList.add('sel');renderCode(first.dataset.path)}
+  // tests
+  const applyT=()=>{const a=$('#tf .on').dataset.a,q=$('#tq').value.toLowerCase();$$('#tlist details').forEach(d=>{d.hidden=!((!a||d.dataset.area===a)&&(!q||d.dataset.text.includes(q)))})};
+  $('#tf').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#tf button').forEach(x=>x.classList.toggle('on',x===b));applyT()}); $('#tq').addEventListener('input',applyT);
+  show((location.hash||'#overview').slice(1));
+}
+
+/* global search: jumps to the first section that contains the text and highlights nothing else */
+function globalSearch(q){
+  q=q.trim().toLowerCase(); if(q.length<2) return;
+  const order=[current,...SECTIONS.map(s=>s[0]).filter(i=>i!==current)];
+  const hit=order.find(id=>$('#'+id).textContent.toLowerCase().includes(q));
+  if(!hit) return;
+  if(hit!==current) show(hit);
+  const sec=$('#'+hit); const w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT);
+  let n; while((n=w.nextNode())){ if(n.nodeValue.toLowerCase().includes(q)){ let el=n.parentElement; const det=el.closest('details'); if(det) det.open=true; const tr=el.closest('tr.detail'); if(tr) tr.hidden=false; el.scrollIntoView({block:'center'}); break; } }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  mount();
+  $('#nav').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();show(a.dataset.id)}});
+  window.addEventListener('hashchange',()=>show((location.hash||'#overview').slice(1)));
+  $('#menu').addEventListener('click',()=>$('#nav').classList.toggle('open'));
+  $('#q').addEventListener('keydown',e=>{if(e.key==='Enter')globalSearch(e.target.value)});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}});
+  const root=document.documentElement;
+  try{const t=localStorage.getItem('bf-theme');if(t)root.dataset.theme=t}catch(e){}
+  $('#theme').addEventListener('click',()=>{const dark=(root.dataset.theme==='dark')||(!root.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);const nt=dark?'light':'dark';root.dataset.theme=nt;try{localStorage.setItem('bf-theme',nt)}catch(e){}});
+});
+</script>
+</body>
+</html>
