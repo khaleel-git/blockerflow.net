@@ -917,7 +917,7 @@ export const ARTICLES: Article[] = [
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.1.2, 69 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
+      note: 'Version 1.2.1, 71 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
@@ -950,7 +950,7 @@ export const ARTICLES: Article[] = [
         paragraphs: [
           'Blockerflow installs a certificate called Blockerflow CA in your keychain and sets itself as the system proxy. macOS may ask for your password. Allow it: without the certificate HTTPS sites cannot be filtered. The certificate is created on your Mac and only used to read the address of searches on Google, Bing and other search engines, so adult searches can be blocked and SafeSearch stays on.',
           'Social sites are never decrypted. Instagram Reels and Explore, Facebook Reels, YouTube Shorts and Snapchat Spotlight are blocked from the address of the tab you are looking at, in Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari. The first time, macOS asks whether Blockerflow may control your browser: allow it, or these switches cannot work. Firefox is not covered.',
-          'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app.',
+          'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app. Since version 1.2.1, when you choose a Friend they first get an email with a six digit code and share it with you only if they agree, so a mistyped or made up address can no longer be saved. If an unlock email never arrives, the Friend dialog lets you wait 24 hours instead of being stuck.',
         ],
       },
       {
@@ -958,7 +958,7 @@ export const ARTICLES: Article[] = [
         paragraphs: [
           'Since version 1.1.0 Blockerflow can also check the screen for explicit pictures and video, which the web filter cannot judge: a video in WhatsApp, a picture in Photos, or an image on a page whose address says nothing. It is on by default, next to Block adult content. While a browser, messenger, Photos, Preview or a video player is in front, Blockerflow takes a screenshot about every 2 seconds and a model on your Mac checks it, on the graphics chip where it can. A screen that has not changed is not checked again, so it uses little power. Nothing is saved or sent anywhere.',
           'When something explicit is found, Blockerflow closes the tab (Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari) or hides the app, and covers the screen with the block screen. A second switch, Block suggestive images, adds lingerie and swimwear; it also blocks beach and gym photos. Turning either switch off needs your accountability partner.',
-          'It is not perfect. It can miss pictures and it can block ordinary ones, so keep the web filter on as well. Version 1.1.2 blocks far fewer ordinary photos: before, a photo the model was unsure about, such as swimwear or gym clothes, could be blocked just by staying on screen for a few seconds. In a test with 50 ordinary photos of people in swimwear, sportswear and evening wear, half of the wrong blocks are gone. The model can still be confidently wrong, for example about a shirtless man. The model is NudeNet 320n, which is licensed under the AGPL-3.0.',
+          'It is not perfect. It can miss pictures and it can block ordinary ones, so keep the web filter on as well. Version 1.1.2 blocks far fewer ordinary photos: before, a photo the model was unsure about, such as swimwear or gym clothes, could be blocked just by staying on screen for a few seconds. In a test with 50 ordinary photos of people in swimwear, sportswear and evening wear, half of the wrong blocks are gone. The model can still be confidently wrong, for example about a shirtless man. The model is NudeNet 320n, which is licensed under the AGPL-3.0. Since version 1.2 it runs in a small separate program, blockerflow-vision, whose source code is public on GitHub (github.com/khaleel-git/blockerflow-vision). It still runs only on your Mac.',
         ],
         steps: [
           'The first time Blockerflow starts, macOS asks to allow Screen Recording. Allow it under System Settings, Privacy & Security.',
@@ -1001,6 +1001,11 @@ export const ARTICLES: Article[] = [
         question: 'Do I need an account?',
         answer:
           'No. You only need to sign in with Google for the Friend and AI Coach partners and to sync with the Android app.',
+      },
+      {
+        question: 'Chrome says "Your connection is not private" (ERR_CERT_DATE_INVALID) on Google. What now?',
+        answer:
+          'Update to Blockerflow 1.2.1. Older versions kept using a site certificate after it expired, so after about a day without a restart Chrome refused Google and other sites. Restarting Blockerflow clears it on older versions too.',
       },
       {
         question: 'Can I just delete the app to remove it?',
