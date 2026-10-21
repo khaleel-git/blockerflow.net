@@ -17,6 +17,19 @@ export function Guides() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-24">
+        <a
+          href="/status.html"
+          className="mb-6 block rounded-2xl border border-primary bg-surface p-6 transition hover:bg-primary/5"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Featured</p>
+          <h2 className="mt-2 font-display text-xl font-semibold text-ink">
+            Android app status, live from the code
+          </h2>
+          <p className="mt-2 text-ink-muted">
+            What the Android app does today, how it is built, what is fixed and what still fails,
+            with test results measured from the repository. Open it to see the full manual.
+          </p>
+        </a>
         <ul className="space-y-4">
           {ARTICLES.map((a) => (
             <li key={a.slug}>

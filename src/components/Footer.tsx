@@ -16,6 +16,9 @@ export function Footer() {
           <Link to="/support" className="hover:text-ink">
             Support
           </Link>
+          <a href="/status.html" className="hover:text-ink">
+            Status
+          </a>
           <Link to="/privacy" className="hover:text-ink">
             Privacy Policy
           </Link>
