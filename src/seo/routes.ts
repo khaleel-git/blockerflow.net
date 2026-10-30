@@ -56,6 +56,12 @@ export const ROUTE_META: RouteMeta[] = [
     title: 'Terms & Conditions — Blockerflow',
     description: 'The terms that apply to using the Blockerflow Android app and this website.',
   },
+  {
+    path: '/marketing',
+    title: 'Shorts studio — Blockerflow',
+    description: 'Private page for the Blockerflow team.',
+    noindex: true,
+  },
 ]
 
 export function getRouteMeta(path: string): RouteMeta {
