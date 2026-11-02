@@ -57,6 +57,12 @@ export const ROUTE_META: RouteMeta[] = [
     description: 'The terms that apply to using the Blockerflow Android app and this website.',
   },
   {
+    path: '/dashboard',
+    title: 'Dashboard — Blockerflow',
+    description: 'Your Blockerflow devices, their settings and block counts. Remove a device or delete your account.',
+    noindex: true,
+  },
+  {
     path: '/marketing',
     title: 'Shorts studio — Blockerflow',
     description: 'Private page for the Blockerflow team.',
