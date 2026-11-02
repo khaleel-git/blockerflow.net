@@ -34,7 +34,7 @@ describe('Admin', () => {
     expect(await screen.findByTestId('stat-Accounts')).toHaveTextContent('3')
     expect(screen.getByTestId('stat-Active installs')).toHaveTextContent('9')
     expect(screen.getByTestId('stat-Mac downloads')).toHaveTextContent('5')
-    expect(screen.getByText('Partner Center is not connected yet.')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Open Partner Center statistics' })).toHaveAttribute('href', expect.stringContaining('partner.microsoft.com'))
   })
 
   it('says so when the account is not an admin', async () => {

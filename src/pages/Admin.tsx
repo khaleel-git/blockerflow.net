@@ -47,6 +47,9 @@ interface Store {
   microsoft: { connected: boolean; error?: string }
 }
 
+/** Partner Center's acquisitions (installs) report for Blockerflow (Store ID 9MSPSNKXFG4W). */
+export const PARTNER_CENTER_INSIGHTS = 'https://partner.microsoft.com/dashboard/insights/analytics/acquisitions'
+
 const loadApi = (): Promise<AdminApi> => import('../lib/dashboard/firebase')
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(' ')
 const fmtDate = (ms: number | null) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'never')
@@ -169,7 +172,15 @@ function StoreTab({ store }: { store: Store }) {
           {store.mac.releases.map((r) => <li key={r.tag} className="flex justify-between"><span className="text-ink-muted">{r.tag}</span><span className="tabular-nums">{r.downloads}</span></li>)}
         </ul>
       </Panel>
-      <Panel title="Microsoft Store"><p className="text-sm text-ink-muted">{store.microsoft.error ?? 'Not connected.'}</p></Panel>
+      <Panel title="Microsoft Store">
+        <p className="text-sm text-ink-muted">
+          Microsoft only shares Store numbers through a paid business directory, so they are not loaded here. Partner Center shows them.
+        </p>
+        <a href={PARTNER_CENTER_INSIGHTS} target="_blank" rel="noopener noreferrer"
+          className="mt-3 inline-flex rounded-xl border border-outline px-4 py-2 text-sm font-semibold text-ink hover:bg-primary-bg">
+          Open Partner Center statistics
+        </a>
+      </Panel>
     </div>
   )
 }
