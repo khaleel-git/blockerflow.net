@@ -189,6 +189,22 @@ const DATA = {
       'A narrated overview of Blockerflow: adult content blocking, the four accountability partners, Uninstall Protection, on device privacy, feed blocking and Focus Mode.',
     durationSeconds: 77,
   },
+  instagramGuide: {
+    src: '/assets/videos/instagram-guide.mp4',
+    poster: '/assets/videos/instagram-guide.jpg',
+    name: 'How to block Instagram on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: block the Instagram app and instagram.com from the Blocklist, block it during a Focus session, or block only Reels and keep messages.',
+    durationSeconds: 49,
+  },
+  snapchatGuide: {
+    src: '/assets/videos/snapchat-guide.mp4',
+    poster: '/assets/videos/snapchat-guide.jpg',
+    name: 'How to block Snapchat on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: block the Snapchat app and snapchat.com from the Blocklist, block it during a Focus session, or block only Spotlight and keep chats.',
+    durationSeconds: 42,
+  },
 } satisfies Record<string, DemoVideoInfo>
 
 export type VideoKey = keyof typeof DATA

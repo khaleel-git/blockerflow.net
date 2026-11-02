@@ -244,7 +244,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Instagram on Android',
     intro:
       'Instagram has no setting that locks you out of it, and deleting the app only lasts until the next weak moment. Blockerflow gives you three ways to block Instagram on an Android phone, from the whole app to just the Reels feed, and each one takes a deliberate decision to undo.',
-    media: { kind: 'video', video: 'blocklistGuide', caption: 'Blocking an app and a website in the Blocklist tab. Instagram works the same way.' },
+    media: { kind: 'video', video: 'instagramGuide', caption: 'The three ways to block Instagram: the whole app and website, only during Focus, or just Reels.' },
     sections: [
       {
         heading: 'Choose how much of Instagram to block',
@@ -458,7 +458,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Snapchat on Android',
     intro:
       'Snapchat has no setting to lock you out, and Spotlight is one tap away from every chat. Blockerflow lets you block Snapchat on an Android phone completely, only while you work, or just the Spotlight feed, and undoing any of it takes a deliberate step.',
-    media: { kind: 'video', video: 'blocklistGuide', caption: 'Blocking an app and a website in the Blocklist tab. Snapchat works the same way.' },
+    media: { kind: 'video', video: 'snapchatGuide', caption: 'The three ways to block Snapchat: the whole app and website, only during Focus, or just Spotlight.' },
     sections: [
       {
         heading: 'Block the whole Snapchat app',
