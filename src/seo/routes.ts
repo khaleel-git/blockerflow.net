@@ -63,6 +63,12 @@ export const ROUTE_META: RouteMeta[] = [
     noindex: true,
   },
   {
+    path: '/admin',
+    title: 'Admin — Blockerflow',
+    description: 'Private page for the Blockerflow team.',
+    noindex: true,
+  },
+  {
     path: '/marketing',
     title: 'Shorts studio — Blockerflow',
     description: 'Private page for the Blockerflow team.',

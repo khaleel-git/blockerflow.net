@@ -108,3 +108,16 @@ export async function dashboardAction(user: DashboardUser, body: Record<string, 
   if (!res.ok) throw new Error(json.error ?? `Request failed (${res.status})`)
   return json
 }
+
+/** The admin dashboard's server calls (adminApi; the server checks the admin email on every call). */
+export async function adminApi<T = unknown>(user: DashboardUser, body: Record<string, unknown>): Promise<T> {
+  const token = await user.getIdToken()
+  const res = await fetch(FUNCTIONS_BASE_URL + 'adminApi', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  const json = (await res.json().catch(() => ({}))) as T & { error?: string }
+  if (!res.ok) throw new Error(json.error ?? `Request failed (${res.status})`)
+  return json
+}

@@ -189,6 +189,16 @@ export function Privacy() {
         use either option, email us at the address below and we'll delete it for you.
       </p>
 
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Support access</h3>
+      <p className="mt-3 text-ink-muted">
+        To help you when you contact support, the Blockerflow developer can see your account's
+        email, devices, their settings and block counts, and the store statistics for all users
+        (totals only). Settings are changed only when you ask for it by email; every change is
+        logged, you receive an email listing what was changed, and the app tells you too. An
+        account that abuses the service can be blocked from signing in; its devices keep
+        protecting with the settings they have.
+      </p>
+
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">This website</h2>
       <p className="mt-3 text-ink-muted">
         blockerflow.net uses Google Analytics only if you choose Allow on the banner. It then sets
