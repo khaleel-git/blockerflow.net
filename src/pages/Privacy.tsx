@@ -6,14 +6,18 @@ export function Privacy() {
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-ink-muted">Last updated: November 2026</p>
+      <p className="mt-2 text-sm text-ink-muted">Last updated: 2 November 2026</p>
 
       <p className="mt-8 text-ink-muted">
         This policy describes what Blockerflow reads, what stays on your device, and what leaves
         it. Blocking content requires seeing what is on screen, so Blockerflow uses Android's
-        Accessibility Service to read on-screen information in browsers and supported apps —
-        including the web address in your browser's address bar — and decides locally whether to
-        block it.
+        Accessibility Service to read on-screen information in browsers and supported apps,
+        including the web address in your browser's address bar, and decides locally whether to
+        block it. The Windows app uses Windows UI Automation to read the address bar of the browser
+        in front and to see which app is in front. The Mac app filters web traffic through a proxy
+        that runs on your Mac and reads the address of the front tab in supported browsers with
+        Apple Events. On all three, a picture check can also look at the screen for explicit
+        pictures, entirely on your device (see below).
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">On-device processing</h2>
@@ -29,12 +33,114 @@ export function Privacy() {
           On-screen accessibility content, such as detecting a Reels or Shorts feed, inspected
           locally in memory
         </li>
+        <li>
+          On Windows, the address bar of the browser in front and the name of the app in front,
+          read with UI Automation and checked locally
+        </li>
+        <li>
+          On Mac, the web addresses passing through the local filtering proxy and the address of
+          the front browser tab, checked locally
+        </li>
+        <li>Pictures on screen, for the picture check described below</li>
         <li>Your blocklist, allowlist, and settings, stored locally on your device</li>
       </ul>
       <p className="mt-3 text-ink-muted">
         Your browsing history is not uploaded. Blockerflow has no crash reporter. The Android app
         counts how many people use it with Google Analytics for Firebase (see Usage statistics
         below); that never includes sites, searches, apps, pictures or what was blocked.
+      </p>
+
+      <h2 className="mt-10 font-display text-xl font-semibold text-ink">The picture check</h2>
+      <p className="mt-3 text-ink-muted">
+        Some explicit pictures and videos have no address that gives them away, for example inside
+        a chat app. To catch them, Blockerflow looks at what is on screen and checks it with an
+        image model, NudeNet 320n, that runs on your device. How it works on each platform:
+      </p>
+      <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-muted">
+        <li>
+          <strong className="text-ink">Android:</strong> only while Block adult content is on and
+          after you accept the disclosure that covers it, on Android 11 or newer. The screen is
+          captured through the Accessibility Service every few seconds while you use an app, and
+          checked in a separate process of the app.
+        </li>
+        <li>
+          <strong className="text-ink">Windows:</strong> only while Block adult content is on (the
+          picture check is built into it). Every few seconds the window in front is captured with
+          DXGI Desktop Duplication, cropped to that window, and checked by a separate program that
+          comes with the app, vision\blockerflow-vision.exe. No extra permission or capture prompt
+          is needed.
+        </li>
+        <li>
+          <strong className="text-ink">Mac:</strong> only while Block adult images is on, on macOS
+          14 or newer, and after you allow Screen Recording. Every few seconds while a browser, a
+          messenger (such as WhatsApp, Telegram, Discord, Messages or Signal) or a photo or video
+          app is in front, the main display is captured with ScreenCaptureKit, without
+          Blockerflow's own windows, and checked by a separate program inside the app,
+          blockerflow-vision.
+        </li>
+      </ul>
+      <p className="mt-3 text-ink-muted">
+        Pictures stay in memory only for that check. They are never written to disk, never logged
+        and never sent anywhere. Only scores come back to the app. The program that runs the model
+        has no network code; its source is public at{' '}
+        <a
+          href="https://github.com/khaleel-git/blockerflow-vision"
+          className="text-primary hover:underline"
+        >
+          github.com/khaleel-git/blockerflow-vision
+        </a>{' '}
+        under the GNU AGPL 3.0, and it uses ONNX Runtime (MIT licence).
+      </p>
+      <p className="mt-3 text-ink-muted">
+        Never looked at: Blockerflow itself, the lock screen and video call apps. On Windows, full
+        screen games and presentations are not looked at either. On Android, call screens inside
+        chat apps, home screens, keyboards, cameras, the phone app and simple tools such as clocks
+        and calculators are left out too.
+      </p>
+
+      <h2 className="mt-10 font-display text-xl font-semibold text-ink">Telegram and WhatsApp</h2>
+      <p className="mt-3 text-ink-muted">
+        To block Telegram channels and chats that keep showing explicit pictures, Blockerflow reads
+        the name at the top of an open chat and the line under it (such as "12K subscribers" or
+        "5 members"). Messages are never read.
+      </p>
+      <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-muted">
+        <li>
+          <strong className="text-ink">Android:</strong> the top of the open chat is read through
+          the Accessibility Service. With Block Telegram channels on, a chat whose line says
+          subscribers is a channel and is blocked. With Block adult content on, the names of
+          Telegram and Discord groups and channels are checked with the same rule as searches.
+          WhatsApp chat names are never judged, because they are people's names; WhatsApp channels
+          have their own switch, Block WhatsApp channels.
+        </li>
+        <li>
+          <strong className="text-ink">Windows:</strong> while Block Telegram channels or Block
+          adult content is on and Telegram Desktop or WhatsApp is in front, about once a second the
+          top strip of its window (the title bar and the open chat's name line) is read with
+          Windows' built in offline text recognition, Windows.Media.Ocr. This tells whether the open
+          chat is a Telegram channel and which chat is open. The picture of the strip and the text
+          stay in memory and are never saved or sent.
+        </li>
+        <li>
+          <strong className="text-ink">Mac:</strong> chat names are not read. Telegram and WhatsApp
+          are only looked at by the picture check.
+        </li>
+      </ul>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Remembered chats</h3>
+      <p className="mt-3 text-ink-muted">
+        A chat, group, channel or community that keeps showing explicit pictures is remembered, so
+        opening it again is blocked at once. This is part of Block adult content, on Android
+        (Telegram, Discord, WhatsApp and Reddit communities) and on Windows (Telegram Desktop and
+        WhatsApp). It takes three picture blocks in the same chat within 30 minutes, so one or two
+        misread photos are not enough, and the chat is forgotten after 30 days.
+      </p>
+      <p className="mt-3 text-ink-muted">
+        Only a fingerprint is stored: a SHA 256 hash of the app and the chat's name, with the times
+        of the blocks. The name itself, the pictures and the messages are never stored. The
+        fingerprints are kept in the app's private storage on Android (excluded from backups) and
+        in %LOCALAPPDATA%\Blockerflow\learned_chats.json on Windows. They never leave your
+        device: they are not synced, not shown on the dashboard and not sent anywhere.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">What leaves your device</h2>
@@ -125,6 +231,7 @@ export function Privacy() {
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Permissions</h2>
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Android permissions</h3>
       <table className="mt-3 w-full border-collapse text-left text-sm text-ink-muted">
         <thead>
           <tr className="border-b border-outline">
@@ -161,6 +268,14 @@ export function Privacy() {
           </tr>
         </tbody>
       </table>
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Windows and Mac</h3>
+      <p className="mt-3 text-ink-muted">
+        The Windows app runs as a full trust desktop app (the runFullTrust capability), which UI
+        Automation, the tray icon and starting with Windows need. It asks for no extra permission,
+        and the picture check shows no capture prompt. The Mac app asks macOS for Screen Recording
+        (the picture check), Automation for each supported browser (reading the front tab's
+        address), and may ask for your password to set up its local proxy and certificate.
+      </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">No sale of data</h2>
       <p className="mt-3 text-ink-muted">
