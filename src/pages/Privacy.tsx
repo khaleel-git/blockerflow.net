@@ -32,14 +32,26 @@ export function Privacy() {
         <li>Your blocklist, allowlist, and settings, stored locally on your device</li>
       </ul>
       <p className="mt-3 text-ink-muted">
-        Your browsing history is not uploaded. Blockerflow has no analytics SDK, no crash
-        reporter, and no telemetry upload path.
+        Your browsing history is not uploaded. Blockerflow has no crash reporter. The Android app
+        counts how many people use it with Google Analytics for Firebase (see Usage statistics
+        below); that never includes sites, searches, apps, pictures or what was blocked.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">What leaves your device</h2>
       <p className="mt-3 text-ink-muted">
-        Only three features send anything off-device. Each is optional and only activates when
-        you deliberately turn it on.
+        Apart from the anonymous usage statistics below, only three features send anything
+        off-device. Each is optional and only activates when you deliberately turn it on.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Usage statistics (Android app)</h3>
+      <p className="mt-3 text-ink-muted">
+        The Android app uses Google Analytics for Firebase to count active users. It sends only
+        Firebase's automatic events (first open, sessions, time in the app, app updates, the name
+        of the app screen) with a random app instance ID, the device model, Android version, app
+        version and approximate country derived from the IP address. It sends no custom events,
+        never sites, searches, apps, pictures or block decisions, and collects no advertising ID;
+        ad personalisation is off. Google keeps this data for the retention period set in
+        Analytics. The Mac and Windows apps do not use Analytics.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">AI Coach</h3>
@@ -175,6 +187,17 @@ export function Privacy() {
         cannot be undone. Blocking settings stored only on your device are not affected by this
         and can be cleared separately with Factory Reset, also in Settings. If you'd rather not
         use either option, email us at the address below and we'll delete it for you.
+      </p>
+
+      <h2 className="mt-10 font-display text-xl font-semibold text-ink">This website</h2>
+      <p className="mt-3 text-ink-muted">
+        blockerflow.net uses Google Analytics only if you choose Allow on the banner. It then sets
+        Google Analytics cookies and sends the pages you view, the referring site, your browser,
+        device type and approximate location derived from your IP address to Google. No
+        advertising features are used. If you choose No thanks, or ignore the banner, Analytics is
+        not loaded and nothing is sent. You can change your choice at any time with Analytics
+        settings at the bottom of every page. The dashboard reads your account data only after you
+        sign in, and that data is never sent to Analytics.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Contact</h2>

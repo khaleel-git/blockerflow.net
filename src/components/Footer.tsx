@@ -1,3 +1,4 @@
+import { OPEN_CONSENT_EVENT } from './ConsentBanner'
 import { Link } from 'react-router-dom'
 
 export function Footer() {
@@ -22,6 +23,13 @@ export function Footer() {
           <Link to="/privacy/" className="hover:text-ink">
             Privacy Policy
           </Link>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}
+            className="hover:text-ink"
+          >
+            Analytics settings
+          </button>
           <Link to="/terms/" className="hover:text-ink">
             Terms &amp; Conditions
           </Link>

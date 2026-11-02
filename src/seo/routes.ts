@@ -49,7 +49,7 @@ export const ROUTE_META: RouteMeta[] = [
     path: '/privacy',
     title: 'Privacy Policy — Blockerflow',
     description:
-      'What Blockerflow does and does not send off your device. No analytics SDK, no crash reporter, and your browsing history stays on your phone.',
+      'What Blockerflow does and does not send off your device. Anonymous usage counts only, no crash reporter, and your browsing history stays on your device.',
   },
   {
     path: '/terms',

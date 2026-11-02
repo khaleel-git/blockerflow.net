@@ -150,7 +150,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Is my browsing history uploaded anywhere?',
         answer:
-          'No. Address checks happen on your phone against the bundled blocklist, and there is no analytics or telemetry reporting what you visit.',
+          'No. Address checks happen on your phone against the bundled blocklist, and nothing reports what you visit (the app only counts active users anonymously).',
       },
     ],
     related: [
@@ -767,7 +767,7 @@ export const ARTICLES: Article[] = [
         heading: 'What stays on your phone',
         paragraphs: [
           'Addresses read from your browser stay on the device. So does the on screen content the app inspects to recognise a Reels or Shorts feed, which is examined in memory and never stored. Your blocklist, allowlist and settings are kept locally.',
-          'There is no analytics library, no crash reporter and no telemetry upload path in the app, so there is no background channel quietly reporting what you did.',
+          'There is no crash reporter and nothing reports what you did. The only background report is an anonymous count of active users (Google Analytics for Firebase), which never includes sites, searches, apps or what was blocked.',
         ],
       },
       {
@@ -794,7 +794,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Can Blockerflow see which sites I visit?',
         answer:
-          'Addresses are checked on your phone and are not uploaded. There is no analytics or telemetry reporting your browsing.',
+          'Addresses are checked on your phone and are not uploaded. Nothing reports your browsing.',
       },
       {
         question: 'Does the blocker need the internet to work?',

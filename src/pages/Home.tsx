@@ -206,8 +206,8 @@ export function Home() {
         <div className="rounded-2xl border border-outline bg-surface p-8 text-center">
           <h2 className="font-display text-xl font-semibold text-ink">Privacy-first, by design</h2>
           <p className="mt-3 text-ink-muted">
-            No analytics SDK, no crash reporter, no telemetry upload path. Your browsing history
-            never leaves your device.
+            No crash reporter and no tracking of what you do: only anonymous usage counts. Your
+            browsing history never leaves your device.
           </p>
           <Link to="/privacy/" className="mt-4 inline-block font-medium text-primary hover:underline">
             Read the full Privacy Policy &rarr;
