@@ -192,6 +192,17 @@ describe('Dashboard', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Could not remove device. Device not found')
   })
 
+  it('reloads the devices every 20 seconds while open', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    const api = fakeApi(true)
+    renderPage(api)
+    await screen.findAllByRole('article')
+    expect(api.loadDevices).toHaveBeenCalledTimes(1)
+    await vi.advanceTimersByTimeAsync(20_000)
+    expect(api.loadDevices).toHaveBeenCalledTimes(2)
+    vi.useRealTimers()
+  })
+
   it('noSettingsWrites: the dashboard code has no Firestore write call', () => {
     const files = ['src/pages/Dashboard.tsx', 'src/lib/dashboard/firebase.ts', 'src/lib/dashboard/model.ts']
     for (const f of files) {

@@ -34,6 +34,9 @@ interface Flow {
   message?: string
 }
 
+/** How often the page reloads the devices and counts while it is open. */
+export const REFRESH_MS = 20_000
+
 const ACTION_NAME: Record<Action, string> = { removeDevice: 'Remove device', deleteAccount: 'Delete account' }
 
 const when = (ms: number | null) =>
@@ -244,6 +247,15 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
     if (user) void refresh()
   }, [user, refresh])
 
+  // Live: new blocks reach the server within seconds, so reload while the page is in view.
+  useEffect(() => {
+    if (!user) return
+    const tick = () => { if (document.visibilityState === 'visible') void refresh() }
+    const id = window.setInterval(tick, REFRESH_MS)
+    document.addEventListener('visibilitychange', tick)
+    return () => { window.clearInterval(id); document.removeEventListener('visibilitychange', tick) }
+  }, [user, refresh])
+
   /** What the server answered, applied to the page. */
   const applyResult = useCallback(async (r: ActionResult, f: Flow | null) => {
     if (r.deleted) {
@@ -364,7 +376,7 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
             <section aria-labelledby="blocks-heading" className="mt-8 rounded-3xl bg-surface p-6 shadow-[0_1px_0_var(--color-outline),0_12px_32px_-16px_rgb(79_70_229/0.25)] sm:p-8">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h2 id="blocks-heading" className="text-lg font-semibold text-ink">Blocks on all your devices</h2>
-                <p className="text-xs text-ink-muted">Counts only, never what was blocked. Kept 30 days.</p>
+                <p className="text-xs text-ink-muted">Updates live. Counts only, never what was blocked. Kept 30 days.</p>
               </div>
               <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:items-end">
                 <Numbers summary={accountTotals} />
