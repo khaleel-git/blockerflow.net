@@ -22,7 +22,7 @@ describe('Nav', () => {
     expect(screen.getByRole('link', { name: 'Setup' })).toHaveAttribute('href', '/guide/')
     expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/guides/')
     expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy/')
-    expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms/')
+    expect(screen.getByRole('link', { name: 'Dashboard' })).toHaveAttribute('href', '/dashboard/')
   })
 
   it('links the Google Play badge to the store listing', () => {

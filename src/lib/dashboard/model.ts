@@ -243,3 +243,15 @@ export function approvalFor(device: Device, now: Date): ApprovalMode {
   if (mode === 'ai' || mode === 'ai_pro') return 'ai'
   return 'myself'
 }
+
+/** One total per day for the last `n` days, oldest first, today last (missing days are 0). */
+export function dailyTotals(days: StatsDay[], now: Date, n = 30): { date: string; total: number }[] {
+  const byDate = new Map<string, number>()
+  for (const d of days) byDate.set(d.date, (byDate.get(d.date) ?? 0) + d.total)
+  const out: { date: string; total: number }[] = []
+  for (let i = n - 1; i >= 0; i--) {
+    const date = isoDay(new Date(now.getFullYear(), now.getMonth(), now.getDate() - i))
+    out.push({ date, total: byDate.get(date) ?? 0 })
+  }
+  return out
+}

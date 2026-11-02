@@ -38,7 +38,7 @@ export function GooglePlayBadge({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Get Blockerflow on Google Play"
-        className={`inline-flex items-center gap-2 rounded-full bg-ink px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-ink/85 ${className}`}
+        className={`inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-sm font-medium text-white transition hover:bg-ink/85 sm:px-3.5 ${className}`}
       >
         <PlayGlyph size={16} />
         Google Play

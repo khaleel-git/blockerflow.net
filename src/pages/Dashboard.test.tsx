@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { Dashboard, type DashboardApi } from './Dashboard'
-import { isInactive, maskEmail, settingGroups, sortDevices, summarize, type Device } from '../lib/dashboard/model'
+import { dailyTotals, isInactive, maskEmail, settingGroups, sortDevices, summarize, type Device } from '../lib/dashboard/model'
 import type { DashboardUser } from '../lib/dashboard/firebase'
 import { getRouteMeta } from '../seo/routes'
 
@@ -72,6 +72,14 @@ describe('dashboard model', () => {
     const s = summarize(phone.stats, NOW)
     expect([s.today, s.last7, s.last30]).toEqual([3, 7, 17])
     expect(s.byCategory.map((c) => [c.category, c.count])).toEqual([['focus_mode', 10], ['adult', 6], ['shorts_youtube', 1]])
+  })
+
+  it('gives one total per day for the strip, today last', () => {
+    const days = dailyTotals([...phone.stats, { date: '2026-11-02', total: 1, counts: {} }], NOW)
+    expect(days).toHaveLength(30)
+    expect(days[days.length - 1]).toEqual({ date: '2026-11-02', total: 4 })
+    expect(days[0].date).toBe('2026-10-04')
+    expect(days.find((d) => d.date === '2026-10-30')?.total).toBe(4)
   })
 
   it('shows settings as text, its own platform list only, the Friend email masked', () => {

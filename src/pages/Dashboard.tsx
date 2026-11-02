@@ -4,7 +4,7 @@ import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { MacBadge } from '../components/MacBadge'
 import { WindowsBadge } from '../components/WindowsBadge'
 import {
-  APPROVAL_TEXT, DELETE_WORD, PLATFORM_NAMES, allDays, approvalFor, deleteConfirmed, isInactive, maskEmail, seenText, settingGroups,
+  APPROVAL_TEXT, DELETE_WORD, PLATFORM_NAMES, allDays, approvalFor, dailyTotals, deleteConfirmed, isInactive, maskEmail, seenText, settingGroups,
   sortDevices, summarize, type Device, type StatsSummary,
 } from '../lib/dashboard/model'
 import type { ActionResult, DashboardUser, PendingRequest } from '../lib/dashboard/firebase'
@@ -64,35 +64,76 @@ function Btn({ tone = 'solid', className, ...p }: ButtonHTMLAttributes<HTMLButto
   return <button type="button" {...p} className={cx('rounded-xl px-4 py-2 text-sm font-semibold disabled:opacity-40', look, className)} />
 }
 
-function Totals({ summary, title }: { summary: StatsSummary; title: string }) {
-  const max = summary.byCategory[0]?.count ?? 0
+/** The account's memorable view: one bar per day for the last 30 days, today on the right. */
+function BlockStrip({ days }: { days: { date: string; total: number }[] }) {
+  const max = Math.max(1, ...days.map((d) => d.total))
+  const label = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
   return (
-    <div>
-      <h3 className="text-sm font-semibold text-ink-muted">{title}</h3>
-      <dl className="mt-2 grid grid-cols-3 gap-3 text-center">
-        {([['Today', summary.today], ['7 days', summary.last7], ['30 days', summary.last30]] as const).map(([label, n]) => (
-          <div key={label} className="rounded-xl bg-primary-bg px-2 py-3">
-            <dt className="text-xs text-ink-muted">{label}</dt>
-            <dd className="text-2xl font-bold text-ink" data-testid={`total-${label}`}>{n}</dd>
-          </div>
+    <figure>
+      <div className="flex h-24 items-end gap-[3px]" role="img" aria-label="Blocks per day, last 30 days">
+        {days.map((d, i) => (
+          <div
+            key={d.date}
+            title={`${label(d.date)}: ${d.total} block${d.total === 1 ? '' : 's'}`}
+            className={cx('flex-1 rounded-t-sm', i === days.length - 1 ? 'bg-primary' : d.total ? 'bg-indigo-300' : 'bg-outline')}
+            style={{ height: d.total ? `${Math.max(8, (d.total / max) * 100)}%` : '4px' }}
+          />
         ))}
-      </dl>
-      {summary.byCategory.length > 0 && (
-        <ul className="mt-3 space-y-1.5" aria-label="Blocks by category, last 30 days">
-          {summary.byCategory.map((c) => (
-            <li key={c.category} className="text-sm">
-              <div className="flex justify-between gap-2">
-                <span className="text-ink">{c.name}</span>
-                <span className="font-semibold text-ink">{c.count}</span>
-              </div>
-              <div className="mt-0.5 h-1.5 rounded-full bg-black/5">
-                <div className="h-1.5 rounded-full bg-primary" style={{ width: `${Math.max(4, (c.count / max) * 100)}%` }} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      </div>
+      <figcaption className="mt-2 flex justify-between text-xs text-ink-muted">
+        <span>{label(days[0].date)}</span>
+        <span>Today</span>
+      </figcaption>
+    </figure>
+  )
+}
+
+function Numbers({ summary, size = 'lg' }: { summary: StatsSummary; size?: 'lg' | 'sm' }) {
+  return (
+    <dl className={cx('grid grid-cols-3', size === 'lg' ? 'gap-6' : 'gap-4')}>
+      {([['Today', summary.today], ['7 days', summary.last7], ['30 days', summary.last30]] as const).map(([label, n]) => (
+        <div key={label}>
+          <dt className="text-xs text-ink-muted">{label}</dt>
+          <dd className={cx('font-display font-semibold tabular-nums text-ink', size === 'lg' ? 'text-4xl' : 'text-xl')} data-testid={`total-${label}`}>
+            {n}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+function Categories({ summary }: { summary: StatsSummary }) {
+  if (summary.byCategory.length === 0) return <p className="text-sm text-ink-muted">Nothing blocked in the last 30 days.</p>
+  const max = summary.byCategory[0].count
+  return (
+    <ul className="space-y-2.5" aria-label="Blocks by category, last 30 days">
+      {summary.byCategory.map((c) => (
+        <li key={c.category} className="grid grid-cols-[minmax(0,10rem)_1fr_2.5rem] items-center gap-3 text-sm">
+          <span className="truncate text-ink">{c.name}</span>
+          <span className="h-2 rounded-full bg-primary-bg">
+            <span className="block h-2 rounded-full bg-primary" style={{ width: `${Math.max(4, (c.count / max) * 100)}%` }} />
+          </span>
+          <span className="text-right font-semibold tabular-nums text-ink">{c.count}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function PlatformIcon({ platform }: { platform: string }) {
+  const path =
+    platform === 'android'
+      ? <><rect x="7" y="2.5" width="10" height="19" rx="2.5" /><path d="M11 18.5h2" /></>
+      : platform === 'mac'
+        ? <><rect x="4" y="5" width="16" height="11" rx="1.5" /><path d="M2 19.5h20" /></>
+        : <><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M9 20h6M12 16v4" /></>
+  return (
+    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-bg text-primary">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+        {path}
+      </svg>
+    </span>
   )
 }
 
@@ -102,40 +143,50 @@ function DeviceCard({ device, now, onRemove }: { device: Device; now: Date; onRe
   const summary = summarize(device.stats, now)
   const name = `${PLATFORM_NAMES[device.platform] ?? 'Device'}${device.model ? `: ${device.model}` : ''}`
   return (
-    <Card>
-      <article aria-label={name}>
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div>
-            <h3 className="text-lg font-semibold text-ink">{name}</h3>
-            <p className="text-sm text-ink-muted">
-              {[device.osVersion, device.appVersion && `app ${device.appVersion}`].filter(Boolean).join(', ')}
-            </p>
-            <p className="text-sm text-ink-muted">Last seen {seenText(device.lastSeen, now)}</p>
+    <article aria-label={name} className="rounded-2xl border border-outline bg-surface p-5">
+      <div className="flex items-start gap-4">
+        <PlatformIcon platform={device.platform} />
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-lg font-semibold text-ink">
+              {PLATFORM_NAMES[device.platform] ?? 'Device'}
+              {device.model && <span className="font-normal text-ink-muted"> {device.model}</span>}
+            </h3>
+            {inactive
+              ? <span className="rounded-full bg-black/5 px-2 py-0.5 text-xs font-medium text-ink-muted">Inactive</span>
+              : <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700">Active</span>}
           </div>
-          {inactive && <span className="rounded-full bg-black/5 px-2 py-0.5 text-xs font-semibold text-ink-muted">Inactive</span>}
+          <p className="mt-0.5 text-sm text-ink-muted">
+            {[device.osVersion, device.appVersion && `app ${device.appVersion}`, `last seen ${seenText(device.lastSeen, now)}`].filter(Boolean).join(', ')}
+          </p>
         </div>
+      </div>
 
-        <div className="mt-4">
-          <Totals summary={summary} title="Blocks on this device" />
-        </div>
+      <div className="mt-5 grid gap-5 sm:grid-cols-[auto_1fr] sm:gap-8">
+        <Numbers summary={summary} size="sm" />
+        <Categories summary={summary} />
+      </div>
 
-        <details className="mt-4 rounded-xl border border-outline p-3">
-          <summary className="cursor-pointer text-sm font-semibold text-ink">Settings (read only)</summary>
-          {groups.length === 0 && <p className="mt-2 text-sm text-ink-muted">No settings backed up yet.</p>}
+      <details className="group mt-5 rounded-xl bg-bg px-4 py-3">
+        <summary className="cursor-pointer list-none text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
+          <span className="inline-block transition-transform group-open:rotate-90" aria-hidden="true">›</span> Settings (read only)
+        </summary>
+        {groups.length === 0 && <p className="mt-2 text-sm text-ink-muted">No settings backed up yet.</p>}
+        <div className="grid gap-x-8 sm:grid-cols-2">
           {groups.map((g) => (
             <div key={g.title} className="mt-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wide text-ink-muted">{g.title}</h4>
+              <h4 className="text-sm font-semibold text-ink-muted">{g.title}</h4>
               <dl className="mt-1 divide-y divide-outline">
                 {g.rows.map((r) => (
                   <div key={g.title + r.label} className="py-1.5 text-sm">
                     <div className="flex justify-between gap-3">
                       <dt className="text-ink">{r.label}</dt>
-                      <dd className="text-right font-medium text-ink">{r.value}</dd>
+                      <dd className={cx('text-right font-medium', r.value === 'On' ? 'text-green-700' : 'text-ink')}>{r.value}</dd>
                     </div>
                     {r.items && r.items.length > 0 && (
                       <ul className="mt-1 flex flex-wrap gap-1">
                         {r.items.map((i) => (
-                          <li key={i} className="rounded-md bg-black/5 px-1.5 py-0.5 text-xs text-ink-muted">{i}</li>
+                          <li key={i} className="rounded-md bg-surface px-1.5 py-0.5 text-xs text-ink-muted">{i}</li>
                         ))}
                       </ul>
                     )}
@@ -144,15 +195,15 @@ function DeviceCard({ device, now, onRemove }: { device: Device; now: Date; onRe
               </dl>
             </div>
           ))}
-          <p className="mt-3 text-xs text-ink-muted">To change a setting, open Blockerflow on this device.</p>
-        </details>
-
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <Btn tone="outline" onClick={() => onRemove(device)}>Remove device</Btn>
-          <span className="text-xs text-ink-muted">{APPROVAL_TEXT[approvalFor(device, now)]}</span>
         </div>
-      </article>
-    </Card>
+        <p className="mt-3 text-xs text-ink-muted">To change a setting, open Blockerflow on this device.</p>
+      </details>
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-outline pt-4">
+        <span className="text-xs text-ink-muted">{APPROVAL_TEXT[approvalFor(device, now)]}</span>
+        <Btn tone="outline" onClick={() => onRemove(device)}>Remove device</Btn>
+      </div>
+    </article>
   )
 }
 
@@ -250,8 +301,8 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
   const accountTotals = devices ? summarize(allDays(devices), now) : null
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-bold text-ink">Dashboard</h1>
+    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
+      {!(api && user) && <h1 className="font-display text-4xl font-semibold tracking-tight text-ink">Dashboard</h1>}
 
       {error && <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
 
@@ -268,25 +319,38 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
       {!deleted && (user === undefined || !api) && !error && <p className="mt-6 text-ink-muted">Loading…</p>}
 
       {!deleted && api && user === null && (
-        <Card className="mt-6">
+        <Card className="mt-8 max-w-xl p-8">
           <h2 className="text-xl font-semibold text-ink">Sign in to see your devices</h2>
           <p className="mt-2 text-ink-muted">
             Use the Google account you signed in with in the Blockerflow app. You can see each device's settings and
             block counts, remove a device or delete your account. Settings can only be changed in the app.
           </p>
-          <Btn className="mt-4" disabled={busy} onClick={() => run(api.signIn, 'Sign in failed.')}>Sign in with Google</Btn>
+          <Btn className="mt-6 inline-flex items-center gap-2 px-5 py-2.5" disabled={busy} onClick={() => run(api.signIn, 'Sign in failed.')}>
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
+              <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+              <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+              <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" />
+            </svg>
+            Sign in with Google
+          </Btn>
         </Card>
       )}
 
       {!deleted && api && user && (
         <>
-          <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-ink-muted">Signed in as {maskEmail(user.email ?? '')}</p>
+          <header className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="font-display text-4xl font-semibold tracking-tight text-ink">
+                {user.displayName ? `Hi ${user.displayName.split(' ')[0]}` : 'Your dashboard'}
+              </h1>
+              <p className="mt-1 text-ink-muted">Signed in as {maskEmail(user.email ?? '')}</p>
+            </div>
             <Btn tone="outline" onClick={() => run(api.signOut, 'Sign out failed.')}>Sign out</Btn>
-          </div>
+          </header>
 
           {pending && (
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
               <p className="flex-1">{pendingText(pending, devices)}</p>
               <Btn tone="outline" disabled={busy} onClick={() => run(async () => applyResult(await api.dashboardAction(user, { op: 'cancel' }), null), 'Could not cancel.')}>
                 Cancel request
@@ -297,17 +361,26 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
           {devices === null && !error && <p className="mt-6 text-ink-muted">Loading your devices…</p>}
 
           {accountTotals && devices && devices.length > 0 && (
-            <Card className="mt-6">
-              <Totals summary={accountTotals} title="Blocks on all your devices" />
-              <p className="mt-3 text-xs text-ink-muted">
-                Only a count per category and day, never what was blocked. Each day is deleted after 30 days.
-              </p>
-            </Card>
+            <section aria-labelledby="blocks-heading" className="mt-8 rounded-3xl bg-surface p-6 shadow-[0_1px_0_var(--color-outline),0_12px_32px_-16px_rgb(79_70_229/0.25)] sm:p-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 id="blocks-heading" className="text-lg font-semibold text-ink">Blocks on all your devices</h2>
+                <p className="text-xs text-ink-muted">Counts only, never what was blocked. Kept 30 days.</p>
+              </div>
+              <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:items-end">
+                <Numbers summary={accountTotals} />
+                <BlockStrip days={dailyTotals(allDays(devices), now)} />
+              </div>
+              <div className="mt-8 border-t border-outline pt-6">
+                <Categories summary={accountTotals} />
+              </div>
+            </section>
           )}
 
           {devices && (
             <section className="mt-8" aria-labelledby="devices-heading">
-              <h2 id="devices-heading" className="text-xl font-semibold text-ink">Your devices</h2>
+              <h2 id="devices-heading" className="text-lg font-semibold text-ink">
+                Your devices <span className="font-normal text-ink-muted">{devices.length}</span>
+              </h2>
               {devices.length === 0 && (
                 <p className="mt-2 text-ink-muted">
                   No devices yet. Sign in to the Blockerflow app with this Google account and it shows up here.
@@ -319,24 +392,28 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
             </section>
           )}
 
-          <Card className="mt-8">
-            <h2 className="text-xl font-semibold text-ink">Add a device</h2>
-            <p className="mt-1 text-sm text-ink-muted">Install Blockerflow and sign in with this Google account.</p>
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <GooglePlayBadge />
-              <MacBadge />
-              <WindowsBadge />
+          <section aria-labelledby="add-heading" className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-dashed border-outline px-5 py-4">
+            <div>
+              <h2 id="add-heading" className="font-semibold text-ink">Add a device</h2>
+              <p className="text-sm text-ink-muted">Install Blockerflow there and sign in with this Google account.</p>
             </div>
-          </Card>
+            <div className="flex flex-wrap items-center gap-2">
+              <GooglePlayBadge variant="compact" />
+              <MacBadge variant="compact" />
+              <WindowsBadge variant="compact" />
+            </div>
+          </section>
 
-          <Card className="mt-8 border-red-200">
-            <h2 className="text-xl font-semibold text-red-700">Delete account</h2>
-            <p className="mt-1 text-sm text-ink-muted">
+          <section aria-labelledby="delete-heading" className="mt-16 border-t border-outline pt-8">
+            <h2 id="delete-heading" className="font-semibold text-red-700">Delete account</h2>
+            <p className="mt-1 max-w-2xl text-sm text-ink-muted">
               Deletes your account, every device's settings backup and all block counts. Protection on your devices keeps
               running with the settings they have. This cannot be undone. It needs the approval of the strictest
               accountability partner among your devices seen in the last 30 days.
             </p>
-            <label className="mt-3 block text-sm text-ink" htmlFor="delete-word">
+            <div className="mt-4 flex max-w-md flex-wrap items-end gap-3">
+            <div className="flex-1">
+            <label className="block text-sm text-ink" htmlFor="delete-word">
               Type {DELETE_WORD} to confirm
             </label>
             <input
@@ -346,15 +423,16 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
               autoComplete="off"
               className="mt-1 w-full rounded-xl border border-outline bg-surface px-3 py-2 text-sm"
             />
+            </div>
             <Btn
               tone="danger"
-              className="mt-3"
               disabled={busy || !deleteConfirmed(typed)}
               onClick={() => startFlow('deleteAccount', null)}
             >
               Delete my account
             </Btn>
-          </Card>
+            </div>
+          </section>
 
           {flow && (
             <div role="dialog" aria-modal="true" aria-labelledby="flow-title" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
