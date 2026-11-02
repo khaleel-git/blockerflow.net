@@ -1059,7 +1059,7 @@ export const ARTICLES: Article[] = [
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.2.1, 71 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
+      note: 'Version 1.2.2, 71 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
@@ -1092,7 +1092,7 @@ export const ARTICLES: Article[] = [
         paragraphs: [
           'Blockerflow installs a certificate called Blockerflow CA in your keychain and sets itself as the system proxy. macOS may ask for your password. Allow it: without the certificate HTTPS sites cannot be filtered. The certificate is created on your Mac and only used to read the address of searches on Google, Bing and other search engines, so adult searches can be blocked and SafeSearch stays on.',
           'Social sites are never decrypted. Instagram Reels and Explore, Facebook Reels, YouTube Shorts and Snapchat Spotlight are blocked from the address of the tab you are looking at, in Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari. The first time, macOS asks whether Blockerflow may control your browser: allow it, or these switches cannot work. Firefox is not covered.',
-          'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it syncs your settings with the Android app. Since version 1.2.1, when you choose a Friend they first get an email with a six digit code and share it with you only if they agree, so a mistyped or made up address can no longer be saved. If an unlock email never arrives, the Friend dialog lets you wait 24 hours instead of being stuck.',
+          'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it backs up the settings of this Mac to your account, separately from your other devices. Since version 1.2.1, when you choose a Friend they first get an email with a six digit code and share it with you only if they agree, so a mistyped or made up address can no longer be saved. If an unlock email never arrives, the Friend dialog lets you wait 24 hours instead of being stuck.',
         ],
       },
       {
@@ -1147,7 +1147,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Chrome says "Your connection is not private" (ERR_CERT_DATE_INVALID) on Google. What now?',
         answer:
-          'Update to Blockerflow 1.2.1. Older versions kept using a site certificate after it expired, so after about a day without a restart Chrome refused Google and other sites. Restarting Blockerflow clears it on older versions too.',
+          'Update to Blockerflow 1.2.1 or later. Older versions kept using a site certificate after it expired, so after about a day without a restart Chrome refused Google and other sites. Restarting Blockerflow clears it on older versions too.',
       },
       {
         question: 'Can I just delete the app to remove it?',
