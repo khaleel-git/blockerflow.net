@@ -10,11 +10,11 @@ describe('Footer', () => {
         <Footer />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'Setup' })).toHaveAttribute('href', '/guide')
-    expect(screen.getByRole('link', { name: 'Support' })).toHaveAttribute('href', '/support')
-    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/guides')
-    expect(screen.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy')
-    expect(screen.getByRole('link', { name: 'Terms & Conditions' })).toHaveAttribute('href', '/terms')
+    expect(screen.getByRole('link', { name: 'Setup' })).toHaveAttribute('href', '/guide/')
+    expect(screen.getByRole('link', { name: 'Support' })).toHaveAttribute('href', '/support/')
+    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/guides/')
+    expect(screen.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy/')
+    expect(screen.getByRole('link', { name: 'Terms & Conditions' })).toHaveAttribute('href', '/terms/')
   })
 
   it('links back to khaleel.eu', () => {

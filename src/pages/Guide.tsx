@@ -167,7 +167,7 @@ export function Guide() {
           <p className="mt-3 text-ink-muted">
             Check what Blockerflow does and doesn't send off your device.
           </p>
-          <Link to="/privacy" className="mt-4 inline-block font-medium text-primary hover:underline">
+          <Link to="/privacy/" className="mt-4 inline-block font-medium text-primary hover:underline">
             Read the full Privacy Policy &rarr;
           </Link>
         </div>

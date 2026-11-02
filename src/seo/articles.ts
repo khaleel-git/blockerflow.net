@@ -161,9 +161,9 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: 'block-instagram-reels-on-android',
-    title: 'How to Block Instagram Reels on Android (App and Web)',
+    title: 'How to Block or Disable Instagram Reels on Android (Free)',
     description:
-      'Block Instagram Reels and Facebook Reels on Android without deleting the apps. Covers Instagram Lite and the browser, and keeps your messages working.',
+      'Can you block Reels on Instagram? Yes. Turn off Reels on Android with one switch and keep messages, feed and Stories. Covers Instagram Lite and the web.',
     h1: 'How to block Instagram Reels on Android',
     intro:
       'Plenty of people want Instagram for messages and friends but lose an hour to Reels without noticing. Deleting the app is blunt, and Instagram offers no switch to turn Reels off. Here is how to block Reels and keep the rest.',
@@ -231,9 +231,87 @@ export const ARTICLES: Article[] = [
       },
     ],
     related: [
+      'how-to-block-instagram-on-android',
       'block-youtube-shorts-on-android',
       'block-snapchat-spotlight-on-android',
+    ],
+  },
+  {
+    slug: 'how-to-block-instagram-on-android',
+    title: 'How to Block Instagram on Android: App, Website or Just Reels',
+    description:
+      'Block the Instagram app and instagram.com on your Android phone, block it only while you work, or block just Reels and keep your messages. Step by step.',
+    h1: 'How to block Instagram on Android',
+    intro:
+      'Instagram has no setting that locks you out of it, and deleting the app only lasts until the next weak moment. Blockerflow gives you three ways to block Instagram on an Android phone, from the whole app to just the Reels feed, and each one takes a deliberate decision to undo.',
+    media: { kind: 'video', video: 'blocklistGuide', caption: 'Blocking an app and a website in the Blocklist tab. Instagram works the same way.' },
+    sections: [
+      {
+        heading: 'Choose how much of Instagram to block',
+        paragraphs: [
+          'Most people want one of three things. To be done with Instagram completely, block the app and the website in the Blocklist tab. To stay off it while you study or work, start a Focus session, which blocks Instagram until the timer ends. To keep messages and friends but lose the endless feed, block only Reels with one switch on the Blocking tab.',
+        ],
+      },
+      {
+        heading: 'Block the whole Instagram app',
+        paragraphs: [
+          'The Blocklist tab is where you add apps and sites yourself. Blocking the app is half the job, because instagram.com still opens in a browser, so add the website as well.',
+        ],
+        steps: [
+          'Install Blockerflow and complete setup, including the Accessibility Service permission.',
+          'Open the Blocklist tab and make sure Blocklist is selected rather than Whitelist.',
+          'On the Apps list, tap the round plus button, search for Instagram and switch it on.',
+          'If Instagram Lite is installed, switch it on too. It is a separate app.',
+          'Switch to the Websites list, type instagram.com and tap Add. A blocked domain covers its subdomains, so the mobile site is included.',
+        ],
+      },
+      {
+        heading: 'Block Instagram only while you work or study',
+        paragraphs: [
+          'If you still want Instagram in the evening, the Focus tab is the better tool. While a session runs, Instagram is blocked as the app and as instagram.com, Instagram Lite included, along with Facebook, Snapchat, TikTok, X, Reddit, Threads, Pinterest and Tumblr. When the timer ends, they open again.',
+          'Name the session, pick a length from 15 minutes to 2 hours, or No limit, and tap Start. Switch on Protect Focus Mode on the Blocking tab if stopping early should need your accountability partner.',
+        ],
+      },
+      {
+        heading: 'Block only Reels and keep your messages',
+        paragraphs: [
+          'On the Blocking tab, the Social Blocking card has Block Instagram reels. It recognises the Reels player and puts a Content Blocked screen in front of it, while direct messages, the feed, Stories and profiles keep working. Block Instagram search in the same card closes the Explore tab as well.',
+        ],
+      },
+      {
+        heading: 'Make the block hard to undo',
+        paragraphs: [
+          'Adding a block is instant. Taking one away, whether that is switching Instagram off in the Blocklist or turning off the Reels switch, goes through your accountability partner first: a friend, a typing challenge, a 24 hour wait or an AI coach.',
+          'Turn on Uninstall Protection so Blockerflow itself cannot be deleted in a weak moment. Deleting and reinstalling Instagram does not get around the block either, because the Blocklist remembers the app, not one install of it.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Can I block Instagram but keep messages?',
+        answer:
+          'Yes. Switch on Block Instagram reels, and Block Instagram search if you like, instead of blocking the whole app. Messages, the feed and Stories keep working.',
+      },
+      {
+        question: 'Does blocking the app also block instagram.com?',
+        answer:
+          'No. Add instagram.com under Websites in the Blocklist tab as well. A Focus session covers both the app and the website on its own.',
+      },
+      {
+        question: 'What about Instagram Lite?',
+        answer:
+          'It is a separate app, so add it to the Blocklist too. Focus Mode and the Reels switch already cover Instagram Lite.',
+      },
+      {
+        question: 'Can I unblock Instagram later?',
+        answer:
+          'Yes. Switching it off in the Blocklist runs your accountability check first, so it is a decision rather than an impulse.',
+      },
+    ],
+    related: [
+      'block-instagram-reels-on-android',
       'focus-mode-block-social-media-android',
+      'block-any-app-or-website-on-android',
     ],
   },
   {
@@ -309,9 +387,9 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: 'block-snapchat-spotlight-on-android',
-    title: 'How to Block Snapchat Spotlight on Android',
+    title: 'Snapchat Spotlight Blocker: Block Spotlight on Android (Free)',
     description:
-      'Block the Snapchat Spotlight feed and in-app search on Android while chats, the camera and Stories keep working. Step by step with Blockerflow.',
+      'Block the Snapchat Spotlight feed and in-app search on Android with one switch, while chats, the camera and Stories keep working. Step by step.',
     h1: 'How to block Snapchat Spotlight on Android',
     intro:
       'Snapchat is a messaging app with a short video feed bolted on. Spotlight scrolls like any other endless feed, and Snapchat gives you no way to remove it. You can block the feed and keep the messaging.',
@@ -367,7 +445,71 @@ export const ARTICLES: Article[] = [
       },
     ],
     related: [
+      'how-to-block-snapchat-on-android',
       'block-instagram-reels-on-android',
+      'focus-mode-block-social-media-android',
+    ],
+  },
+  {
+    slug: 'how-to-block-snapchat-on-android',
+    title: 'How to Block Snapchat on Android: Whole App or Just Spotlight',
+    description:
+      'Block the Snapchat app and snapchat.com on Android, block it only during Focus sessions, or block just Spotlight and keep your chats. Step by step.',
+    h1: 'How to block Snapchat on Android',
+    intro:
+      'Snapchat has no setting to lock you out, and Spotlight is one tap away from every chat. Blockerflow lets you block Snapchat on an Android phone completely, only while you work, or just the Spotlight feed, and undoing any of it takes a deliberate step.',
+    media: { kind: 'video', video: 'blocklistGuide', caption: 'Blocking an app and a website in the Blocklist tab. Snapchat works the same way.' },
+    sections: [
+      {
+        heading: 'Block the whole Snapchat app',
+        paragraphs: [
+          'Add Snapchat to the Blocklist tab, the list of apps and sites you choose yourself, and add snapchat.com so the website is closed too.',
+        ],
+        steps: [
+          'Install Blockerflow and complete setup, including the Accessibility Service permission.',
+          'Open the Blocklist tab and make sure Blocklist is selected rather than Whitelist.',
+          'On the Apps list, tap the round plus button, search for Snapchat and switch it on.',
+          'Switch to the Websites list, type snapchat.com and tap Add.',
+        ],
+      },
+      {
+        heading: 'Block Snapchat only while you work or study',
+        paragraphs: [
+          'Snapchat is in the default list a Focus session blocks, as the app and as snapchat.com, along with Instagram, Facebook, TikTok, X, Reddit, Threads, Pinterest and Tumblr. Open the Focus tab, name the session, pick a length and tap Start. Snapchat opens again when the timer ends.',
+        ],
+      },
+      {
+        heading: 'Block only Spotlight and keep your chats',
+        paragraphs: [
+          'On the Blocking tab, the Social Blocking card has Block Snapchat videos, which blocks the Spotlight feed, and Block Snapchat search for in-app search. Chats, the camera, Stories and the map keep working, and you can still accept friend requests with search blocked.',
+        ],
+      },
+      {
+        heading: 'Make the block hard to undo',
+        paragraphs: [
+          'Taking Snapchat off the Blocklist, or switching off the Spotlight switches, goes through your accountability partner first. Turn on Uninstall Protection so Blockerflow cannot simply be deleted.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Can I block Spotlight but keep Snapchat chats?',
+        answer:
+          'Yes. Switch on Block Snapchat videos instead of blocking the whole app. Chats, the camera and Stories keep working.',
+      },
+      {
+        question: 'Does blocking the app also block snapchat.com?',
+        answer:
+          'No. Add snapchat.com under Websites in the Blocklist tab as well. A Focus session covers both on its own.',
+      },
+      {
+        question: 'Can I unblock Snapchat later?',
+        answer:
+          'Yes. Switching it off in the Blocklist runs your accountability check first.',
+      },
+    ],
+    related: [
+      'block-snapchat-spotlight-on-android',
       'focus-mode-block-social-media-android',
       'block-any-app-or-website-on-android',
     ],
@@ -900,9 +1042,9 @@ export const ARTICLES: Article[] = [
       },
     ],
     related: [
+      'how-to-block-instagram-on-android',
+      'how-to-block-snapchat-on-android',
       'focus-mode-block-social-media-android',
-      'block-youtube-shorts-on-android',
-      'how-to-stop-uninstalling-your-porn-blocker',
     ],
   },
   {

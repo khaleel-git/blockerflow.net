@@ -88,7 +88,7 @@ export function Article() {
           Home
         </Link>
         <span className="mx-2">/</span>
-        <Link to="/guides" className="hover:text-ink">
+        <Link to="/guides/" className="hover:text-ink">
           Guides
         </Link>
       </nav>
@@ -159,13 +159,13 @@ export function Article() {
             <ul className="mt-4 space-y-2">
               {related.map((r) => (
                 <li key={r.slug}>
-                  <Link to={`/guides/${r.slug}`} className="font-medium text-primary hover:underline">
+                  <Link to={`/guides/${r.slug}/`} className="font-medium text-primary hover:underline">
                     {r.h1} &rarr;
                   </Link>
                 </li>
               ))}
               <li>
-                <Link to="/guide" className="font-medium text-primary hover:underline">
+                <Link to="/guide/" className="font-medium text-primary hover:underline">
                   How to set up Blockerflow &rarr;
                 </Link>
               </li>

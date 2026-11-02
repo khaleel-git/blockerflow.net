@@ -34,7 +34,7 @@ export function Guides() {
           {ARTICLES.map((a) => (
             <li key={a.slug}>
               <Link
-                to={`/guides/${a.slug}`}
+                to={`/guides/${a.slug}/`}
                 className="block rounded-2xl border border-outline bg-surface p-6 transition hover:border-primary"
               >
                 <h2 className="font-display text-xl font-semibold text-ink">{a.h1}</h2>

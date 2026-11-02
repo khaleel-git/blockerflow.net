@@ -46,7 +46,7 @@ describe('Guide', () => {
     )
     expect(screen.getByRole('link', { name: /Read the full Privacy Policy/ })).toHaveAttribute(
       'href',
-      '/privacy',
+      '/privacy/',
     )
   })
 

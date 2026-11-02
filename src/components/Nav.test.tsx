@@ -19,10 +19,10 @@ describe('Nav', () => {
         <Nav />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'Setup' })).toHaveAttribute('href', '/guide')
-    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/guides')
-    expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy')
-    expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms')
+    expect(screen.getByRole('link', { name: 'Setup' })).toHaveAttribute('href', '/guide/')
+    expect(screen.getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/guides/')
+    expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy/')
+    expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms/')
   })
 
   it('links the Google Play badge to the store listing', () => {
@@ -44,7 +44,7 @@ describe('Nav', () => {
     )
     expect(screen.getByRole('link', { name: 'Get Blockerflow for Mac' })).toHaveAttribute(
       'href',
-      '/guides/how-to-install-blockerflow-on-mac',
+      '/guides/how-to-install-blockerflow-on-mac/',
     )
   })
 
@@ -66,6 +66,6 @@ describe('Nav', () => {
         <Nav />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'Support Blockerflow' })).toHaveAttribute('href', '/support')
+    expect(screen.getByRole('link', { name: 'Support Blockerflow' })).toHaveAttribute('href', '/support/')
   })
 })

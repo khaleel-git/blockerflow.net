@@ -7,22 +7,22 @@ export function Footer() {
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-6 py-10 text-sm text-ink-muted sm:flex-row sm:justify-between">
         <p>&copy; {year} Blockerflow. All rights reserved.</p>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-          <Link to="/guides" className="hover:text-ink">
+          <Link to="/guides/" className="hover:text-ink">
             Guides
           </Link>
-          <Link to="/guide" className="hover:text-ink">
+          <Link to="/guide/" className="hover:text-ink">
             Setup
           </Link>
-          <Link to="/support" className="hover:text-ink">
+          <Link to="/support/" className="hover:text-ink">
             Support
           </Link>
           <a href="/status.html" className="hover:text-ink">
             Status
           </a>
-          <Link to="/privacy" className="hover:text-ink">
+          <Link to="/privacy/" className="hover:text-ink">
             Privacy Policy
           </Link>
-          <Link to="/terms" className="hover:text-ink">
+          <Link to="/terms/" className="hover:text-ink">
             Terms &amp; Conditions
           </Link>
           <a

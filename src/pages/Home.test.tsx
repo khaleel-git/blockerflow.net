@@ -46,7 +46,7 @@ describe('Home', () => {
     )
     expect(screen.getByRole('link', { name: /Read the full Privacy Policy/ })).toHaveAttribute(
       'href',
-      '/privacy',
+      '/privacy/',
     )
   })
 
@@ -56,7 +56,7 @@ describe('Home', () => {
         <Home />
       </MemoryRouter>,
     )
-    expect(document.title).toBe('Blockerflow: Porn Blocker & Reels Blocker for Android')
+    expect(document.title).toBe('Blockerflow: Free Porn Blocker and Instagram Blocker for Android')
   })
 
   it('links the Mac badge to the install guide', () => {
@@ -67,7 +67,7 @@ describe('Home', () => {
     )
     expect(screen.getByRole('link', { name: 'Get Blockerflow for Mac' })).toHaveAttribute(
       'href',
-      '/guides/how-to-install-blockerflow-on-mac',
+      '/guides/how-to-install-blockerflow-on-mac/',
     )
   })
 
@@ -125,7 +125,7 @@ describe('Home', () => {
         <Home />
       </MemoryRouter>,
     )
-    expect(screen.getByRole('link', { name: 'See the details' })).toHaveAttribute('href', '/support')
+    expect(screen.getByRole('link', { name: 'See the details' })).toHaveAttribute('href', '/support/')
   })
 
   it('puts the support section above the guides list', () => {

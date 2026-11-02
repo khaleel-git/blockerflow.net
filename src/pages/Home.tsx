@@ -111,10 +111,10 @@ export function Home() {
               <WindowsBadge />
               <MacBadge />
               <div className="flex basis-full items-center justify-center gap-5 text-sm font-medium lg:justify-start">
-                <Link to="/guide" className="text-ink transition hover:text-primary">
+                <Link to="/guide/" className="text-ink transition hover:text-primary">
                   See how it works &rarr;
                 </Link>
-                <Link to="/privacy" className="text-ink-muted transition hover:text-ink">
+                <Link to="/privacy/" className="text-ink-muted transition hover:text-ink">
                   Privacy policy
                 </Link>
               </div>
@@ -174,7 +174,7 @@ export function Home() {
             accountability partner.
           </p>
           <Link
-            to="/guide"
+            to="/guide/"
             className="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white transition hover:bg-primary/90"
           >
             Open the guide &rarr;
@@ -192,7 +192,7 @@ export function Home() {
           {ARTICLES.map((a) => (
             <Link
               key={a.slug}
-              to={`/guides/${a.slug}`}
+              to={`/guides/${a.slug}/`}
               className="rounded-2xl border border-outline bg-surface p-6 transition hover:border-primary"
             >
               <h3 className="font-display text-lg font-semibold text-ink">{a.h1}</h3>
@@ -209,7 +209,7 @@ export function Home() {
             No analytics SDK, no crash reporter, no telemetry upload path. Your browsing history
             never leaves your device.
           </p>
-          <Link to="/privacy" className="mt-4 inline-block font-medium text-primary hover:underline">
+          <Link to="/privacy/" className="mt-4 inline-block font-medium text-primary hover:underline">
             Read the full Privacy Policy &rarr;
           </Link>
         </div>

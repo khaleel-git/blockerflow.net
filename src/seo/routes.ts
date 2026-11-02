@@ -18,9 +18,9 @@ export const NOT_FOUND_META: RouteMeta = {
 export const ROUTE_META: RouteMeta[] = [
   {
     path: '/',
-    title: 'Blockerflow: Porn Blocker & Reels Blocker for Android',
+    title: 'Blockerflow: Free Porn Blocker and Instagram Blocker for Android',
     description:
-      'Blockerflow is an Android app that blocks porn, Instagram Reels, YouTube Shorts and other distractions, with an accountability partner and uninstall protection.',
+      'Free blocker for Android, Mac and Windows: block porn, Instagram, Reels, YouTube Shorts and Snapchat, with an accountability partner and uninstall protection.',
   },
   {
     path: '/guide',
@@ -30,9 +30,9 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/guides',
-    title: 'Guides: Block Porn, Reels and Shorts on Android',
+    title: 'Guides: Block Porn, Instagram, Snapchat and Shorts on Android',
     description:
-      'Practical guides to blocking porn, Instagram Reels, YouTube Shorts and social media on Android, with the exact switches to use in the app.',
+      'Step by step guides to blocking porn, Instagram, Reels, YouTube Shorts and Snapchat on Android, with the exact switches to use in the app.',
   },
   ...ARTICLES.map((a) => ({
     path: `/guides/${a.slug}`,

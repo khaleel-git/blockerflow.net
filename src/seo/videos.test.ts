@@ -8,8 +8,8 @@ describe('video structured data', () => {
     expect(videoSchema(key).uploadDate).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/)
   })
 
-  it('lists a video for the home page, the setup guide and every guide', () => {
-    expect(Object.keys(ROUTE_VIDEOS)).toHaveLength(14)
+  it('lists a video for the home page, the setup guide and every guide that has one', () => {
+    expect(Object.keys(ROUTE_VIDEOS)).toHaveLength(16)
     for (const video of Object.values(ROUTE_VIDEOS)) {
       expect(video.contentUrl).toMatch(/^https:\/\/blockerflow\.net\/assets\/videos\/.+\.mp4$/)
       expect(video.name.length).toBeLessThanOrEqual(100)

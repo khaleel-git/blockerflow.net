@@ -46,7 +46,7 @@ export function SupportCard({ className = '' }: { className?: string }) {
               >
                 Donate via PayPal
               </a>
-              <Link to="/support" className="text-sm font-medium text-primary hover:underline">
+              <Link to="/support/" className="text-sm font-medium text-primary hover:underline">
                 See the details
               </Link>
             </div>
