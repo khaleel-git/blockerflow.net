@@ -1059,7 +1059,7 @@ export const ARTICLES: Article[] = [
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.2.2, 71 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
+      note: 'Version 1.2.3, 71 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
