@@ -10,6 +10,7 @@ import { Privacy } from './pages/Privacy'
 import { Terms } from './pages/Terms'
 import { NotFound } from './pages/NotFound'
 import { Marketing } from './pages/Marketing'
+import { Dashboard } from './pages/Dashboard'
 
 /** A new page should open at the top, not at the previous page's scroll position. A #hash opens at that section. */
 function ScrollToTop() {
@@ -38,6 +39,7 @@ export function AppRoutes() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/marketing" element={<Marketing />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

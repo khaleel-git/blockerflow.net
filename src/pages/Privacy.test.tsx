@@ -56,7 +56,19 @@ describe('Privacy', () => {
         <Privacy />
       </MemoryRouter>,
     )
-    expect(screen.getByText(/accountability-partner mode and email/)).toBeInTheDocument()
+    expect(screen.getByText(/accountability partner mode and email/)).toBeInTheDocument()
+  })
+
+  it('discloses the device records, the block counts and their 30 day deletion, and the dashboard', () => {
+    render(
+      <MemoryRouter>
+        <Privacy />
+      </MemoryRouter>,
+    )
+    expect(screen.getByText(/no device name, computer name, phone number/)).toBeInTheDocument()
+    expect(screen.getByText(/Never which site, app or search was blocked/)).toBeInTheDocument()
+    expect(screen.getByText(/deleted automatically after 30 days/)).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: 'blockerflow.net/dashboard' })[0]).toHaveAttribute('href', '/dashboard/')
   })
 
   it('discloses that signing out does not delete already-synced data', () => {

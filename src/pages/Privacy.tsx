@@ -6,7 +6,7 @@ export function Privacy() {
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-ink-muted">Last updated: October 2026</p>
+      <p className="mt-2 text-sm text-ink-muted">Last updated: November 2026</p>
 
       <p className="mt-8 text-ink-muted">
         This policy describes what Blockerflow reads, what stays on your device, and what leaves
@@ -66,8 +66,8 @@ export function Privacy() {
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">Cloud settings sync</h3>
       <p className="mt-3 text-ink-muted">
         Signing in with Google is entirely optional — Blockerflow is fully functional offline
-        with no account. If you choose to sign in, Blockerflow stores the following in a
-        Firestore document scoped to your account:
+        with no account. If you choose to sign in, Blockerflow stores the following in Firestore,
+        scoped to your account:
       </p>
       <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-muted">
         <li>
@@ -75,9 +75,21 @@ export function Privacy() {
           Google Sign-In returns
         </li>
         <li>
-          <strong className="text-ink">Settings:</strong> your blocking toggles,
-          blocklist/whitelist entries, and similar preferences — including your
-          accountability-partner mode and email, if you've set one
+          <strong className="text-ink">One record per device:</strong> each phone or computer you
+          sign in on has its own record with its settings (blocking switches, blocklist and
+          allowlist entries, blocked apps, your accountability partner mode and email, if you've
+          set one), the platform (Android, Mac or Windows), the device model (for example "Pixel 8"
+          or "MacBook Air"), the system and app version, and when it was first and last seen. A
+          random ID identifies the record; no device name, computer name, phone number or
+          hardware ID is stored. Each device keeps its own settings: a change on one never
+          changes another.
+        </li>
+        <li>
+          <strong className="text-ink">Block counts:</strong> per device and day, how many times
+          something was blocked in each category (for example adult content, YouTube Shorts,
+          Focus Mode). Never which site, app or search was blocked and never the time. Each day's
+          counts are deleted automatically after 30 days. They are shown only to you, on the
+          dashboard.
         </li>
       </ul>
       <p className="mt-3 text-ink-muted">
@@ -85,6 +97,19 @@ export function Privacy() {
         blocklist match decisions are never synced. This data is stored under your Google
         account's identity in Firebase and is governed by Firebase's own terms. Signing out stops
         further sync; it does not delete what was already written to Firestore.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Dashboard</h3>
+      <p className="mt-3 text-ink-muted">
+        At{' '}
+        <a href="/dashboard/" className="text-primary hover:underline">
+          blockerflow.net/dashboard
+        </a>{' '}
+        you can sign in with the same Google account to see your devices, each device's settings
+        (read only; settings can only be changed in the app) and its block counts, remove a device
+        or delete your account. Removing a device deletes its record and block counts and signs
+        it out; protection on that device keeps running with the settings it has. The dashboard
+        uses Firebase Authentication to sign you in and reads only your own data.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Permissions</h2>
@@ -141,12 +166,15 @@ export function Privacy() {
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">Deleting your account</h3>
       <p className="mt-3 text-ink-muted">
         If you've signed in with Google, you can permanently delete your account and everything
-        synced to the cloud (your profile and settings document) directly in the app: open
-        Blockerflow, go to Settings, scroll to Danger Zone, and tap Delete Account. Confirming
-        deletes your Firestore data and your Firebase Auth account outright; this cannot be
-        undone. Blocking settings stored only on your device are not affected by this and can be
-        cleared separately with Factory Reset, also in Settings. If you'd rather not use the
-        in-app option, email us at the address below and we'll delete it for you.
+        stored in the cloud (your profile, every device record with its settings, and all block
+        counts) in the app (Settings, Danger Zone, Delete Account) or on{' '}
+        <a href="/dashboard/" className="text-primary hover:underline">
+          blockerflow.net/dashboard
+        </a>
+        . Confirming deletes your Firestore data and your Firebase Auth account outright; this
+        cannot be undone. Blocking settings stored only on your device are not affected by this
+        and can be cleared separately with Factory Reset, also in Settings. If you'd rather not
+        use either option, email us at the address below and we'll delete it for you.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Contact</h2>
