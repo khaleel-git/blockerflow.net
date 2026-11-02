@@ -35,17 +35,22 @@ const phone = device({
 })
 const oldMac = device({ id: 'mac', platform: 'mac', model: 'MacBook Air', osVersion: 'macOS 26.1', appVersion: '1.2.2', lastSeen: daysAgo(45), stats: [] })
 
-function fakeApi(signedIn: boolean, devices: Device[] = [phone, oldMac]) {
+type Body = Record<string, unknown>
+function fakeApi(signedIn: boolean, devices: Device[] = [phone, oldMac], reply: (b: Body) => unknown = () => ({ request: null })) {
   const api: DashboardApi = {
     watchUser: (cb) => { cb(signedIn ? user : null); return () => {} },
     signIn: vi.fn(async () => {}),
     signOut: vi.fn(async () => {}),
     loadDevices: vi.fn(async () => devices),
-    removeDevice: vi.fn(async () => {}),
-    deleteAccount: vi.fn(async () => {}),
+    dashboardAction: vi.fn(async (_u, b: Body) => {
+      const r = reply(b)
+      if (r instanceof Error) throw r
+      return r as never
+    }),
   }
   return api
 }
+const calls = (api: DashboardApi) => (api.dashboardAction as ReturnType<typeof vi.fn>).mock.calls.map((c) => c[1] as Body)
 
 const renderPage = (api: DashboardApi) =>
   render(<MemoryRouter><Dashboard api={api} now={NOW} /></MemoryRouter>)
@@ -113,38 +118,70 @@ describe('Dashboard', () => {
     expect(screen.getAllByTestId('total-30 days')[0]).toHaveTextContent('17')
   })
 
-  it('removes a device through removeDevice after confirming', async () => {
-    const api = fakeApi(true)
+  it('removing an active Myself device asks for the typing challenge, then removes it', async () => {
+    const TEXT = 'I am removing it on purpose.'
+    const api = fakeApi(true, [phone, oldMac], (b) =>
+      b.op === 'start' ? { needs: 'myself', text: TEXT } : b.op === 'confirm' ? { done: true, removed: true } : { request: null })
     renderPage(api)
-    const card = (await screen.findAllByRole('article'))[1]
+    const card = (await screen.findAllByRole('article'))[0]
     fireEvent.click(within(card).getByRole('button', { name: 'Remove device' }))
     const dialog = screen.getByRole('dialog')
-    fireEvent.click(within(dialog).getByRole('button', { name: 'Remove' }))
-    await waitFor(() => expect(api.removeDevice).toHaveBeenCalledWith(user, 'mac'))
-    await waitFor(() => expect(screen.getAllByRole('article')).toHaveLength(1))
+    expect(within(dialog).getByText(/partner has to agree first/)).toBeInTheDocument()
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Continue' }))
+    expect(await within(dialog).findByTestId('challenge-text')).toHaveTextContent(TEXT)
+    const submit = within(dialog).getByRole('button', { name: 'Submit' })
+    expect(submit).toBeDisabled()
+    fireEvent.change(within(dialog).getByLabelText('Your typing'), { target: { value: TEXT } })
+    fireEvent.click(submit)
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
+    expect(calls(api)).toContainEqual({ op: 'start', action: 'removeDevice', deviceId: 'phone' })
+    expect(calls(api)).toContainEqual({ op: 'confirm', action: 'removeDevice', deviceId: 'phone', typed: TEXT })
+    expect(api.loadDevices).toHaveBeenCalledTimes(2)
   })
 
-  it('deletes the account only after DELETE is typed', async () => {
-    const api = fakeApi(true)
+  it('shows what removing each device needs', async () => {
+    renderPage(fakeApi(true))
+    const cards = await screen.findAllByRole('article')
+    expect(within(cards[0]).getByText("Needs your Friend's approval")).toBeInTheDocument()
+    expect(within(cards[1]).getByText('No approval needed (not seen for 30 days)')).toBeInTheDocument()
+  })
+
+  it('deletes the account only after DELETE is typed, and a Friend gets an email', async () => {
+    const api = fakeApi(true, [phone], (b) =>
+      b.op === 'start'
+        ? { needs: 'friend', request: { action: 'deleteAccount', deviceId: null, mode: 'friend', status: 'pending', executeAfter: null, expiresAt: NOW.getTime() + 86_400_000, sentTo: 'f•••@example.com' } }
+        : { request: null })
     renderPage(api)
     await screen.findAllByRole('article')
     const button = screen.getByRole('button', { name: 'Delete my account' })
     expect(button).toBeDisabled()
-    fireEvent.change(screen.getByLabelText('Type DELETE to confirm'), { target: { value: 'delete' } })
-    expect(button).toBeDisabled()
     fireEvent.change(screen.getByLabelText('Type DELETE to confirm'), { target: { value: 'DELETE' } })
     fireEvent.click(button)
-    await waitFor(() => expect(api.deleteAccount).toHaveBeenCalledWith(user))
-    expect(await screen.findByText('Your account is deleted')).toBeInTheDocument()
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Continue' }))
+    expect(await screen.findByText(/We emailed your Friend \(f•••@example.com\)/)).toBeInTheDocument()
+    expect(screen.getByText(/Deleting your account is waiting for your Friend/)).toBeInTheDocument()
+    expect(calls(api)).toContainEqual({ op: 'start', action: 'deleteAccount', deviceId: undefined })
+  })
+
+  it('shows a waiting request with Cancel', async () => {
+    let cancelled = false
+    const api = fakeApi(true, [phone], (b) => {
+      if (b.op === 'cancel') { cancelled = true; return { request: null } }
+      return { request: { action: 'removeDevice', deviceId: 'phone', mode: 'timedelay', status: 'pending', executeAfter: NOW.getTime() + 3600_000, expiresAt: null, sentTo: null } }
+    })
+    renderPage(api)
+    expect(await screen.findByText(/Removing Android Xiaomi 23117RA68G is waiting for the 24 hour delay/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel request' }))
+    await waitFor(() => expect(cancelled).toBe(true))
+    await waitFor(() => expect(screen.queryByText(/waiting for the 24 hour delay/)).toBeNull())
   })
 
   it('shows a server error instead of pretending', async () => {
-    const api = fakeApi(true)
-    api.removeDevice = vi.fn(async () => { throw new Error('Device not found') })
+    const api = fakeApi(true, [phone, oldMac], (b) => (b.op === 'start' ? new Error('Device not found') : { request: null }))
     renderPage(api)
     fireEvent.click(within((await screen.findAllByRole('article'))[0]).getByRole('button', { name: 'Remove device' }))
-    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Remove' }))
-    expect(await screen.findByRole('alert')).toHaveTextContent('Could not remove the device. Device not found')
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Continue' }))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Could not remove device. Device not found')
   })
 
   it('noSettingsWrites: the dashboard code has no Firestore write call', () => {

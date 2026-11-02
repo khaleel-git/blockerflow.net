@@ -220,3 +220,26 @@ export const DELETE_WORD = 'DELETE'
 export function deleteConfirmed(typed: string): boolean {
   return typed.trim() === DELETE_WORD
 }
+
+// ---- partner approval for Remove device and Delete account ----
+
+export type ApprovalMode = 'none' | 'myself' | 'ai' | 'timedelay' | 'friend'
+
+export const APPROVAL_TEXT: Record<ApprovalMode, string> = {
+  none: 'No approval needed (not seen for 30 days)',
+  myself: 'Needs your typing challenge',
+  ai: 'Needs the AI Coach',
+  timedelay: 'Needs a 24 hour wait',
+  friend: "Needs your Friend's approval",
+}
+
+/** What removing this device needs, as the server decides it (for display only). */
+export function approvalFor(device: Device, now: Date): ApprovalMode {
+  if (isInactive(device.lastSeen, now)) return 'none'
+  const s = device.settings
+  const mode = typeof s.partner_mode_string === 'string' ? s.partner_mode_string.toLowerCase() : ''
+  if (mode === 'friend') return typeof s.partner_email === 'string' && s.partner_email.includes('@') ? 'friend' : 'timedelay'
+  if (mode === 'timedelay') return 'timedelay'
+  if (mode === 'ai' || mode === 'ai_pro') return 'ai'
+  return 'myself'
+}

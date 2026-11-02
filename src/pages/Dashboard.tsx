@@ -4,10 +4,10 @@ import { GooglePlayBadge } from '../components/GooglePlayBadge'
 import { MacBadge } from '../components/MacBadge'
 import { WindowsBadge } from '../components/WindowsBadge'
 import {
-  DELETE_WORD, PLATFORM_NAMES, allDays, deleteConfirmed, isInactive, maskEmail, seenText, settingGroups, sortDevices, summarize,
-  type Device, type StatsSummary,
+  APPROVAL_TEXT, DELETE_WORD, PLATFORM_NAMES, allDays, approvalFor, deleteConfirmed, isInactive, maskEmail, seenText, settingGroups,
+  sortDevices, summarize, type Device, type StatsSummary,
 } from '../lib/dashboard/model'
-import type { DashboardUser } from '../lib/dashboard/firebase'
+import type { ActionResult, DashboardUser, PendingRequest } from '../lib/dashboard/firebase'
 
 /**
  * blockerflow.net/dashboard (noindex): sign in with Google, see this account's devices, each
@@ -20,8 +20,31 @@ export interface DashboardApi {
   signIn: () => Promise<void>
   signOut: () => Promise<void>
   loadDevices: (uid: string) => Promise<Device[]>
-  removeDevice: (user: DashboardUser, deviceId: string) => Promise<void>
-  deleteAccount: (user: DashboardUser) => Promise<void>
+  dashboardAction: (user: DashboardUser, body: Record<string, unknown>) => Promise<ActionResult>
+}
+
+type Action = 'removeDevice' | 'deleteAccount'
+
+/** The open approval dialog: which action, and what the server asked for. */
+interface Flow {
+  action: Action
+  device: Device | null
+  step: 'confirm' | 'myself' | 'ai' | 'sent'
+  text?: string
+  message?: string
+}
+
+const ACTION_NAME: Record<Action, string> = { removeDevice: 'Remove device', deleteAccount: 'Delete account' }
+
+const when = (ms: number | null) =>
+  ms ? new Date(ms).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : ''
+
+function pendingText(r: PendingRequest, devices: Device[] | null): string {
+  const d = devices?.find((x) => x.id === r.deviceId)
+  const what = r.action === 'deleteAccount' ? 'Deleting your account' : `Removing ${d ? `${PLATFORM_NAMES[d.platform] ?? 'the device'} ${d.model}` : 'a device'}`
+  return r.mode === 'timedelay'
+    ? `${what} is waiting for the 24 hour delay. It is carried out when you open this page after ${when(r.executeAfter)}.`
+    : `${what} is waiting for your Friend (${r.sentTo ?? 'by email'}) to approve. The request expires ${when(r.expiresAt)}.`
 }
 
 const loadApi = (): Promise<DashboardApi> => import('../lib/dashboard/firebase')
@@ -124,8 +147,9 @@ function DeviceCard({ device, now, onRemove }: { device: Device; now: Date; onRe
           <p className="mt-3 text-xs text-ink-muted">To change a setting, open Blockerflow on this device.</p>
         </details>
 
-        <div className="mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-3">
           <Btn tone="outline" onClick={() => onRemove(device)}>Remove device</Btn>
+          <span className="text-xs text-ink-muted">{APPROVAL_TEXT[approvalFor(device, now)]}</span>
         </div>
       </article>
     </Card>
@@ -138,7 +162,9 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
   const [user, setUser] = useState<DashboardUser | null | undefined>(undefined)
   const [devices, setDevices] = useState<Device[] | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [removing, setRemoving] = useState<Device | null>(null)
+  const [flow, setFlow] = useState<Flow | null>(null)
+  const [answer, setAnswer] = useState('')
+  const [pending, setPending] = useState<PendingRequest | null>(null)
   const [busy, setBusy] = useState(false)
   const [typed, setTyped] = useState('')
   const [deleted, setDeleted] = useState(false)
@@ -166,6 +192,46 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
     setDevices(null)
     if (user) void refresh()
   }, [user, refresh])
+
+  /** What the server answered, applied to the page. */
+  const applyResult = useCallback(async (r: ActionResult, f: Flow | null) => {
+    if (r.deleted) {
+      setFlow(null)
+      setDeleted(true)
+      await api?.signOut().catch(() => undefined)
+      return
+    }
+    if (r.done) {
+      setFlow(null)
+      setPending(null)
+      await refresh()
+      return
+    }
+    if (r.request !== undefined) setPending(r.request ?? null)
+    if (r.ended) setError(r.ended === 'denied' ? 'Your Friend denied the request. Nothing was changed.' : 'The request expired. Nothing was changed.')
+    if (!f) return
+    if (r.needs === 'myself') setFlow({ ...f, step: 'myself', text: r.text })
+    else if (r.needs === 'ai') setFlow({ ...f, step: 'ai' })
+    else if (r.needs === 'friend' || r.needs === 'timedelay') {
+      setFlow({
+        ...f,
+        step: 'sent',
+        message: r.needs === 'friend'
+          ? `We emailed your Friend (${r.request?.sentTo ?? ''}). Once they approve, it is carried out.`
+          : `This can be carried out after ${when(r.request?.executeAfter ?? null)}. Open this page again then.`,
+      })
+    } else if (r.rejected) setFlow({ ...f, message: r.reason ?? 'The AI Coach did not approve this.' })
+  }, [api, refresh])
+
+  useEffect(() => {
+    if (!api || !user) return
+    api.dashboardAction(user, { op: 'status' }).then((r) => applyResult(r, null)).catch(() => undefined)
+  }, [api, user, applyResult])
+
+  const startFlow = (action: Action, device: Device | null) => {
+    setAnswer('')
+    setFlow({ action, device, step: 'confirm' })
+  }
 
   const run = async (what: () => Promise<void>, fail: string) => {
     setBusy(true)
@@ -219,6 +285,15 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
             <Btn tone="outline" onClick={() => run(api.signOut, 'Sign out failed.')}>Sign out</Btn>
           </div>
 
+          {pending && (
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              <p className="flex-1">{pendingText(pending, devices)}</p>
+              <Btn tone="outline" disabled={busy} onClick={() => run(async () => applyResult(await api.dashboardAction(user, { op: 'cancel' }), null), 'Could not cancel.')}>
+                Cancel request
+              </Btn>
+            </div>
+          )}
+
           {devices === null && !error && <p className="mt-6 text-ink-muted">Loading your devices…</p>}
 
           {accountTotals && devices && devices.length > 0 && (
@@ -239,7 +314,7 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
                 </p>
               )}
               <div className="mt-3 space-y-4">
-                {devices.map((d) => <DeviceCard key={d.id} device={d} now={now} onRemove={setRemoving} />)}
+                {devices.map((d) => <DeviceCard key={d.id} device={d} now={now} onRemove={(dev) => startFlow('removeDevice', dev)} />)}
               </div>
             </section>
           )}
@@ -258,7 +333,8 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
             <h2 className="text-xl font-semibold text-red-700">Delete account</h2>
             <p className="mt-1 text-sm text-ink-muted">
               Deletes your account, every device's settings backup and all block counts. Protection on your devices keeps
-              running with the settings they have. This cannot be undone.
+              running with the settings they have. This cannot be undone. It needs the approval of the strictest
+              accountability partner among your devices seen in the last 30 days.
             </p>
             <label className="mt-3 block text-sm text-ink" htmlFor="delete-word">
               Type {DELETE_WORD} to confirm
@@ -274,41 +350,73 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
               tone="danger"
               className="mt-3"
               disabled={busy || !deleteConfirmed(typed)}
-              onClick={async () => {
-                if (await run(() => api.deleteAccount(user), 'Could not delete your account.')) {
-                  setDeleted(true)
-                  await api.signOut().catch(() => undefined)
-                }
-              }}
+              onClick={() => startFlow('deleteAccount', null)}
             >
               Delete my account
             </Btn>
           </Card>
 
-          {removing && (
-            <div role="dialog" aria-modal="true" aria-labelledby="remove-title" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          {flow && (
+            <div role="dialog" aria-modal="true" aria-labelledby="flow-title" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
               <div className="w-full max-w-md rounded-2xl bg-surface p-5 shadow-lg">
-                <h2 id="remove-title" className="text-lg font-semibold text-ink">Remove this device?</h2>
-                <p className="mt-2 text-sm text-ink-muted">
-                  {PLATFORM_NAMES[removing.platform] ?? 'The device'} {removing.model} is signed out of your account and its
-                  settings backup and block counts are deleted. Protection on it keeps running with the settings it has.
-                  Signing in on it again adds it back.
-                </p>
+                <h2 id="flow-title" className="text-lg font-semibold text-ink">
+                  {flow.action === 'deleteAccount' ? 'Delete your account?' : 'Remove this device?'}
+                </h2>
+                {flow.step === 'confirm' && (
+                  <p className="mt-2 text-sm text-ink-muted">
+                    {flow.action === 'deleteAccount'
+                      ? 'Everything in your account is deleted and every device is signed out. Protection keeps running with the settings each device has.'
+                      : `${PLATFORM_NAMES[flow.device?.platform ?? ''] ?? 'The device'} ${flow.device?.model ?? ''} is signed out of your account and its settings backup and block counts are deleted. Protection on it keeps running with the settings it has. Signing in on it again adds it back.`}{' '}
+                    Your accountability partner has to agree first.
+                  </p>
+                )}
+                {flow.step === 'myself' && (
+                  <>
+                    <p className="mt-2 text-sm text-ink-muted">Type this text exactly:</p>
+                    <p className="mt-2 select-none rounded-lg bg-black/5 p-2 text-sm text-ink" data-testid="challenge-text">{flow.text}</p>
+                    <label htmlFor="flow-answer" className="sr-only">Your typing</label>
+                    <textarea
+                      id="flow-answer"
+                      value={answer}
+                      onChange={(e) => setAnswer(e.target.value)}
+                      onPaste={(e) => e.preventDefault()}
+                      rows={3}
+                      className="mt-2 w-full rounded-xl border border-outline bg-surface px-3 py-2 text-sm"
+                    />
+                  </>
+                )}
+                {flow.step === 'ai' && (
+                  <>
+                    <p className="mt-2 text-sm text-ink-muted">Tell the AI Coach why you want to do this.</p>
+                    <label htmlFor="flow-answer" className="sr-only">Your reason</label>
+                    <textarea
+                      id="flow-answer"
+                      value={answer}
+                      onChange={(e) => setAnswer(e.target.value)}
+                      rows={4}
+                      className="mt-2 w-full rounded-xl border border-outline bg-surface px-3 py-2 text-sm"
+                    />
+                  </>
+                )}
+                {flow.message && <p className="mt-3 rounded-lg bg-primary-bg p-2 text-sm text-ink" role="status">{flow.message}</p>}
                 <div className="mt-4 flex justify-end gap-2">
-                  <Btn tone="outline" disabled={busy} onClick={() => setRemoving(null)}>Cancel</Btn>
-                  <Btn
-                    tone="danger"
-                    disabled={busy}
-                    onClick={async () => {
-                      const d = removing
-                      if (await run(() => api.removeDevice(user, d.id), 'Could not remove the device.')) {
-                        setRemoving(null)
-                        setDevices((list) => list?.filter((x) => x.id !== d.id) ?? null)
-                      }
-                    }}
-                  >
-                    Remove
-                  </Btn>
+                  <Btn tone="outline" disabled={busy} onClick={() => setFlow(null)}>{flow.step === 'sent' ? 'Close' : 'Cancel'}</Btn>
+                  {flow.step !== 'sent' && (
+                    <Btn
+                      tone="danger"
+                      disabled={busy || ((flow.step === 'myself' || flow.step === 'ai') && !answer.trim())}
+                      onClick={() => {
+                        const f = flow
+                        const base = { action: f.action, deviceId: f.device?.id }
+                        const body = f.step === 'confirm'
+                          ? { ...base, op: 'start' }
+                          : f.step === 'myself' ? { ...base, op: 'confirm', typed: answer } : { ...base, op: 'confirm', excuse: answer }
+                        void run(async () => applyResult(await api.dashboardAction(user, body), f), `Could not ${ACTION_NAME[f.action].toLowerCase()}.`)
+                      }}
+                    >
+                      {flow.step === 'confirm' ? 'Continue' : 'Submit'}
+                    </Btn>
+                  )}
                 </div>
               </div>
             </div>

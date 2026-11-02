@@ -70,19 +70,41 @@ export async function loadDevices(uid: string): Promise<Device[]> {
   )
 }
 
-/** POSTs to a server function with the user's ID token. Throws with the server's message on failure. */
-async function callFunction(user: DashboardUser, name: string, body: Record<string, unknown>): Promise<void> {
+export interface PendingRequest {
+  action: 'removeDevice' | 'deleteAccount'
+  deviceId: string | null
+  mode: 'timedelay' | 'friend'
+  status: string
+  executeAfter: number | null
+  expiresAt: number | null
+  sentTo: string | null
+}
+
+/** The answer of dashboardAction (see backend/functions/index.js). */
+export interface ActionResult {
+  done?: boolean
+  removed?: boolean
+  deleted?: boolean
+  needs?: 'myself' | 'ai' | 'timedelay' | 'friend'
+  text?: string
+  rejected?: boolean
+  reason?: string | null
+  request?: PendingRequest | null
+  ended?: 'expired' | 'denied'
+}
+
+/**
+ * Remove device and Delete account, behind the accountability partner: the server decides what
+ * approval is needed and carries the action out. Throws with the server's message on failure.
+ */
+export async function dashboardAction(user: DashboardUser, body: Record<string, unknown>): Promise<ActionResult> {
   const token = await user.getIdToken()
-  const res = await fetch(FUNCTIONS_BASE_URL + name, {
+  const res = await fetch(FUNCTIONS_BASE_URL + 'dashboardAction', {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   })
-  if (!res.ok) {
-    const msg = await res.json().then((j: { error?: string }) => j.error).catch(() => undefined)
-    throw new Error(msg ?? `Request failed (${res.status})`)
-  }
+  const json = (await res.json().catch(() => ({}))) as ActionResult & { error?: string }
+  if (!res.ok) throw new Error(json.error ?? `Request failed (${res.status})`)
+  return json
 }
-
-export const removeDevice = (user: DashboardUser, deviceId: string) => callFunction(user, 'removeDevice', { deviceId })
-export const deleteAccount = (user: DashboardUser) => callFunction(user, 'deleteAccount', {})
