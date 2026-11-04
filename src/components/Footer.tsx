@@ -24,6 +24,14 @@ export function Footer() {
           <p className="mt-3 text-sm text-ink-muted">
             A free blocker for Android, Mac and Windows, with a partner who has to agree before you switch it off.
           </p>
+          <a
+            href="https://www.foundrlist.com/product/blockerflow?utm_source=badge&amp;utm_medium=embed"
+            target="_blank"
+            rel="noopener nofollow"
+            className="mt-5 inline-block"
+          >
+            <img src="https://www.foundrlist.com/api/badge/blockerflow" alt="Featured on FoundrList" width="150" height="48" loading="lazy" />
+          </a>
         </div>
         <Group title="Get help">
           <li><Link to="/guide/" className={linkClass}>Setup</Link></li>
@@ -43,12 +51,7 @@ export function Footer() {
       </div>
       <div className="border-t border-outline">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-5 text-xs text-ink-muted sm:flex-row sm:justify-between">
-          <div className="flex items-center gap-4">
-            <p>&copy; {year} Blockerflow</p>
-            <a href="https://www.foundrlist.com/product/blockerflow?utm_source=badge&amp;utm_medium=embed" target="_blank" rel="noopener">
-              <img src="https://www.foundrlist.com/api/badge/blockerflow" alt="Featured on FoundrList" width="150" height="48" loading="lazy" />
-            </a>
-          </div>
+          <p>&copy; {year} Blockerflow</p>
           <p>
             <Link to="/support/" className={linkClass}>Support the project</Link>
             <span aria-hidden="true" className="mx-2">/</span>
