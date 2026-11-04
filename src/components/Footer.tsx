@@ -43,7 +43,12 @@ export function Footer() {
       </div>
       <div className="border-t border-outline">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-5 text-xs text-ink-muted sm:flex-row sm:justify-between">
-          <p>&copy; {year} Blockerflow</p>
+          <div className="flex items-center gap-4">
+            <p>&copy; {year} Blockerflow</p>
+            <a href="https://www.foundrlist.com/product/blockerflow?utm_source=badge&amp;utm_medium=embed" target="_blank" rel="noopener">
+              <img src="https://www.foundrlist.com/api/badge/blockerflow" alt="Featured on FoundrList" width="150" height="48" loading="lazy" />
+            </a>
+          </div>
           <p>
             <Link to="/support/" className={linkClass}>Support the project</Link>
             <span aria-hidden="true" className="mx-2">/</span>
