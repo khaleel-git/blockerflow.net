@@ -75,4 +75,13 @@ describe('Admin', () => {
     expect(screen.queryByRole('button', { name: 'a@example.com' })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'jeffbanks.17313@gmail.com' })).toBeInTheDocument()
   })
+  it('lists wrong-block reports and marks one as allowed', async () => {
+    const reports = { reports: [{ id: 'r1', platform: 'android', appVersion: '1.0.28', app: '', message: 'Adult content is blocked by Blockerflow.', detail: 'Website: foundrlist.com', note: 'startup directory', email: 'a@example.com', uid: 'u1', status: 'open', createdAtMs: 0 }] }
+    const api = fake((b) => ({ overview, store, reports, resolveReport: { ok: true } } as Record<string, unknown>)[b.op as string])
+    render(<MemoryRouter><Admin api={api} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Reports' }))
+    expect(await screen.findByText('Website: foundrlist.com')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Will allow' }))
+    await waitFor(() => expect(api.adminApi).toHaveBeenCalledWith(owner, { op: 'resolveReport', id: 'r1', status: 'allowed' }))
+  })
 })

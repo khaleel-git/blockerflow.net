@@ -476,11 +476,76 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
   )
 }
 
+interface BlockReport {
+  id: string; platform: string; appVersion: string; app: string; message: string; detail: string; note: string
+  email: string; uid: string; status: 'open' | 'allowed' | 'correct'; createdAtMs: number | null
+}
+const REPORT_STATUS: Record<BlockReport['status'], { label: string; cls: string }> = {
+  open: { label: 'Open', cls: 'bg-amber-50 text-amber-900' },
+  allowed: { label: 'Will allow', cls: 'bg-green-50 text-green-800' },
+  correct: { label: 'Block correct', cls: 'bg-slate-100 text-slate-600' },
+}
+
+/** Wrong-block reports from the apps' block screens (reportBlock). Allowing a site happens in the next app release. */
+function ReportsTab({ api, user, onOpenUser }: { api: AdminApi; user: DashboardUser; onOpenUser: (uid: string) => void }) {
+  const [rows, setRows] = useState<BlockReport[] | null>(null)
+  const [err, setErr] = useState<string | null>(null)
+  const [showAll, setShowAll] = useState(false)
+  const load = useCallback(() => api.adminApi<{ reports: BlockReport[] }>(user, { op: 'reports' }).then((r) => setRows(r.reports)).catch((e) => setErr(String(e.message))), [api, user])
+  useEffect(() => { void load() }, [load])
+  const resolve = async (id: string, status: BlockReport['status']) => {
+    setRows((rs) => rs?.map((r) => (r.id === id ? { ...r, status } : r)) ?? rs)
+    try { await api.adminApi(user, { op: 'resolveReport', id, status }) } catch (e) { setErr(String((e as Error).message)); void load() }
+  }
+  if (err) return <p role="alert" className="mt-4 text-red-700">{err}</p>
+  if (!rows) return <p className="mt-4 text-ink-muted">Loading reports…</p>
+  const open = rows.filter((r) => r.status === 'open').length
+  const shown = showAll ? rows : rows.filter((r) => r.status === 'open')
+  return (
+    <div className="mt-6 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-ink-muted">{open} open of {rows.length} reports. A site marked "Will allow" goes on the never block list in the next app release.</p>
+        <div className="flex gap-2" role="group" aria-label="Show reports">
+          {[false, true].map((all) => (
+            <button key={String(all)} type="button" aria-pressed={showAll === all} onClick={() => setShowAll(all)}
+              className={cx('rounded-full border px-3 py-1 text-sm', showAll === all ? 'border-ink bg-ink text-white' : 'border-outline bg-surface text-ink-muted hover:bg-primary-bg')}>
+              {all ? `All ${rows.length}` : `Open ${open}`}
+            </button>
+          ))}
+        </div>
+      </div>
+      {shown.length === 0 && <p className="rounded-2xl border border-outline bg-surface p-6 text-center text-ink-muted">No reports to review.</p>}
+      {shown.map((r) => (
+        <article key={r.id} className="rounded-2xl border border-outline bg-surface p-5 shadow-sm" aria-label={`Report ${r.detail || r.message}`}>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="font-semibold text-ink">{r.detail || r.message}</p>
+              <p className="mt-0.5 text-sm text-ink-muted">{r.message}</p>
+            </div>
+            <span className={cx('rounded-full px-2.5 py-0.5 text-xs font-medium', REPORT_STATUS[r.status].cls)}>{REPORT_STATUS[r.status].label}</span>
+          </div>
+          {r.note && <p className="mt-3 rounded-xl bg-bg px-3 py-2 text-sm text-ink">"{r.note}"</p>}
+          <p className="mt-3 flex flex-wrap items-center gap-x-2 text-xs text-ink-muted">
+            <span className="inline-flex items-center gap-1.5"><PlatformDot p={r.platform} />{PLATFORM_NAMES[r.platform] ?? r.platform} {r.appVersion}</span>
+            <span>·</span><button type="button" className="text-primary hover:underline" onClick={() => onOpenUser(r.uid)}>{r.email || r.uid}</button>
+            <span>·</span><span>{fmtDate(r.createdAtMs)}</span>
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {r.status !== 'allowed' && <Btn onClick={() => resolve(r.id, 'allowed')}>Will allow</Btn>}
+            {r.status !== 'correct' && <Btn tone="outline" onClick={() => resolve(r.id, 'correct')}>Block is correct</Btn>}
+            {r.status !== 'open' && <Btn tone="outline" onClick={() => resolve(r.id, 'open')}>Reopen</Btn>}
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+}
+
 export function Admin({ api: given }: { api?: AdminApi }) {
   usePageMeta('/admin')
   const [api, setApi] = useState<AdminApi | null>(given ?? null)
   const [user, setUser] = useState<DashboardUser | null | undefined>(undefined)
-  const [tab, setTab] = useState<'overview' | 'users'>('overview')
+  const [tab, setTab] = useState<'overview' | 'users' | 'reports'>('overview')
   const [overview, setOverview] = useState<Overview | null>(null)
   const [store, setStore] = useState<Store | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -508,10 +573,10 @@ export function Admin({ api: given }: { api?: AdminApi }) {
       {api && user && !error && (
         <>
           <nav className="mt-6 flex gap-2" aria-label="Admin sections">
-            {(['overview', 'users'] as const).map((t) => (
+            {(['overview', 'users', 'reports'] as const).map((t) => (
               <button key={t} type="button" onClick={() => { setTab(t); setOpenUid(null) }}
                 className={cx('rounded-full px-4 py-1.5 text-sm font-semibold', tab === t ? 'bg-ink text-white' : 'text-ink-muted hover:bg-primary-bg')}>
-                {t === 'overview' ? 'Overview' : 'Users'}
+                {t === 'overview' ? 'Overview' : t === 'users' ? 'Users' : 'Reports'}
               </button>
             ))}
           </nav>
@@ -519,6 +584,7 @@ export function Admin({ api: given }: { api?: AdminApi }) {
           {tab === 'users' && (openUid
             ? <UserPage api={api} user={user} uid={openUid} onBack={() => setOpenUid(null)} />
             : <UsersTab api={api} user={user} onOpen={setOpenUid} />)}
+          {tab === 'reports' && <ReportsTab api={api} user={user} onOpenUser={(uid) => { setOpenUid(uid); setTab('users') }} />}
         </>
       )}
     </div>
