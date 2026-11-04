@@ -26,7 +26,7 @@ interface Overview {
   partnerModes: Record<string, number>
   signups: { date: string; count: number }[]
   blocks: { days: Record<string, number>; categories: Record<string, number> }
-  /** Newer server: people vs store reviewers vs the owner's own accounts. */
+  /** Newer server: people vs likely test accounts vs the owner's own accounts. */
   kinds?: { user: number; reviewer: number; owner: number }
   activeAccounts?: { day: number; week: number; month: number }
   platformEstimate?: { known: Record<string, number>; unknown: number; estimated: Record<string, number> }
@@ -154,7 +154,7 @@ function OverviewTab({ o, store }: { o: Overview; store: Store | null }) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        <Kpi label="Accounts" value={o.accounts} sub={k ? `${k.user} people, ${k.reviewer} store reviewers, ${k.owner} yours` : undefined} />
+        <Kpi label="Accounts" value={o.accounts} sub={k ? `${k.user} people, ${k.reviewer} likely test accounts, ${k.owner} yours` : undefined} />
         <Kpi label="Active today" value={active.day} color="#16A34A" sub={o.activeAccounts ? 'people, any app version' : 'devices'} />
         <Kpi label="Active 7 days" value={active.week} color="#0284C7" sub={o.activeAccounts ? 'people' : 'devices'} />
         <Kpi label="Active 30 days" value={active.month} color="#7C3AED" sub={o.activeAccounts ? 'people' : 'devices'} />
@@ -189,8 +189,8 @@ function OverviewTab({ o, store }: { o: Overview; store: Store | null }) {
       </div>
       {store && <StoreTab store={store} />}
       <p className="text-xs leading-relaxed text-ink-muted">
-        How this is counted: store reviewers are accounts named like firstnamelastname.12345@gmail.com, the shape Google Play and Microsoft
-        Store reviewers sign in with. Active means the account was seen by a device record, a settings sync or a sign-in token refresh.
+        How this is counted: likely test accounts are named like firstnamelastname.12345@gmail.com, the shape of the accounts Google Play and
+        Microsoft Store test robots sign in with. Active means the account was seen by a device record, a settings sync or a sign-in token refresh.
         Platform estimates spread people on older app versions in the same ratio as people already on new versions.
       </p>
     </div>
@@ -401,7 +401,7 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
   )
 }
 
-const KIND_LABELS = { user: 'People', reviewer: 'Store reviewers', owner: 'Yours' } as const
+const KIND_LABELS = { user: 'People', reviewer: 'Likely test accounts', owner: 'Yours' } as const
 const SEEN_BY: Record<string, string> = { device: 'device record', settings: 'settings sync', 'sign-in': 'sign-in' }
 
 function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; onOpen: (uid: string) => void }) {
@@ -446,7 +446,7 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
                     <div className="min-w-0">
                       <button type="button" className="truncate text-left font-medium text-ink hover:text-primary hover:underline" onClick={() => onOpen(r.uid)}>{r.email || r.uid}</button>
                       <div className="flex gap-1.5">
-                        {r.kind === 'reviewer' && <span className="rounded-full bg-slate-100 px-2 text-xs text-slate-600">Store reviewer</span>}
+                        {r.kind === 'reviewer' && <span className="rounded-full bg-slate-100 px-2 text-xs text-slate-600">Likely test account</span>}
                         {r.kind === 'owner' && <span className="rounded-full bg-primary-bg px-2 text-xs text-primary">Yours</span>}
                         {r.disabled && <span className="rounded-full bg-amber-50 px-2 text-xs text-amber-900">Blocked</span>}
                       </div>
@@ -471,7 +471,7 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
           </tbody>
         </table>
       </div>
-      <p className="mt-2 text-xs text-ink-muted">{shown.length} of {rows.length} accounts. Store reviewers are named like firstnamelastname.12345@gmail.com.</p>
+      <p className="mt-2 text-xs text-ink-muted">{shown.length} of {rows.length} accounts. Likely test accounts are named like firstnamelastname.12345@gmail.com.</p>
     </div>
   )
 }

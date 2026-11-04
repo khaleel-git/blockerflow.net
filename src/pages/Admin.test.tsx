@@ -58,7 +58,7 @@ describe('Admin', () => {
   })
 
   it('is not indexed', () => expect(getRouteMeta('/admin').noindex).toBe(true))
-  it('splits people from store reviewers and shows platform estimates', async () => {
+  it('splits people from likely test accounts and shows platform estimates', async () => {
     const o2 = { ...overview, kinds: { user: 5, reviewer: 2, owner: 1 }, activeAccounts: { day: 4, week: 5, month: 5 },
       platformEstimate: { known: { android: 1, mac: 0, windows: 2 }, unknown: 2, estimated: { android: 2, mac: 0, windows: 3 } } }
     const u2 = { users: [
@@ -66,12 +66,12 @@ describe('Admin', () => {
       { ...users.users[0], uid: 'r1', email: 'jeffbanks.17313@gmail.com', kind: 'reviewer', platforms: [] },
     ] }
     render(<MemoryRouter><Admin api={fake((b) => ({ overview: o2, store, users: u2 } as Record<string, unknown>)[b.op as string])} /></MemoryRouter>)
-    expect(await screen.findByText('5 people, 2 store reviewers, 1 yours')).toBeInTheDocument()
+    expect(await screen.findByText('5 people, 2 likely test accounts, 1 yours')).toBeInTheDocument()
     expect(screen.getByTestId('stat-Active today')).toHaveTextContent('4')
     expect(screen.getByText('~3')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Users' }))
     expect(await screen.findByText('via sign-in')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Store reviewers 1' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Likely test accounts 1' }))
     expect(screen.queryByRole('button', { name: 'a@example.com' })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'jeffbanks.17313@gmail.com' })).toBeInTheDocument()
   })
