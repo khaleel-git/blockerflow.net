@@ -90,4 +90,19 @@ describe('Privacy', () => {
     )
     expect(screen.getByRole('heading', { name: 'Your choices' })).toBeInTheDocument()
   })
+
+  it('covers the Windows page check, list update signatures and wrong block reports', () => {
+    render(
+      <MemoryRouter>
+        <Privacy />
+      </MemoryRouter>,
+    )
+    expect(screen.getByText(/Chromium browsers show only the title/)).toBeInTheDocument()
+    expect(screen.getByText(/learned_sites.json on Windows/)).toBeInTheDocument()
+    expect(screen.getByText(/ECDSA P 256/)).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Wrong block reports and Contact support (Windows app)' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/If you are signed out,\s+nothing is sent/)).toBeInTheDocument()
+  })
 })

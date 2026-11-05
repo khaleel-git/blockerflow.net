@@ -35,6 +35,12 @@ export function Privacy() {
           in memory to recognise adult pages; the text is never saved or sent
         </li>
         <li>
+          On Windows, for a site that is not in the block lists, the page's title and, where the
+          browser shows it to UI Automation, the page's visible text (Firefox shows it; Chrome, Edge
+          and other Chromium browsers show only the title), checked a few times in the first
+          seconds to recognise adult pages; the text is never saved, logged or sent
+        </li>
+        <li>
           On-screen accessibility content, such as detecting a Reels or Shorts feed, inspected
           locally in memory
         </li>
@@ -148,27 +154,32 @@ export function Privacy() {
         device: they are not synced, not shown on the dashboard and not sent anywhere.
       </p>
 
-      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Remembered sites (Android)</h3>
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Remembered sites (Android and Windows)</h3>
       <p className="mt-3 text-ink-muted">
-        A site that the page check finds to be adult is remembered for 30 days, so it is blocked
+        The page check is part of Block adult content and skips the 10,000 most visited sites. A
+        site that it finds to be adult is remembered for 30 days, so it is blocked
         at once next time. Only a fingerprint is stored: a SHA 256 hash of the site's name. The
         page text, the full address and your other browsing are never stored. The fingerprints are
-        kept in the app's private storage (excluded from backups), never leave your device and are
-        forgotten when you report the block as wrong.
+        kept in the app's private storage on Android (excluded from backups) and in
+        %LOCALAPPDATA%\Blockerflow\learned_sites.json on Windows. They never leave your device and
+        are forgotten when you report the block as wrong.
       </p>
 
-      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Block list updates (Android)</h3>
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Block list updates (Android and Windows)</h3>
       <p className="mt-3 text-ink-muted">
-        Once a day, and when you open the app (at most every 3 hours), the Android app downloads
-        the newest block lists from lists.blockerflow.net, a public file server on Cloudflare. These
+        Once a day, and when you open the app (at most every 3 hours), the Android and Windows apps
+        download the newest block lists from lists.blockerflow.net, a public file server on Cloudflare. These
         are the same files for everyone; the request carries no account, device ID, browsing or
         settings. Cloudflare sees the request like any web request (IP address, time). The app only
-        installs lists signed by Blockerflow.
+        installs lists signed by Blockerflow. On Windows the app first fetches a small signed index
+        and downloads list files only when it is newer; it installs them only when the signature
+        (ECDSA P 256) and every file's SHA 256 hash check out, and otherwise keeps the lists it has.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">What leaves your device</h2>
       <p className="mt-3 text-ink-muted">
-        Apart from the anonymous usage statistics below, only three features send anything
+        Apart from the anonymous usage statistics below, the block list downloads described above
+        and the wrong block reports you choose to send, only three features send anything
         off-device. Each is optional and only activates when you deliberately turn it on.
       </p>
 
@@ -181,6 +192,20 @@ export function Privacy() {
         never sites, searches, apps, pictures or block decisions, and collects no advertising ID;
         ad personalisation is off. Google keeps this data for the retention period set in
         Analytics. The Mac and Windows apps do not use Analytics.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">
+        Wrong block reports and Contact support (Windows app)
+      </h3>
+      <p className="mt-3 text-ink-muted">
+        Wrongly blocked? Report it, on the block screen, shows exactly what will be sent: what was
+        blocked (the site's name or the program), the reason the block screen showed, the program
+        it happened in, the app version and your optional note. If you are signed in and press
+        Send, the report goes to Blockerflow's server, is stored for the support team and is
+        emailed to support@blockerflow.net together with your account. If you are signed out,
+        nothing is sent; you can copy the same text and email it yourself. Contact support in
+        Settings only shows the support address and a Copy button that adds the app version, PC
+        model and Windows version for you to paste into your own email.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">AI Coach</h3>
@@ -308,9 +333,10 @@ export function Privacy() {
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Your choices</h2>
       <p className="mt-3 text-ink-muted">
-        Every feature that sends data off-device is opt-in — simply not setting an accountability
-        partner, not choosing the AI Coach, and not signing in with Google means nothing leaves
-        your device at all.
+        Every feature that sends data about you off-device is opt-in. If you do not set an
+        accountability partner, do not choose the AI Coach, do not send a report and do not sign
+        in with Google, nothing about you leaves your device. The apps still download block list
+        updates, which send nothing about you.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">Deleting your account</h3>
