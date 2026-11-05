@@ -101,8 +101,10 @@ describe('Privacy', () => {
     expect(screen.getByText(/learned_sites.json on Windows/)).toBeInTheDocument()
     expect(screen.getByText(/ECDSA P 256/)).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { name: 'Wrong block reports and Contact support (Windows app)' }),
+      screen.getByRole('heading', { name: 'Wrong block reports and Contact support' }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/If you are signed out,\s+nothing is sent/)).toBeInTheDocument()
+    expect(screen.getByText(/On Android and Mac the report\s+opens in your email app/)).toBeInTheDocument()
+    expect(screen.getByText(/Microsoft Store apps for the signed in/)).toBeInTheDocument()
+    expect(screen.getByText(/taskkill naming it/)).toBeInTheDocument()
   })
 })

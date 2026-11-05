@@ -49,6 +49,19 @@ export function Privacy() {
           read with UI Automation and checked locally
         </li>
         <li>
+          On Windows, the programs installed on the PC (Start menu shortcuts, the installed
+          programs list Windows shows in Settings, and Microsoft Store apps for the signed in
+          Windows user), with their names and icons, so you can pick apps to block and for Block
+          newly installed apps. This list stays on the PC and is never sent; only the apps on your
+          block list are part of your settings
+        </li>
+        <li>
+          On Windows, while Uninstall Protection is on, the command lines of programs that start,
+          to end commands that would uninstall or stop Blockerflow (such as winget, PowerShell or
+          taskkill naming it), and the window of the Settings app and of a standard user's Task
+          Manager, to close them while they show Blockerflow. Nothing of this is saved or sent
+        </li>
+        <li>
           On Mac, the web addresses passing through the local filtering proxy and the address of
           the front browser tab, checked locally
         </li>
@@ -195,17 +208,23 @@ export function Privacy() {
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">
-        Wrong block reports and Contact support (Windows app)
+        Wrong block reports and Contact support
       </h3>
       <p className="mt-3 text-ink-muted">
-        Wrongly blocked? Report it, on the block screen, shows exactly what will be sent: what was
-        blocked (the site's name or the program), the reason the block screen showed, the program
-        it happened in, the app version and your optional note. If you are signed in and press
-        Send, the report goes to Blockerflow's server, is stored for the support team and is
-        emailed to support@blockerflow.net together with your account. If you are signed out,
-        nothing is sent; you can copy the same text and email it yourself. Contact support in
-        Settings only shows the support address and a Copy button that adds the app version, PC
-        model and Windows version for you to paste into your own email.
+        Wrongly blocked? Report it, on the block screen of the Android, Windows and Mac apps, shows
+        exactly what will be sent: what was blocked (the site's name or the app), the reason the
+        block screen showed, the app version and your optional note. On Windows it also names the
+        program the block happened in, when that is not the blocked thing itself. If you are signed
+        in and press Send, the report goes to Blockerflow's server, is stored for the support team
+        and is emailed to support@blockerflow.net together with your account.
+      </p>
+      <p className="mt-3 text-ink-muted">
+        If you are signed out, Blockerflow sends nothing itself. On Android and Mac the report
+        opens in your email app, filled in, for you to send or not. On Windows you can copy the same
+        text and email it yourself. Contact support in Settings works the same way: on Android it
+        opens your email app with the app version, phone model and Android version filled in, on
+        Mac with the app version, and on Windows it shows the support address and a Copy button
+        that adds the app version, PC model and Windows version for you to paste.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">AI Coach</h3>
@@ -295,7 +314,9 @@ export function Privacy() {
           <tr className="border-b border-outline">
             <td className="py-2 pr-4">Internet</td>
             <td className="py-2">
-              The three optional features above — never used to upload browsing data
+              Block list downloads, usage statistics, wrong block reports you choose to send, and
+              the optional AI Coach, Accountability Partner and cloud sync. Never used to upload
+              browsing data
             </td>
           </tr>
           <tr className="border-b border-outline">
@@ -333,10 +354,11 @@ export function Privacy() {
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Your choices</h2>
       <p className="mt-3 text-ink-muted">
-        Every feature that sends data about you off-device is opt-in. If you do not set an
+        Apart from the Android app's anonymous usage statistics and the block list downloads,
+        every feature that sends data about you off-device is opt-in. If you do not set an
         accountability partner, do not choose the AI Coach, do not send a report and do not sign
-        in with Google, nothing about you leaves your device. The apps still download block list
-        updates, which send nothing about you.
+        in with Google, nothing else about you leaves your device. The block list downloads send
+        nothing about you.
       </p>
 
       <h3 className="mt-6 font-display text-lg font-semibold text-ink">Deleting your account</h3>
