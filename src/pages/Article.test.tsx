@@ -89,11 +89,19 @@ describe('guide articles', () => {
   it('shows the Screen Recording reset command exactly once, for people whose image check will not turn on', () => {
     renderAt(MAC_GUIDE_PATH)
     const notes = screen.getAllByRole('note')
-    expect(notes).toHaveLength(2)
+    expect(notes).toHaveLength(3) // damaged warning, Screen Recording reset, no internet after deleting
     const reset = notes.filter((n) => n.textContent?.includes('tccutil reset ScreenCapture eu.khaleel.blockerflow'))
     expect(reset).toHaveLength(1)
     expect(document.body.textContent?.match(/tccutil reset ScreenCapture/g)?.length).toBe(1)
-    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(2)
+    expect(screen.getAllByRole('button', { name: 'Copy' })).toHaveLength(3)
+  })
+
+  it('tells Mac users how to get the internet back after deleting the running app (1.2.4)', () => {
+    renderAt(MAC_GUIDE_PATH)
+    expect(screen.getByRole('heading', { name: 'Quitting, and if the internet stops' })).toBeInTheDocument()
+    const net = screen.getAllByRole('note').filter((n) => n.textContent?.includes('networksetup -setwebproxystate Wi-Fi off'))
+    expect(net).toHaveLength(1)
+    expect(document.body.textContent).toContain('Version 1.2.4')
   })
 
   it('shows the same support card as the home page on the Mac guide, with one PayPal link', () => {

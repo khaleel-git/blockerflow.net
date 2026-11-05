@@ -1054,12 +1054,12 @@ export const ARTICLES: Article[] = [
       'Download Blockerflow for Mac, install it from the .dmg and open it past the macOS warning. Includes supported browsers, updating and uninstalling.',
     h1: 'How to install Blockerflow on Mac',
     intro:
-      'Blockerflow for Mac blocks adult content, web proxies, piracy sites, Reels, Shorts and Snapchat Spotlight in your browser, and can check the screen for explicit images, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
+      'Blockerflow for Mac blocks adult content and web proxies, Reels, Shorts and Snapchat Spotlight in your browser, and can check the screen for explicit images, with the same accountability partners and blocklists as the Android app. Installing takes a minute, plus one extra step because macOS does not know the developer.',
     media: { kind: 'video', video: 'macInstallGuide', caption: 'Installing and opening Blockerflow on a Mac, step by step.' },
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.2.3, 71 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
+      note: 'Version 1.2.4, 73 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
@@ -1091,7 +1091,7 @@ export const ARTICLES: Article[] = [
         heading: 'The first start',
         paragraphs: [
           'Blockerflow installs a certificate called Blockerflow CA in your keychain and sets itself as the system proxy. macOS may ask for your password. Allow it: without the certificate HTTPS sites cannot be filtered. The certificate is created on your Mac and only used to read the address of searches on Google, Bing and other search engines, so adult searches can be blocked and SafeSearch stays on.',
-          'Social sites are never decrypted. Instagram Reels and Explore, Facebook Reels, YouTube Shorts and Snapchat Spotlight are blocked from the address of the tab you are looking at, in Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari. The first time, macOS asks whether Blockerflow may control your browser: allow it, or these switches cannot work. Firefox is not covered.',
+          'Social sites are never decrypted. Instagram Reels and Explore, Facebook Reels, YouTube Shorts and Snapchat Spotlight are blocked from the address of the tab you are looking at, in Chrome, Brave, Edge, Vivaldi, Opera and Safari. The first time, macOS asks whether Blockerflow may control your browser: allow it, or these switches cannot work. Firefox is not covered.',
           'Blockerflow runs from the menu bar and has no Dock icon. The card at the top of the Blocking tab shows whether the filter is really running: if it says Protection is off, press Turn on. Switch on what you want blocked, then choose who approves changes: Myself, Time Delay, a Friend or the AI Coach. Signing in with Google is optional. It is only needed for Friend and AI Coach, and it backs up the settings of this Mac to your account, separately from your other devices. Since version 1.2.1, when you choose a Friend they first get an email with a six digit code and share it with you only if they agree, so a mistyped or made up address can no longer be saved. If an unlock email never arrives, the Friend dialog lets you wait 24 hours instead of being stuck.',
         ],
       },
@@ -1099,7 +1099,7 @@ export const ARTICLES: Article[] = [
         heading: 'Block adult images (macOS 14 or later)',
         paragraphs: [
           'Since version 1.1.0 Blockerflow can also check the screen for explicit pictures and video, which the web filter cannot judge: a video in WhatsApp, a picture in Photos, or an image on a page whose address says nothing. It is on by default, next to Block adult content. While a browser, messenger, Photos, Preview or a video player is in front, Blockerflow takes a screenshot about every 2 seconds and a model on your Mac checks it, on the graphics chip where it can. A screen that has not changed is not checked again, so it uses little power. Nothing is saved or sent anywhere.',
-          'When something explicit is found, Blockerflow closes the tab (Chrome, Brave, Edge, Vivaldi, Opera, Arc and Safari) or hides the app, and covers the screen with the block screen. A second switch, Block suggestive images, adds lingerie and swimwear; it also blocks beach and gym photos. Turning either switch off needs your accountability partner.',
+          'When something explicit is found, Blockerflow closes the tab (Chrome, Brave, Edge, Vivaldi, Opera and Safari) or hides the app, and covers the screen with the block screen. A second switch, Block suggestive images, adds lingerie and swimwear; it also blocks beach and gym photos. Turning either switch off needs your accountability partner.',
           'It is not perfect. It can miss pictures and it can block ordinary ones, so keep the web filter on as well. Version 1.1.2 blocks far fewer ordinary photos: before, a photo the model was unsure about, such as swimwear or gym clothes, could be blocked just by staying on screen for a few seconds. In a test with 50 ordinary photos of people in swimwear, sportswear and evening wear, half of the wrong blocks are gone. The model can still be confidently wrong, for example about a shirtless man. The model is NudeNet 320n, which is licensed under the AGPL-3.0. Since version 1.2 it runs in a small separate program, blockerflow-vision, whose source code is public on GitHub (github.com/khaleel-git/blockerflow-vision). It still runs only on your Mac.',
         ],
         steps: [
@@ -1120,6 +1120,19 @@ export const ARTICLES: Article[] = [
           'Tested and working: Safari, Google Chrome, Firefox, Opera, Vivaldi, DuckDuckGo, Brave, Microsoft Edge, Orion and Yandex. Tor Browser, Maxthon and Arc are not supported, and Block unsupported browsers closes them.',
           'Anything that skips the system proxy skips the blocker too: a built in VPN, DNS over HTTPS settings that bypass the proxy, a Tor window, and apps such as the WhatsApp desktop app. Turn those off if you want the blocker to hold.',
         ],
+      },
+      {
+        heading: 'Quitting, and if the internet stops',
+        paragraphs: [
+          'Blockerflow filters by being your Mac\'s web proxy: every page goes through it. When you quit Blockerflow it switches the proxy setting off again, so your internet keeps working, unfiltered, until you open Blockerflow again. For a few seconds while it quits or starts, pages may not load.',
+          'Do not drag Blockerflow to the Trash while it is running. macOS does not let an app tidy up when it is deleted, so the proxy setting stays on and points to a filter that is no longer there: no page loads in any browser. Use Uninstall App in Settings instead, which switches the proxy off first.',
+        ],
+        notice: {
+          title: 'No internet after deleting Blockerflow?',
+          body: 'Open System Settings, Wi-Fi (or Network), Details next to your network, Proxies, and turn off Web proxy (HTTP) and Secure web proxy (HTTPS). Or open Terminal and run:',
+          command: 'networksetup -setwebproxystate Wi-Fi off; networksetup -setsecurewebproxystate Wi-Fi off',
+          after: 'If you use Ethernet, run it again with Ethernet in place of Wi-Fi. Reinstalling Blockerflow also brings the internet back.',
+        },
       },
       {
         heading: 'Update or uninstall',
@@ -1152,7 +1165,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Can I just delete the app to remove it?',
         answer:
-          'Not while Uninstall Protection is on. Turn it off in Settings, then use Uninstall App.',
+          'Use Uninstall App in Settings instead. Deleting the app while it runs leaves the Mac pointing at a filter that is gone, and no page loads until you turn the proxy off (see Quitting, and if the internet stops). With Uninstall Protection on the app cannot be deleted at all: turn it off in Settings first.',
       },
     ],
     support: true,
