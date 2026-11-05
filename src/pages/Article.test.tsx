@@ -101,7 +101,12 @@ describe('guide articles', () => {
     expect(screen.getByRole('heading', { name: 'Quitting, and if the internet stops' })).toBeInTheDocument()
     const net = screen.getAllByRole('note').filter((n) => n.textContent?.includes('networksetup -setwebproxystate Wi-Fi off'))
     expect(net).toHaveLength(1)
-    expect(document.body.textContent).toContain('Version 1.2.4')
+    expect(document.body.textContent).toContain('Version 1.2.5')
+  })
+
+  it('explains the per-site picture rules of Mac 1.2.5', () => {
+    renderAt(MAC_GUIDE_PATH)
+    expect(document.body.textContent).toContain('Since version 1.2.5 the check depends on the site in front.')
   })
 
   it('shows the same support card as the home page on the Mac guide, with one PayPal link', () => {
