@@ -6,7 +6,7 @@ export function Privacy() {
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-ink-muted">Last updated: 2 November 2026</p>
+      <p className="mt-2 text-sm text-ink-muted">Last updated: 5 November 2026</p>
 
       <p className="mt-8 text-ink-muted">
         This policy describes what Blockerflow reads, what stays on your device, and what leaves
@@ -26,8 +26,13 @@ export function Privacy() {
       </p>
       <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-muted">
         <li>
-          Web addresses read from your browser, checked locally against blocklists bundled in the
-          app
+          Web addresses read from your browser, checked locally against Blockerflow's block lists
+          on your device
+        </li>
+        <li>
+          On Android, for a site that is not in the block lists, the visible text of the page (its
+          title, headings and short link text), read through the Accessibility Service and checked
+          in memory to recognise adult pages; the text is never saved or sent
         </li>
         <li>
           On-screen accessibility content, such as detecting a Reels or Shorts feed, inspected
@@ -141,6 +146,24 @@ export function Privacy() {
         fingerprints are kept in the app's private storage on Android (excluded from backups) and
         in %LOCALAPPDATA%\Blockerflow\learned_chats.json on Windows. They never leave your
         device: they are not synced, not shown on the dashboard and not sent anywhere.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Remembered sites (Android)</h3>
+      <p className="mt-3 text-ink-muted">
+        A site that the page check finds to be adult is remembered for 30 days, so it is blocked
+        at once next time. Only a fingerprint is stored: a SHA 256 hash of the site's name. The
+        page text, the full address and your other browsing are never stored. The fingerprints are
+        kept in the app's private storage (excluded from backups), never leave your device and are
+        forgotten when you report the block as wrong.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Block list updates (Android)</h3>
+      <p className="mt-3 text-ink-muted">
+        Once a day, and when you open the app (at most every 3 hours), the Android app downloads
+        the newest block lists from lists.blockerflow.net, a public file server on Cloudflare. These
+        are the same files for everyone; the request carries no account, device ID, browsing or
+        settings. Cloudflare sees the request like any web request (IP address, time). The app only
+        installs lists signed by Blockerflow.
       </p>
 
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">What leaves your device</h2>
