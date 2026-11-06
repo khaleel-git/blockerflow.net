@@ -1059,7 +1059,7 @@ export const ARTICLES: Article[] = [
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.2.5, 73 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
+      note: 'Version 1.2.6, 73 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
@@ -1139,6 +1139,7 @@ export const ARTICLES: Article[] = [
         heading: 'Update or uninstall',
         paragraphs: [
           'Uninstall Protection locks the app so it cannot be replaced or deleted. Turn it off in Settings first. Your accountability partner may ask you to confirm.',
+          'Version 1.2.6 fixes Focus Mode for web addresses pasted in full. An address such as https://example.com/home in Also block or the allow list used to be ignored; now the allow list keeps just the site name and Also block keeps the path, so youtube.com/shorts still blocks only Shorts. Addresses you saved before work without typing them again.',
         ],
         steps: [
           'To update, quit Blockerflow from the menu bar icon, open the new .dmg and drag the app over the old one.',

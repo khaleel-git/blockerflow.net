@@ -101,7 +101,12 @@ describe('guide articles', () => {
     expect(screen.getByRole('heading', { name: 'Quitting, and if the internet stops' })).toBeInTheDocument()
     const net = screen.getAllByRole('note').filter((n) => n.textContent?.includes('networksetup -setwebproxystate Wi-Fi off'))
     expect(net).toHaveLength(1)
-    expect(document.body.textContent).toContain('Version 1.2.5')
+    expect(document.body.textContent).toContain('Version 1.2.6')
+  })
+
+  it('explains the Focus Mode address fix of Mac 1.2.6', () => {
+    renderAt(MAC_GUIDE_PATH)
+    expect(document.body.textContent).toContain('Version 1.2.6 fixes Focus Mode for web addresses pasted in full.')
   })
 
   it('explains the per-site picture rules of Mac 1.2.5', () => {
