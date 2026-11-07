@@ -320,7 +320,13 @@ export function changedSettings(original: Record<string, unknown>, edited: Recor
 
 function DeviceEditor({ device, onSave, busy }: { device: AdminDevice; onSave: (changes: Record<string, unknown>) => void; busy: boolean }) {
   const [edit, setEdit] = useState<Record<string, unknown>>(device.settings)
-  useEffect(() => setEdit(device.settings), [device.settings])
+  // Start over only when the device's settings really change (after a save). An effect here ran
+  // after the first paint and could undo a click made before it.
+  const [base, setBase] = useState(device.settings)
+  if (base !== device.settings) {
+    setBase(device.settings)
+    setEdit(device.settings)
+  }
   const changes = changedSettings(device.settings, edit)
   const set = (k: string, v: unknown) => setEdit((e) => ({ ...e, [k]: v }))
   const list = (k: string) => (Array.isArray(edit[k]) ? (edit[k] as string[]).join('\n') : '')
