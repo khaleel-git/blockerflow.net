@@ -53,11 +53,36 @@ interface Store {
   microsoft: { connected: boolean; error?: string }
 }
 
+type Failed = { error: string }
+interface Web {
+  totals: { users: number; newUsers: number; sessions: number; views: number; avgSessionSec: number } | null
+  days: { date: string; users: number; newUsers: number; sessions: number; views: number }[]
+  pages: { path: string; views: number; users: number }[]
+  countries: Record<string, number>
+  sources: Record<string, number>
+}
+interface Usage {
+  firestore: {
+    days: { date: string; reads: number; writes: number; deletes: number }[]
+    totals: { reads: number; writes: number; deletes: number }
+    today: { reads: number; writes: number; deletes: number }
+    peak: Record<'reads' | 'writes' | 'deletes', { date: string | null; value: number }>
+    limits: { reads: number; writes: number; deletes: number }
+  }
+  functions: { days: { date: string; count: number }[]; total: number; today: number; byFunction: Record<string, number>; freeMonthly: number }
+  flags: { level: 'near' | 'over' | 'spike'; text: string }[]
+}
+export interface Analytics { generatedAt: string; web: Web | Failed; usage: Usage | Failed }
+const failed = (x: unknown): x is Failed => !!x && typeof (x as Failed).error === 'string'
+
 /** Partner Center's acquisitions (installs) report for Blockerflow (Store ID 9MSPSNKXFG4W). */
 export const PARTNER_CENTER_INSIGHTS = 'https://partner.microsoft.com/dashboard/insights/analytics/acquisitions'
 
 const loadApi = (): Promise<AdminApi> => import('../lib/dashboard/firebase')
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(' ')
+const fmt = (n: number | null | undefined) => (typeof n === 'number' ? n.toLocaleString('en-US') : 'n/a')
+/** 12,345 as 12.3k and 1,234,567 as 1.2M, for big headline numbers. */
+export const compact = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e4 ? `${(n / 1e3).toFixed(1)}k` : fmt(n))
 const fmtDate = (ms: number | null) => (ms ? new Date(ms).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'never')
 
 function Btn({ tone = 'solid', className, ...p }: ButtonHTMLAttributes<HTMLButtonElement> & { tone?: 'solid' | 'outline' | 'danger' }) {
@@ -71,8 +96,8 @@ function Btn({ tone = 'solid', className, ...p }: ButtonHTMLAttributes<HTMLButto
 const PLATFORM_COLORS: Record<string, string> = { android: '#16A34A', windows: '#0284C7', mac: '#64748B', none: '#CBD5E1' }
 
 const Panel = ({ title, hint, children, className }: { title: string; hint?: string; children: ReactNode; className?: string }) => (
-  <section className={cx('rounded-2xl border border-outline bg-surface p-5 shadow-sm', className)} aria-label={title}>
-    <div className="flex items-baseline justify-between gap-3">
+  <section className={cx('min-w-0 rounded-2xl border border-outline bg-surface p-4 shadow-sm sm:p-5', className)} aria-label={title}>
+    <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
       <h3 className="text-sm font-semibold text-ink">{title}</h3>
       {hint && <span className="text-xs text-ink-muted">{hint}</span>}
     </div>
@@ -82,13 +107,13 @@ const Panel = ({ title, hint, children, className }: { title: string; hint?: str
 const Big = ({ label, value }: { label: string; value: number | string }) => (
   <div>
     <dt className="text-xs text-ink-muted">{label}</dt>
-    <dd className="font-display text-3xl font-semibold tabular-nums text-ink" data-testid={`stat-${label}`}>{value}</dd>
+    <dd className="truncate font-display text-2xl font-semibold tabular-nums text-ink sm:text-3xl" data-testid={`stat-${label}`}>{value}</dd>
   </div>
 )
 
 /** One headline number on a card with a coloured top edge. */
 const Kpi = ({ label, value, sub, color = 'var(--color-primary)' }: { label: string; value: number | string; sub?: string; color?: string }) => (
-  <div className="relative overflow-hidden rounded-2xl border border-outline bg-surface p-5 shadow-sm">
+  <div className="relative min-w-0 overflow-hidden rounded-2xl border border-outline bg-surface p-4 shadow-sm sm:p-5">
     <span className="absolute inset-x-0 top-0 h-1" style={{ background: color }} aria-hidden="true" />
     <dl>
       <Big label={label} value={value} />
@@ -102,17 +127,18 @@ const PlatformDot = ({ p }: { p: string }) => (
 )
 
 /** Horizontal bars for a few named numbers. */
-function Bars({ data, names = {}, colors = {} }: { data: Record<string, number>; names?: Record<string, string>; colors?: Record<string, string> }) {
-  const rows = Object.entries(data).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1])
+function Bars({ data, names = {}, colors = {}, limit = 12 }: { data: Record<string, number>; names?: Record<string, string>; colors?: Record<string, string>; limit?: number }) {
+  const rows = Object.entries(data).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).slice(0, limit)
   if (rows.length === 0) return <p className="text-sm text-ink-muted">Nothing yet.</p>
   const max = rows[0][1]
   return (
-    <ul className="space-y-2">
+    // One grid for all rows, so the number column is as wide as the widest number.
+    <ul className="grid grid-cols-[minmax(0,9rem)_minmax(2rem,1fr)_auto] items-center gap-x-3 gap-y-2 text-sm">
       {rows.map(([k, v]) => (
-        <li key={k} className="grid grid-cols-[minmax(0,9rem)_1fr_2.5rem] items-center gap-3 text-sm">
-          <span className="truncate text-ink">{names[k] ?? k}</span>
+        <li key={k} className="contents">
+          <span className="truncate text-ink" title={`${names[k] ?? k}: ${fmt(v)}`}>{names[k] ?? k}</span>
           <span className="h-2.5 rounded-full bg-primary-bg"><span className="block h-2.5 rounded-full bg-primary" style={{ width: `${Math.max(4, (v / max) * 100)}%`, background: colors[k] }} /></span>
-          <span className="text-right font-semibold tabular-nums">{v}</span>
+          <span className="text-right font-semibold tabular-nums">{fmt(v)}</span>
         </li>
       ))}
     </ul>
@@ -126,7 +152,7 @@ function DayColumns({ days, label }: { days: { date: string; value: number }[]; 
     <figure>
       <div className="flex h-28 items-end gap-[3px]" role="img" aria-label={label}>
         {days.map((d, i) => (
-          <div key={d.date} title={`${d.date}: ${d.value}`}
+          <div key={d.date} title={`${d.date}: ${fmt(d.value)}`}
             className={cx('flex-1 rounded-t-sm', i === days.length - 1 ? 'bg-primary' : d.value ? 'bg-indigo-300' : 'bg-outline')}
             style={{ height: d.value ? `${Math.max(8, (d.value / max) * 100)}%` : '4px' }} />
         ))}
@@ -354,7 +380,7 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
       <Btn tone="outline" onClick={onBack}>Back to users</Btn>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-semibold text-ink">{u.email || u.uid}</h2>
+          <h2 className="break-all text-2xl font-semibold text-ink">{u.email || u.uid}</h2>
           <p className="text-sm text-ink-muted">
             {u.name && `${u.name}, `}joined {fmtDate(u.createdMs)}, last sign-in {fmtDate(u.lastSignInMs)}, Friend confirmed: {u.partnerConfirmed ? 'yes' : 'no'}
           </p>
@@ -369,7 +395,7 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
       {msg && <p role="status" className="rounded-xl bg-primary-bg px-4 py-2 text-sm text-ink">{msg}</p>}
       {u.devices.length === 0 && <p className="text-ink-muted">No devices.</p>}
       {u.devices.map((d) => (
-        <section key={d.id} className="rounded-2xl border border-outline bg-surface p-5" aria-label={`${PLATFORM_NAMES[d.platform] ?? d.platform} ${d.model}`}>
+        <section key={d.id} className="min-w-0 rounded-2xl border border-outline bg-surface p-4 sm:p-5" aria-label={`${PLATFORM_NAMES[d.platform] ?? d.platform} ${d.model}`}>
           <h3 className="text-lg font-semibold text-ink">{PLATFORM_NAMES[d.platform] ?? d.platform} <span className="font-normal text-ink-muted">{d.model}</span></h3>
           <p className="text-sm text-ink-muted">
             {d.osVersion}, app {d.appVersion}, last seen {seenText(d.lastSeenMs ? new Date(d.lastSeenMs) : null, new Date())},
@@ -390,8 +416,8 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
       <section className="border-t border-outline pt-5" aria-label="Delete user">
         <h3 className="font-semibold text-red-700">Delete this user</h3>
         <p className="mt-1 text-sm text-ink-muted">Deletes the account, every device record and all block counts. Cannot be undone.</p>
-        <div className="mt-3 flex max-w-md items-end gap-3">
-          <label className="flex-1 text-sm text-ink">Type the email to confirm
+        <div className="mt-3 flex max-w-md flex-wrap items-end gap-3">
+          <label className="min-w-0 flex-1 basis-56 text-sm text-ink">Type the email to confirm
             <input className="mt-1 w-full rounded-lg border border-outline bg-surface px-2 py-1.5" value={typed} onChange={(e) => setTyped(e.target.value)} />
           </label>
           <Btn tone="danger" disabled={busy || typed.trim() !== u.email} onClick={() => act({ op: 'deleteUser' }, 'Deleted.').then(onBack)}>Delete user</Btn>
@@ -432,44 +458,42 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
           <input className="mt-1 w-full rounded-xl border border-outline bg-surface px-3 py-2" value={q} onChange={(e) => setQ(e.target.value)} />
         </label>
       </div>
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-outline bg-surface shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-outline bg-bg text-xs uppercase tracking-wide text-ink-muted">
-            <tr><th className="px-4 py-3 font-medium">Account</th><th className="px-4 py-3 font-medium">Platforms</th><th className="px-4 py-3 font-medium">Devices</th><th className="px-4 py-3 font-medium">Last seen</th><th className="px-4 py-3 font-medium">Joined</th></tr>
-          </thead>
-          <tbody>
-            {shown.map((r) => (
-              <tr key={r.uid} className={cx('border-b border-outline last:border-0 hover:bg-primary-bg', r.kind === 'reviewer' && 'opacity-60')}>
-                <td className="px-4 py-2.5">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-bg text-xs font-semibold uppercase text-primary" aria-hidden="true">{(r.email || '?').slice(0, 1)}</span>
-                    <div className="min-w-0">
-                      <button type="button" className="truncate text-left font-medium text-ink hover:text-primary hover:underline" onClick={() => onOpen(r.uid)}>{r.email || r.uid}</button>
-                      <div className="flex gap-1.5">
-                        {r.kind === 'reviewer' && <span className="rounded-full bg-slate-100 px-2 text-xs text-slate-600">Likely test account</span>}
-                        {r.kind === 'owner' && <span className="rounded-full bg-primary-bg px-2 text-xs text-primary">Yours</span>}
-                        {r.disabled && <span className="rounded-full bg-amber-50 px-2 text-xs text-amber-900">Blocked</span>}
-                      </div>
-                    </div>
+      {/* One list for every width: stacked cards on phones, table columns from sm. */}
+      <div className="mt-4 rounded-2xl border border-outline bg-surface shadow-sm">
+        <div className="hidden grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_4rem_minmax(0,1.2fr)_minmax(0,1fr)] gap-4 border-b border-outline bg-bg px-4 py-3 text-xs font-medium uppercase tracking-wide text-ink-muted sm:grid" aria-hidden="true">
+          <span>Account</span><span>Platforms</span><span>Devices</span><span>Last seen</span><span>Joined</span>
+        </div>
+        <ul aria-label="Accounts">
+          {shown.map((r) => (
+            <li key={r.uid} className={cx('grid gap-x-4 gap-y-2 border-b border-outline px-4 py-3 last:border-0 hover:bg-primary-bg sm:grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_4rem_minmax(0,1.2fr)_minmax(0,1fr)] sm:items-center', r.kind === 'reviewer' && 'opacity-60')}>
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-bg text-xs font-semibold uppercase text-primary" aria-hidden="true">{(r.email || '?').slice(0, 1)}</span>
+                <div className="min-w-0">
+                  <button type="button" className="block max-w-full truncate text-left font-medium text-ink hover:text-primary hover:underline" onClick={() => onOpen(r.uid)}>{r.email || r.uid}</button>
+                  <div className="flex flex-wrap gap-1.5">
+                    {r.kind === 'reviewer' && <span className="rounded-full bg-slate-100 px-2 text-xs text-slate-600">Likely test account</span>}
+                    {r.kind === 'owner' && <span className="rounded-full bg-primary-bg px-2 text-xs text-primary">Yours</span>}
+                    {r.disabled && <span className="rounded-full bg-amber-50 px-2 text-xs text-amber-900">Blocked</span>}
                   </div>
-                </td>
-                <td className="px-4 py-2.5">
-                  {r.platforms.length ? (
-                    <div className="flex flex-wrap gap-1.5">{r.platforms.map((p) => (
-                      <span key={p} className="inline-flex items-center gap-1.5 rounded-full border border-outline px-2 py-0.5 text-xs"><PlatformDot p={p} />{PLATFORM_NAMES[p] ?? p}</span>
-                    ))}</div>
-                  ) : <span className="text-xs text-ink-muted">{r.lastSeenMs ? 'older app' : 'none'}</span>}
-                </td>
-                <td className="px-4 py-2.5 tabular-nums">{r.devices}</td>
-                <td className="px-4 py-2.5">
-                  <span>{seenText(r.lastSeenMs ? new Date(r.lastSeenMs) : null, now)}</span>
-                  {r.seenBy && <span className="block text-xs text-ink-muted">via {SEEN_BY[r.seenBy]}</span>}
-                </td>
-                <td className="px-4 py-2.5 text-ink-muted">{fmtDate(r.createdMs)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+              <div className="min-w-0 pl-11 sm:pl-0">
+                {r.platforms.length ? (
+                  <div className="flex flex-wrap gap-1.5">{r.platforms.map((p) => (
+                    <span key={p} className="inline-flex items-center gap-1.5 rounded-full border border-outline px-2 py-0.5 text-xs"><PlatformDot p={p} />{PLATFORM_NAMES[p] ?? p}</span>
+                  ))}</div>
+                ) : <span className="text-xs text-ink-muted">{r.lastSeenMs ? 'older app' : 'none'}</span>}
+              </div>
+              <div className="pl-11 text-sm tabular-nums sm:pl-0"><span className="text-ink-muted sm:hidden">Devices </span>{r.devices}</div>
+              <div className="min-w-0 pl-11 text-sm sm:pl-0">
+                <span className="text-ink-muted sm:hidden">Last seen </span>
+                <span>{seenText(r.lastSeenMs ? new Date(r.lastSeenMs) : null, now)}</span>
+                {r.seenBy && <span className="block text-xs text-ink-muted">via {SEEN_BY[r.seenBy]}</span>}
+              </div>
+              <div className="pl-11 text-sm text-ink-muted sm:pl-0"><span className="sm:hidden">Joined </span>{fmtDate(r.createdMs)}</div>
+            </li>
+          ))}
+        </ul>
       </div>
       <p className="mt-2 text-xs text-ink-muted">{shown.length} of {rows.length} accounts. Likely test accounts are named like firstnamelastname.12345@gmail.com.</p>
     </div>
@@ -516,15 +540,15 @@ function ReportsTab({ api, user, onOpenUser }: { api: AdminApi; user: DashboardU
       </div>
       {shown.length === 0 && <p className="rounded-2xl border border-outline bg-surface p-6 text-center text-ink-muted">No reports to review.</p>}
       {shown.map((r) => (
-        <article key={r.id} className="rounded-2xl border border-outline bg-surface p-5 shadow-sm" aria-label={`Report ${r.detail || r.message}`}>
+        <article key={r.id} className="min-w-0 rounded-2xl border border-outline bg-surface p-4 shadow-sm sm:p-5" aria-label={`Report ${r.detail || r.message}`}>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="font-semibold text-ink">{r.detail || r.message}</p>
-              <p className="mt-0.5 text-sm text-ink-muted">{r.message}</p>
+              <p className="break-words font-semibold text-ink">{r.detail || r.message}</p>
+              <p className="mt-0.5 break-words text-sm text-ink-muted">{r.message}</p>
             </div>
             <span className={cx('rounded-full px-2.5 py-0.5 text-xs font-medium', REPORT_STATUS[r.status].cls)}>{REPORT_STATUS[r.status].label}</span>
           </div>
-          {r.note && <p className="mt-3 rounded-xl bg-bg px-3 py-2 text-sm text-ink">"{r.note}"</p>}
+          {r.note && <p className="mt-3 break-words rounded-xl bg-bg px-3 py-2 text-sm text-ink">"{r.note}"</p>}
           <p className="mt-3 flex flex-wrap items-center gap-x-2 text-xs text-ink-muted">
             <span className="inline-flex items-center gap-1.5"><PlatformDot p={r.platform} />{PLATFORM_NAMES[r.platform] ?? r.platform} {r.appVersion}</span>
             <span>·</span><button type="button" className="text-primary hover:underline" onClick={() => onOpenUser(r.uid)}>{r.email || r.uid}</button>
@@ -541,11 +565,99 @@ function ReportsTab({ api, user, onOpenUser }: { api: AdminApi; user: DashboardU
   )
 }
 
+/** A titled group of panels; a section whose data could not be read says why and leaves the rest alone. */
+const Section = ({ title, hint, error, children }: { title: string; hint?: string; error?: string; children?: ReactNode }) => (
+  <section aria-label={title} className="min-w-0 space-y-4">
+    <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b border-outline pb-2">
+      <h2 className="font-display text-xl font-semibold text-ink">{title}</h2>
+      {hint && <span className="text-sm text-ink-muted">{hint}</span>}
+    </div>
+    {error ? <p className="break-words rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">Not available: {error}</p> : children}
+  </section>
+)
+
+const minutes = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`
+const share = (n: number, of: number) => `${Math.round((n / of) * 100)}%`
+const FLAG_STYLE = { over: 'bg-red-50 text-red-800', near: 'bg-amber-50 text-amber-900', spike: 'bg-amber-50 text-amber-900' } as const
+
+/** Website (GA4) and backend usage (Cloud Monitoring), read only. */
+function AnalyticsTab({ api, user }: { api: AdminApi; user: DashboardUser }) {
+  const [a, setA] = useState<Analytics | null>(null)
+  const [err, setErr] = useState<string | null>(null)
+  useEffect(() => { api.adminApi<Analytics>(user, { op: 'analytics' }).then(setA).catch((e) => setErr(String(e.message))) }, [api, user])
+  if (err) return <p role="alert" className="mt-4 text-red-700">{err}</p>
+  if (!a) return <p className="mt-6 text-ink-muted">Loading analytics…</p>
+  const web = failed(a.web) ? null : a.web
+  const usage = failed(a.usage) ? null : a.usage
+  const fs = usage?.firestore
+  return (
+    <div className="mt-6 space-y-10">
+      <Section title="Website" hint="blockerflow.net, Google Analytics, last 30 days, visitors who allowed it" error={failed(a.web) ? a.web.error : undefined}>
+        {web && (
+          <>
+            {web.totals && (
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+                <Kpi label="Users" value={fmt(web.totals.users)} />
+                <Kpi label="New users" value={fmt(web.totals.newUsers)} color="#16A34A" />
+                <Kpi label="Sessions" value={fmt(web.totals.sessions)} color="#0284C7" />
+                <Kpi label="Page views" value={fmt(web.totals.views)} color="#7C3AED" />
+                <Kpi label="Avg. session" value={minutes(web.totals.avgSessionSec)} color="#D97706" sub="minutes" />
+              </div>
+            )}
+            <div className="grid gap-4 lg:grid-cols-2">
+              <Panel title="Users per day"><DayColumns label="Website users per day, last 30 days" days={web.days.map((d) => ({ date: d.date, value: d.users }))} /></Panel>
+              <Panel title="Top pages" hint="views"><Bars data={Object.fromEntries(web.pages.map((p) => [p.path, p.views]))} /></Panel>
+              <Panel title="Countries" hint="users"><Bars data={web.countries} /></Panel>
+              <Panel title="Where visits come from" hint="sessions"><Bars data={web.sources} /></Panel>
+            </div>
+          </>
+        )}
+      </Section>
+
+      <Section title="Backend usage" hint="Firestore and Cloud Functions, last 30 days, UTC days" error={failed(a.usage) ? a.usage.error : undefined}>
+        {usage && fs && (
+          <>
+            {usage.flags.length > 0 && (
+              <ul className="space-y-2" aria-label="Unusual usage">
+                {usage.flags.map((f) => <li key={f.text} className={cx('break-words rounded-xl px-4 py-2 text-sm', FLAG_STYLE[f.level])}>{f.text}</li>)}
+              </ul>
+            )}
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              <Kpi label="Reads today" value={compact(fs.today.reads)} sub={`${share(fs.today.reads, fs.limits.reads)} of the free ${compact(fs.limits.reads)} a day`} />
+              <Kpi label="Writes today" value={compact(fs.today.writes)} color="#16A34A" sub={`${share(fs.today.writes, fs.limits.writes)} of the free ${compact(fs.limits.writes)} a day`} />
+              <Kpi label="Busiest day, reads" value={compact(fs.peak.reads.value)} color="#D97706"
+                sub={fs.peak.reads.date ? `${fs.peak.reads.date}, ${share(fs.peak.reads.value, fs.limits.reads)} of the free limit` : undefined} />
+              <Kpi label="Function calls" value={compact(usage.functions.total)} color="#7C3AED" sub={`30 days, free up to ${compact(usage.functions.freeMonthly)} a month`} />
+            </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <Panel title="Firestore reads per day" hint={`${compact(fs.totals.reads)} in 30 days`}>
+                <DayColumns label="Firestore document reads per day" days={fs.days.map((d) => ({ date: d.date, value: d.reads }))} />
+              </Panel>
+              <Panel title="Firestore writes and deletes per day" hint={`${fmt(fs.totals.writes)} writes, ${fmt(fs.totals.deletes)} deletes`}>
+                <DayColumns label="Firestore document writes and deletes per day" days={fs.days.map((d) => ({ date: d.date, value: d.writes + d.deletes }))} />
+              </Panel>
+              <Panel title="Function calls per day" hint={`${fmt(usage.functions.today)} today`}>
+                <DayColumns label="Cloud Functions calls per day" days={usage.functions.days.map((d) => ({ date: d.date, value: d.count }))} />
+              </Panel>
+              <Panel title="Most called functions" hint="30 days"><Bars data={usage.functions.byFunction} /></Panel>
+            </div>
+            <p className="text-xs leading-relaxed text-ink-muted">
+              Free daily limits: {fmt(fs.limits.reads)} reads, {fmt(fs.limits.writes)} writes and {fmt(fs.limits.deletes)} deletes (Firestore, also on the Blaze plan).
+              A day at 80% of a limit, or a function called more than 3 times as often as usual, is marked above. Monitoring numbers can lag a few minutes.
+            </p>
+          </>
+        )}
+      </Section>
+      <p className="text-xs text-ink-muted">Read at {new Date(a.generatedAt).toLocaleString('en-GB')}.</p>
+    </div>
+  )
+}
+
 export function Admin({ api: given }: { api?: AdminApi }) {
   usePageMeta('/admin')
   const [api, setApi] = useState<AdminApi | null>(given ?? null)
   const [user, setUser] = useState<DashboardUser | null | undefined>(undefined)
-  const [tab, setTab] = useState<'overview' | 'users' | 'reports'>('overview')
+  const [tab, setTab] = useState<'overview' | 'users' | 'reports' | 'analytics'>('overview')
   const [overview, setOverview] = useState<Overview | null>(null)
   const [store, setStore] = useState<Store | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -572,11 +684,11 @@ export function Admin({ api: given }: { api?: AdminApi }) {
       )}
       {api && user && !error && (
         <>
-          <nav className="mt-6 flex gap-2" aria-label="Admin sections">
-            {(['overview', 'users', 'reports'] as const).map((t) => (
+          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Admin sections">
+            {(['overview', 'users', 'reports', 'analytics'] as const).map((t) => (
               <button key={t} type="button" onClick={() => { setTab(t); setOpenUid(null) }}
                 className={cx('rounded-full px-4 py-1.5 text-sm font-semibold', tab === t ? 'bg-ink text-white' : 'text-ink-muted hover:bg-primary-bg')}>
-                {t === 'overview' ? 'Overview' : t === 'users' ? 'Users' : 'Reports'}
+                {{ overview: 'Overview', users: 'Users', reports: 'Reports', analytics: 'Analytics' }[t]}
               </button>
             ))}
           </nav>
@@ -584,6 +696,7 @@ export function Admin({ api: given }: { api?: AdminApi }) {
           {tab === 'users' && (openUid
             ? <UserPage api={api} user={user} uid={openUid} onBack={() => setOpenUid(null)} />
             : <UsersTab api={api} user={user} onOpen={setOpenUid} />)}
+          {tab === 'analytics' && <AnalyticsTab api={api} user={user} />}
           {tab === 'reports' && <ReportsTab api={api} user={user} onOpenUser={(uid) => { setOpenUid(uid); setTab('users') }} />}
         </>
       )}

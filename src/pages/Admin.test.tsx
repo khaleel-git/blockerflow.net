@@ -84,4 +84,59 @@ describe('Admin', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Will allow' }))
     await waitFor(() => expect(api.adminApi).toHaveBeenCalledWith(owner, { op: 'resolveReport', id: 'r1', status: 'allowed' }))
   })
+
+  it('shows the website and backend usage sections', async () => {
+    const days = (n: number) => Array.from({ length: n }, (_, i) => `2026-11-0${i + 1}`)
+    const analytics = {
+      generatedAt: '2026-11-07T12:00:00Z',
+      web: {
+        totals: { users: 1234, newUsers: 900, sessions: 1500, views: 4200, avgSessionSec: 75 },
+        days: days(3).map((date) => ({ date, users: 40, newUsers: 30, sessions: 50, views: 140 })),
+        pages: [{ path: '/guides/block-instagram-reels-on-android/', views: 800, users: 500 }],
+        countries: { Germany: 300 }, sources: { 'google / organic': 700 },
+      },
+      usage: {
+        firestore: {
+          days: days(3).map((date) => ({ date, reads: 30000, writes: 200, deletes: 10 })),
+          totals: { reads: 90000, writes: 600, deletes: 30 }, today: { reads: 28000, writes: 200, deletes: 10 },
+          peak: { reads: { date: '2026-11-05', value: 41000 }, writes: { date: '2026-11-05', value: 200 }, deletes: { date: null, value: 0 } },
+          limits: { reads: 50000, writes: 20000, deletes: 20000 },
+        },
+        functions: { days: days(3).map((date) => ({ date, count: 50 })), total: 150, today: 50, byFunction: { adminApi: 120, reportBlock: 30 }, freeMonthly: 2000000 },
+        flags: [{ level: 'near', text: 'Firestore reads: 1 day at 80% or more of the free 50,000 a day. Highest: 41,000 on 2026-11-05.' }],
+      },
+    }
+    render(<MemoryRouter><Admin api={fake((b) => ({ overview, store, analytics } as Record<string, unknown>)[b.op as string])} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Analytics' }))
+    expect(await screen.findByTestId('stat-Users')).toHaveTextContent('1,234')
+    expect(screen.getByTestId('stat-Avg. session')).toHaveTextContent('1:15')
+    expect(screen.getByText('/guides/block-instagram-reels-on-android/')).toBeInTheDocument()
+    expect(screen.getByTestId('stat-Reads today')).toHaveTextContent('28.0k')
+    expect(screen.getByText('56% of the free 50.0k a day')).toBeInTheDocument()
+    expect(screen.getByText('adminApi')).toBeInTheDocument()
+    expect(screen.getByRole('list', { name: 'Unusual usage' })).toHaveTextContent('Highest: 41,000 on 2026-11-05')
+  })
+
+  it('a section that cannot be read says why and the other still shows', async () => {
+    const analytics = {
+      generatedAt: '2026-11-07T12:00:00Z',
+      web: { error: 'the server account has no access to Analytics property 549757315.' },
+      usage: {
+        firestore: { days: [], totals: { reads: 0, writes: 0, deletes: 0 }, today: { reads: 10, writes: 1, deletes: 0 },
+          peak: { reads: { date: null, value: 0 }, writes: { date: null, value: 0 }, deletes: { date: null, value: 0 } }, limits: { reads: 50000, writes: 20000, deletes: 20000 } },
+        functions: { days: [], total: 0, today: 0, byFunction: {}, freeMonthly: 2000000 }, flags: [],
+      },
+    }
+    render(<MemoryRouter><Admin api={fake((b) => ({ overview, store, analytics } as Record<string, unknown>)[b.op as string])} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Analytics' }))
+    expect(await screen.findByText('Not available: the server account has no access to Analytics property 549757315.')).toBeInTheDocument()
+    expect(screen.getByTestId('stat-Reads today')).toHaveTextContent('10')
+  })
+
+  it('bar lists share one grid so long numbers get their own column', async () => {
+    render(<MemoryRouter><Admin api={fake(route)} /></MemoryRouter>)
+    const bars = (await screen.findByRole('region', { name: 'Blocks by category' })).querySelector('ul')!
+    expect(bars.className).toContain('grid-cols-[minmax(0,9rem)_minmax(2rem,1fr)_auto]')
+    expect(bars.querySelector('li')!.className).toBe('contents')
+  })
 })
