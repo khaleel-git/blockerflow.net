@@ -101,7 +101,12 @@ describe('guide articles', () => {
     expect(screen.getByRole('heading', { name: 'Quitting, and if the internet stops' })).toBeInTheDocument()
     const net = screen.getAllByRole('note').filter((n) => n.textContent?.includes('networksetup -setwebproxystate Wi-Fi off'))
     expect(net).toHaveLength(1)
-    expect(document.body.textContent).toContain('Version 1.2.6')
+    expect(document.body.textContent).toContain('Version 1.2.7')
+  })
+
+  it('explains the block screen reasons and websites only Blocklist of Mac 1.2.7', () => {
+    renderAt(MAC_GUIDE_PATH)
+    expect(document.body.textContent).toContain('The website Blocklist now takes only websites')
   })
 
   it('explains the Focus Mode address fix of Mac 1.2.6', () => {

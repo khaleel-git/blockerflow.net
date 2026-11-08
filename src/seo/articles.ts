@@ -1059,7 +1059,7 @@ export const ARTICLES: Article[] = [
     download: {
       label: 'Download Blockerflow for Mac',
       href: MAC_DOWNLOAD_URL,
-      note: 'Version 1.2.6, 73 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
+      note: 'Version 1.2.7, 73 MB, macOS 12.3 or later (14 or later for the image check), Apple silicon and Intel.',
     },
     sections: [
       {
@@ -1139,6 +1139,7 @@ export const ARTICLES: Article[] = [
         heading: 'Update or uninstall',
         paragraphs: [
           'Uninstall Protection locks the app so it cannot be replaced or deleted. Turn it off in Settings first. Your accountability partner may ask you to confirm.',
+          'Version 1.2.7 makes every block screen say what was blocked, why and which rule did it, and adds Wrongly blocked? Report it to the full screen block. The website Blocklist now takes only websites, such as example.com or example.com/page: an entry matches anywhere in an address, so a single word such as test also blocked pages like business.facebook.com/latest. A word saved before now blocks nothing and is marked in the list so you can remove it.',
           'Version 1.2.6 fixes Focus Mode for web addresses pasted in full. An address such as https://example.com/home in Also block or the allow list used to be ignored; now the allow list keeps just the site name and Also block keeps the path, so youtube.com/shorts still blocks only Shorts. Addresses you saved before work without typing them again.',
         ],
         steps: [
