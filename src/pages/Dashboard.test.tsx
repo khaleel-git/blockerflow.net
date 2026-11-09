@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { Dashboard, type DashboardApi } from './Dashboard'
-import { dailyTotals, isInactive, maskEmail, settingGroups, sortDevices, summarize, type Device } from '../lib/dashboard/model'
+import { dailyTotals, isInactive, maskEmail, mergeInstalls, settingGroups, sortDevices, summarize, type Device } from '../lib/dashboard/model'
 import type { DashboardUser } from '../lib/dashboard/firebase'
 import { getRouteMeta } from '../seo/routes'
 
@@ -90,6 +90,35 @@ describe('dashboard model', () => {
     expect(rows.find((r) => r.label === 'Blocked sites')).toMatchObject({ value: '2 sites', items: ['a.example', 'b.example'] })
     expect(rows.filter((r) => r.label === 'Blocked apps')).toHaveLength(1)
     expect(rows.find((r) => r.label === 'Blocked apps')?.items).toEqual(['com.x'])
+  })
+})
+
+describe('one device per install (owner, 2026-11-09)', () => {
+  const a = device({ id: 'a', appVersion: '1.0.27', firstSeen: daysAgo(30), lastSeen: daysAgo(5), settings: { x: 1 },
+    stats: [{ date: '2026-10-30', total: 2, counts: { adult: 2 } }] })
+  const b = device({ id: 'b', model: ' xiaomi 23117ra68g', appVersion: '1.0.28', firstSeen: daysAgo(4), lastSeen: daysAgo(0), settings: { x: 2 },
+    stats: [{ date: '2026-10-30', total: 1, counts: { adult: 1 } }] })
+
+  it('reinstalls of one phone show as one device: newest version and settings, earliest first seen, counts kept', () => {
+    const merged = mergeInstalls([a, b, oldMac])
+    expect(merged).toHaveLength(2)
+    const phoneCard = merged.find((d) => d.platform === 'android')!
+    expect(phoneCard.id).toBe('b')
+    expect(phoneCard.appVersion).toBe('1.0.28')
+    expect(phoneCard.settings).toEqual({ x: 2 })
+    expect(phoneCard.firstSeen).toEqual(daysAgo(30))
+    expect(phoneCard.installs).toBe(2)
+    expect(summarize(phoneCard.stats, NOW).last30).toBe(3)
+  })
+
+  it('a device without a model is never merged', () => {
+    expect(mergeInstalls([device({ id: 'x', model: '' }), device({ id: 'y', model: '' })])).toHaveLength(2)
+  })
+
+  it('the page lists a reinstalled phone once, with its install count', async () => {
+    renderPage(fakeApi(true, [a, b]))
+    expect(await screen.findAllByRole('article')).toHaveLength(1)
+    expect(screen.getByText(/2 installs/)).toBeTruthy()
   })
 })
 

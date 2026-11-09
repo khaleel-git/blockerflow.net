@@ -5,7 +5,7 @@ import { MacBadge } from '../components/MacBadge'
 import { WindowsBadge } from '../components/WindowsBadge'
 import {
   APPROVAL_TEXT, DELETE_WORD, PLATFORM_NAMES, allDays, approvalFor, dailyTotals, deleteConfirmed, isInactive, maskEmail, seenText, settingGroups,
-  sortDevices, summarize, type Device, type StatsSummary,
+  mergeInstalls, sortDevices, summarize, type Device, type StatsSummary,
 } from '../lib/dashboard/model'
 import type { ActionResult, DashboardUser, PendingRequest } from '../lib/dashboard/firebase'
 
@@ -160,7 +160,8 @@ function DeviceCard({ device, now, onRemove }: { device: Device; now: Date; onRe
               : <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700">Active</span>}
           </div>
           <p className="mt-0.5 text-sm text-ink-muted">
-            {[device.osVersion, device.appVersion && `app ${device.appVersion}`, `last seen ${seenText(device.lastSeen, now)}`].filter(Boolean).join(', ')}
+            {[device.osVersion, device.appVersion && `app ${device.appVersion}`, `last seen ${seenText(device.lastSeen, now)}`,
+              (device.installs ?? 1) > 1 && `${device.installs} installs (counts added up)`].filter(Boolean).join(', ')}
           </p>
         </div>
       </div>
@@ -236,7 +237,7 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
   const refresh = useCallback(async () => {
     if (!api || !user) return
     try {
-      setDevices(sortDevices(await api.loadDevices(user.uid)))
+      setDevices(sortDevices(mergeInstalls(await api.loadDevices(user.uid))))
     } catch {
       setError('Could not load your devices. Check your connection and reload.')
     }

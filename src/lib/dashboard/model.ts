@@ -23,6 +23,8 @@ export interface Device {
   lastSeen: Date | null
   settings: Record<string, unknown>
   stats: StatsDay[]
+  /** How many installs (records) this device had; set by mergeInstalls. */
+  installs?: number
 }
 
 export const PLATFORM_NAMES: Record<string, string> = { android: 'Android', mac: 'Mac', windows: 'Windows' }
@@ -33,6 +35,32 @@ const DAY_MS = 24 * 60 * 60 * 1000
 /** Most recently seen first; never seen last. */
 export function sortDevices(devices: Device[]): Device[] {
   return [...devices].sort((a, b) => (b.lastSeen?.getTime() ?? 0) - (a.lastSeen?.getTime() ?? 0))
+}
+
+/**
+ * One device per platform and model: each reinstall (or data clear) makes a new record. The newest
+ * record is the device (its id, version, settings, last seen); first seen is the earliest; every
+ * install's days are kept, so the counts add up. A record without a model is never merged.
+ * Same rule as the admin page and Remove device (backend lib/admin.js mergeInstalls).
+ */
+export function mergeInstalls(devices: Device[]): Device[] {
+  const groups = new Map<string, Device[]>()
+  for (const d of devices) {
+    const model = d.model.trim().toLowerCase()
+    const key = model ? `${d.platform}|${model}` : `id|${d.id}`
+    groups.set(key, [...(groups.get(key) ?? []), d])
+  }
+  const seen = (d: Device) => (d.lastSeen ?? d.firstSeen)?.getTime() ?? 0
+  return [...groups.values()].map((group) => {
+    const newest = [...group].sort((x, y) => seen(y) - seen(x))[0]
+    const firsts = group.map((d) => d.firstSeen).filter((d): d is Date => d !== null)
+    return {
+      ...newest,
+      firstSeen: firsts.length ? new Date(Math.min(...firsts.map((d) => d.getTime()))) : newest.firstSeen,
+      stats: group.flatMap((d) => d.stats),
+      installs: group.length,
+    }
+  })
 }
 
 export function isInactive(lastSeen: Date | null, now: Date): boolean {
