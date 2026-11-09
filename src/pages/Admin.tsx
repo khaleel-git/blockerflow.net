@@ -41,6 +41,8 @@ interface AdminDevice {
   id: string; platform: string; model: string; osVersion: string; appVersion: string; firstSeenMs: number | null; lastSeenMs: number | null
   settings: Record<string, unknown>; adminOverride: { id: string; atMs: number | null } | null
   stats: { date: string; total: number; counts: Record<string, number> }[]
+  /** Installs merged into this device (each reinstall makes a new record); 1 or absent for one. */
+  installs?: number; earlierIds?: string[]
 }
 interface UserDetail {
   uid: string; email: string; name: string; disabled: boolean; createdMs: number; lastSignInMs: number | null
@@ -407,6 +409,7 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
             {d.osVersion}, app {d.appVersion}, last seen {seenText(d.lastSeenMs ? new Date(d.lastSeenMs) : null, new Date())},
             blocks in 30 days: {d.stats.reduce((n, s) => n + s.total, 0)}
             {d.adminOverride && `, last support change ${fmtDate(d.adminOverride.atMs)}`}
+            {(d.installs ?? 1) > 1 && `, ${d.installs} installs on this device (counts added up)`}
           </p>
           <DeviceEditor device={d} busy={busy}
             onSave={(changes) => { if (window.confirm(`Change ${Object.keys(changes).length} setting(s) on this device? The user is emailed.`)) void act({ op: 'setSettings', deviceId: d.id, settings: changes }, 'Saved. The app applies it on its next sync.') }} />

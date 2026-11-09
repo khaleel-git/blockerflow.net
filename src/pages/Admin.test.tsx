@@ -53,6 +53,24 @@ describe('Admin', () => {
     await waitFor(() => expect(api.adminApi).toHaveBeenCalledWith(owner, { op: 'setSettings', deviceId: 'd1', settings: { block_adult_content: false }, uid: 'u1' }))
   })
 
+  it('says how many installs a device had, once', async () => {
+    const reinstalled = { ...detail, devices: [{ ...detail.devices[0], installs: 3, earlierIds: ['d0', 'd00'] }] }
+    const api = fake((b) => (b.op === 'user' ? reinstalled : route(b)))
+    render(<MemoryRouter><Admin api={api} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Users' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'a@example.com' }))
+    expect(await screen.findByText(/3 installs on this device/)).toBeInTheDocument()
+    expect(screen.getAllByRole('heading', { level: 3, name: /Pixel/ })).toHaveLength(1)
+  })
+
+  it('a device with one install shows no install count', async () => {
+    render(<MemoryRouter><Admin api={fake(route)} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Users' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'a@example.com' }))
+    await screen.findByRole('heading', { level: 3, name: /Pixel/ })
+    expect(screen.queryByText(/installs on this device/)).not.toBeInTheDocument()
+  })
+
   it('changedSettings keeps only real changes', () => {
     expect(changedSettings({ a: true, l: ['x'] }, { a: true, l: ['x', 'y'] })).toEqual({ l: ['x', 'y'] })
   })
