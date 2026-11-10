@@ -18,7 +18,7 @@ export const NOT_FOUND_META: RouteMeta = {
 export const ROUTE_META: RouteMeta[] = [
   {
     path: '/',
-    title: 'Blockerflow: Free Porn Blocker and Instagram Blocker for Android',
+    title: 'Blockerflow: Free Porn Blocker for Android, Windows and Mac',
     description:
       'Free blocker for Android, Mac and Windows: block porn, Instagram, Reels, YouTube Shorts and Snapchat, with an accountability partner and uninstall protection.',
   },

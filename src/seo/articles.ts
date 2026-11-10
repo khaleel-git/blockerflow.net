@@ -345,13 +345,13 @@ export const ARTICLES: Article[] = [
         heading: 'What happens next',
         paragraphs: [
           'In the YouTube app, Blockerflow recognises the Shorts player as it opens and puts a Content Blocked screen in front of it, with a button back to your home screen. Normal videos, your subscriptions, playlists, search and comments are untouched, because only the Shorts player is matched.',
-          'In the browser, addresses under youtube.com/shorts are blocked in Chrome or Firefox. The rest of youtube.com keeps working.',
+          'In the browser, addresses under youtube.com/shorts are blocked in the supported browsers, such as Chrome, Firefox and Brave. The rest of youtube.com keeps working.',
         ],
       },
       {
         heading: 'If Shorts is not the only feed pulling at you',
         paragraphs: [
-          'The same Social Blocking card has switches for Instagram Reels, Facebook Reels, Snapchat videos and search, WhatsApp channels, and X videos. Each is a separate switch, so you can close exactly the doors that are a problem for you and leave the rest alone.',
+          'The same Social Blocking card has switches for Instagram Reels, Facebook Reels, Snapchat videos and search, WhatsApp and Telegram channels, and X videos. Each is a separate switch, so you can close exactly the doors that are a problem for you and leave the rest alone.',
           'For a time boxed version instead, the Focus tab blocks the main social apps and sites completely for the length of a session. YouTube is deliberately not in that default list, since it is often needed for work or study, but you can add youtube.com under Also block during Focus.',
         ],
       },
@@ -371,7 +371,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Does it block Shorts on the YouTube website?',
         answer:
-          'Yes. Addresses under youtube.com/shorts are blocked in Chrome and Firefox, alongside the app.',
+          'Yes. Addresses under youtube.com/shorts are blocked in the supported browsers, alongside the app.',
       },
       {
         question: 'Can I block YouTube completely instead?',
@@ -512,6 +512,109 @@ export const ARTICLES: Article[] = [
       'block-snapchat-spotlight-on-android',
       'focus-mode-block-social-media-android',
       'block-any-app-or-website-on-android',
+    ],
+  },
+  {
+    slug: 'block-whatsapp-and-telegram-channels-on-android',
+    title: 'How to Block WhatsApp and Telegram Channels on Android',
+    description:
+      'Block WhatsApp Channels and Telegram channels on Android, the public feeds next to your chats, while chats, groups, Status and calls keep working.',
+    h1: 'How to block WhatsApp and Telegram channels on Android',
+    intro:
+      'Channels are public feeds that sit right next to your chats: WhatsApp puts them under Updates, Telegram mixes them into the chat list. Neither app lets you turn them off. Blockerflow can block the channels and leave your conversations alone.',
+    media: { kind: 'video', video: 'channelsGuide', caption: 'Two switches in the Social Blocking card: one for WhatsApp, one for Telegram.' },
+    sections: [
+      {
+        heading: 'Switch channels off in Blockerflow',
+        paragraphs: [
+          'Both switches are on the Blocking tab, the screen the app opens on, in the Social Blocking card. You do not need to add WhatsApp or Telegram to any list.',
+        ],
+        steps: [
+          'Install Blockerflow and complete setup, including the Accessibility Service permission.',
+          'Stay on the Blocking tab and scroll to the Social Blocking card.',
+          'Switch on Block WhatsApp channels. It covers WhatsApp and WhatsApp Business.',
+          'Switch on Block Telegram channels. It covers Telegram and Telegram X.',
+        ],
+      },
+      {
+        heading: 'What happens next',
+        paragraphs: [
+          'When a channel opens, Blockerflow puts a Content Blocked screen in front of it, with a button back to your home screen. Chats with people and groups, Status and calls keep working.',
+          'A Telegram group with an adult name, or one that has shown explicit pictures, is blocked by Block adult content, whether the channels switch is on or not.',
+        ],
+      },
+      {
+        heading: 'Keep the switches from being flipped back',
+        paragraphs: [
+          'Turning either switch off again goes through whichever accountability partner you chose. Channels are graded Lenient, so the check is deliberately light: it is there to make the moment conscious.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Will I still get my WhatsApp and Telegram messages?',
+        answer: 'Yes. Only channels are blocked. Chats with people and groups, Status and calls keep working.',
+      },
+      {
+        question: 'Does it work in WhatsApp Business and Telegram X?',
+        answer: 'Yes. Block WhatsApp channels covers WhatsApp and WhatsApp Business, and Block Telegram channels covers Telegram and Telegram X.',
+      },
+    ],
+    related: [
+      'block-instagram-reels-on-android',
+      'block-x-twitter-videos-on-android',
+      'how-to-block-porn-on-android',
+    ],
+  },
+  {
+    slug: 'block-x-twitter-videos-on-android',
+    title: 'How to Block X (Twitter) Videos on Android',
+    description:
+      'Stop endless videos on X on Android. Block videos in the X app and on x.com and twitter.com while text posts and pictures keep opening.',
+    h1: 'How to block X (Twitter) videos on Android',
+    intro:
+      'On X, one tap on a video starts a stream of them, and there is no setting to stop it. Blockerflow can block the videos and keep the rest of X, so you can still read posts.',
+    media: { kind: 'video', video: 'xVideosGuide', caption: 'One switch in the Social Blocking card blocks videos on X.' },
+    sections: [
+      {
+        heading: 'Switch X videos off in Blockerflow',
+        paragraphs: [
+          'The switch is on the Blocking tab, the screen the app opens on, in the Social Blocking card.',
+        ],
+        steps: [
+          'Install Blockerflow and complete setup, including the Accessibility Service permission.',
+          'Stay on the Blocking tab and scroll to the Social Blocking card.',
+          'Switch on Block X / Twitter Videos.',
+        ],
+      },
+      {
+        heading: 'What happens next',
+        paragraphs: [
+          'When a video opens in the X app, Blockerflow puts a Content Blocked screen in front of it. Text posts and pictures still open.',
+          'In the browser, videos on x.com and twitter.com are blocked in the supported browsers too.',
+        ],
+      },
+      {
+        heading: 'Keep the switch from being flipped back',
+        paragraphs: [
+          'Turning Block X / Twitter Videos off again goes through whichever accountability partner you chose.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Can I still read posts on X?',
+        answer: 'Yes. Only videos are blocked. Text posts and pictures keep opening.',
+      },
+      {
+        question: 'Can I block X completely instead?',
+        answer: 'Yes. Add the X app and x.com in the Blocklist tab for a permanent block, or start a Focus session to block X only while it runs.',
+      },
+    ],
+    related: [
+      'block-youtube-shorts-on-android',
+      'block-whatsapp-and-telegram-channels-on-android',
+      'focus-mode-block-social-media-android',
     ],
   },
   {

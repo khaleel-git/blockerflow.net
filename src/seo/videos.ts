@@ -69,6 +69,7 @@ const DATA = {
   reelsGuide: {
     src: '/assets/videos/reels-guide.mp4',
     poster: '/assets/videos/reels-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/Rp4gRsZDPCI',
     name: 'How to block Instagram Reels on Android with Blockerflow',
     description:
       'A narrated walkthrough: open the Blocking tab, scroll to Social Blocking and switch on Block Instagram reels, while messages, feed and Stories keep working.',
@@ -77,18 +78,20 @@ const DATA = {
   shortsGuide: {
     src: '/assets/videos/shorts-guide.mp4',
     poster: '/assets/videos/shorts-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/6kg7aoPwlYE',
     name: 'How to block YouTube Shorts on Android with Blockerflow',
     description:
       'A narrated walkthrough: open the Blocking tab, scroll to Social Blocking and switch on Block Youtube Shorts, while normal videos and subscriptions keep working.',
-    durationSeconds: 36,
+    durationSeconds: 37,
   },
   spotlightGuide: {
     src: '/assets/videos/spotlight-guide.mp4',
     poster: '/assets/videos/spotlight-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/dn8op88MZaw',
     name: 'How to block Snapchat Spotlight on Android with Blockerflow',
     description:
-      'A narrated walkthrough: switch on Block Snapchat videos and Block Snapchat search in the Social Blocking card, while chats, the camera and Stories keep working.',
-    durationSeconds: 39,
+      'A narrated walkthrough: switch on Block Snapchat videos and Block Snapchat search in the Social Blocking card, while chats, the camera and Stories from your friends keep working.',
+    durationSeconds: 38,
   },
   imageSearchGuide: {
     src: '/assets/videos/image-search-guide.mp4',
@@ -204,6 +207,24 @@ const DATA = {
     description:
       'A narrated walkthrough: block the Snapchat app and snapchat.com from the Blocklist, block it during a Focus session, or block only Spotlight and keep chats.',
     durationSeconds: 42,
+  },
+  channelsGuide: {
+    src: '/assets/videos/channels-guide.mp4',
+    poster: '/assets/videos/channels-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/Ha6KQajesc4',
+    name: 'How to block WhatsApp and Telegram channels on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Block WhatsApp channels and Block Telegram channels in the Social Blocking card, while chats, groups, Status and calls keep working.',
+    durationSeconds: 44,
+  },
+  xVideosGuide: {
+    src: '/assets/videos/x-videos-guide.mp4',
+    poster: '/assets/videos/x-videos-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/zfeFxRiWJzQ',
+    name: 'How to block X (Twitter) videos on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Block X / Twitter Videos in the Social Blocking card, while text posts and pictures keep opening.',
+    durationSeconds: 36,
   },
 } satisfies Record<string, DemoVideoInfo>
 

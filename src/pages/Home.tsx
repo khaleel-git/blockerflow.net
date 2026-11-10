@@ -59,12 +59,12 @@ const HOME_SCHEMA = {
       url: SITE_URL,
     },
     {
-      '@type': 'MobileApplication',
+      '@type': 'SoftwareApplication',
       name: SITE_NAME,
-      operatingSystem: 'Android',
+      operatingSystem: 'Android, Windows, macOS',
       applicationCategory: 'LifestyleApplication',
       description:
-        'An Android app that blocks adult content and distracting social video feeds, backed by an accountability system.',
+        'An app for Android, Windows and Mac that blocks adult content and distracting social video feeds, backed by an accountability system.',
       url: SITE_URL,
       downloadUrl: PLAY_STORE_URL,
       image: `${SITE_URL}/assets/icon-512.png`,
@@ -94,7 +94,7 @@ export function Home() {
                   strokeLinejoin="round"
                 />
               </svg>
-              Available now on Google Play
+              Available for Android, Windows and Mac
             </span>
             <h1 className="mt-6 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl">
               Block distractions.
@@ -102,9 +102,9 @@ export function Home() {
               Stay accountable.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg text-ink-muted lg:mx-0">
-              Blockerflow is an Android app that blocks adult content and distracting social video
-              feeds, backed by a real accountability system, not just a toggle you can switch off
-              the moment you're tempted.
+              Blockerflow blocks adult content and distracting social video feeds on Android,
+              Windows and Mac, backed by a real accountability system, not just a toggle you can
+              switch off the moment you're tempted.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
               <GooglePlayBadge />

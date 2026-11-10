@@ -21,7 +21,7 @@ describe('Home', () => {
         <Home />
       </MemoryRouter>,
     )
-    expect(screen.getByText('Available now on Google Play')).toBeInTheDocument()
+    expect(screen.getByText('Available for Android, Windows and Mac')).toBeInTheDocument()
   })
 
   it('lists all six features', () => {
@@ -56,7 +56,7 @@ describe('Home', () => {
         <Home />
       </MemoryRouter>,
     )
-    expect(document.title).toBe('Blockerflow: Free Porn Blocker and Instagram Blocker for Android')
+    expect(document.title).toBe('Blockerflow: Free Porn Blocker for Android, Windows and Mac')
   })
 
   it('links the Mac badge to the install guide', () => {

@@ -9,7 +9,7 @@ describe('video structured data', () => {
   })
 
   it('lists a video for the home page, the setup guide and every guide that has one', () => {
-    expect(Object.keys(ROUTE_VIDEOS)).toHaveLength(16)
+    expect(Object.keys(ROUTE_VIDEOS)).toHaveLength(18)
     for (const video of Object.values(ROUTE_VIDEOS)) {
       expect(video.contentUrl).toMatch(/^https:\/\/blockerflow\.net\/assets\/videos\/.+\.mp4$/)
       expect(video.name.length).toBeLessThanOrEqual(100)
