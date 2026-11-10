@@ -23,7 +23,7 @@ const FEATURES = [
     title: 'Social video blocking',
     description:
       'Separate switches for Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight, WhatsApp and Telegram channels and X videos. Messages keep working.',
-    screenshot: '/assets/screenshots/02-blocklist.png',
+    screenshot: '/assets/screenshots/02-social.png',
   },
   {
     title: 'Focus Mode',
