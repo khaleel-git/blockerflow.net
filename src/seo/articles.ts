@@ -91,7 +91,7 @@ export const ARTICLES: Article[] = [
         heading: 'Check the switches on the Blocking tab',
         paragraphs: [
           'Blockerflow opens on the Blocking tab, and every feature switch lives there, not in the Blocklist tab. The card at the very top is the status card: it should read Protection active, with the detail line Blocklists loaded and checks are running. If it reads Starting protection the lists are still loading, and if it reads Protection is impaired or Protection stopped then nothing is being blocked yet.',
-          'Under the Content Blocking card you will find Block adult content, which is on by default. The same card has Block known piracy sites and Block image & video search. Further down, the Advanced Blocking card has Block unsupported browsers, which is on by default and matters more than it sounds. Leave it on.',
+          'Under the Content Blocking card you will find Block adult content, which is on by default. The same card has Block image & video search. Further down, the Advanced Blocking card has Block unsupported browsers, which is on by default and matters more than it sounds. Leave it on.',
         ],
         steps: [
           'Open the Blocking tab, the screen the app starts on.',
@@ -726,7 +726,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Not every decision is weighted the same',
         paragraphs: [
-          'Each challenge shows a strictness badge, because disabling the adult content blocker and disabling Facebook Reels are not the same decision. Strict covers the things the app exists for and the ways it could be removed: adult content, known piracy sites, uninstall protection, factory reset, uninstalling, deleting your account, and the unsupported browser block.',
+          'Each challenge shows a strictness badge, because disabling the adult content blocker and disabling Facebook Reels are not the same decision. Strict covers the things the app exists for and the ways it could be removed: adult content, uninstall protection, settings protection, factory reset, uninstalling, deleting your account, and the unsupported browser block.',
           'Lenient covers the single platform distraction switches, like Reels, Shorts, Snapchat and WhatsApp channels, where you could get the same content another way in seconds. Everything else sits at Moderate. The AI Coach uses this grading too, so a plausible reason that clears a Lenient toggle will not clear a Strict one.',
         ],
       },

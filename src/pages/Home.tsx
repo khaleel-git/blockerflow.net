@@ -22,7 +22,7 @@ const FEATURES = [
   {
     title: 'Social video blocking',
     description:
-      'Separate switches for Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight, WhatsApp channels and X videos. Messages keep working.',
+      'Separate switches for Instagram and Facebook Reels, YouTube Shorts, Snapchat Spotlight, WhatsApp and Telegram channels and X videos. Messages keep working.',
     screenshot: '/assets/screenshots/02-blocklist.png',
   },
   {
@@ -34,7 +34,7 @@ const FEATURES = [
   {
     title: 'Accountability Partner',
     description:
-      'A trusted contact unlocks blocked features for you, via a one-time PIN sent to their email.',
+      'Before a block comes off, someone has to agree: a friend by email, a typing challenge, a 24 hour wait or the AI Coach.',
     screenshot: '/assets/screenshots/04-accountability-partner.png',
   },
   {

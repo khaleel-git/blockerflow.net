@@ -106,6 +106,17 @@ export function Article() {
           {inline && media?.kind === 'video' && (
             <DemoVideo video={media.video} caption={media.caption} className="mt-10" />
           )}
+          {/* On a phone the side column falls below the whole guide: show its media right after the
+              intro instead (owner, 2026-11-11), and keep the side column for wide screens. */}
+          {aside && media && (
+            <div className="mx-auto mt-10 max-w-[260px] lg:hidden">
+              {media.kind === 'video' ? (
+                <DemoVideo video={media.video} caption={media.caption} />
+              ) : (
+                <AppScreenshot src={media.src} alt={media.alt} caption={media.caption} />
+              )}
+            </div>
+          )}
 
           {article.sections.map((section) => (
             <section key={section.heading} className="mt-12">
@@ -174,7 +185,7 @@ export function Article() {
         </div>
 
         {aside && media && (
-          <aside className="lg:sticky lg:top-24">
+          <aside className="hidden lg:sticky lg:top-24 lg:block">
             {media.kind === 'video' ? (
               <DemoVideo video={media.video} caption={media.caption} />
             ) : (

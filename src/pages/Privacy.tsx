@@ -4,7 +4,7 @@ export function Privacy() {
   usePageMeta('/privacy')
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-16">
+    <article className="mx-auto max-w-3xl px-6 py-16 [overflow-wrap:anywhere]">
       <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
       <p className="mt-2 text-sm text-ink-muted">Last updated: 5 November 2026</p>
 

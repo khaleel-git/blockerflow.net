@@ -40,8 +40,8 @@ const STEPS: Step[] = [
     description:
       'Everything is on the Blocking tab, the screen the app opens on. The card at the top should read Protection active before you go further.',
     bullets: [
-      'Content Blocking: adult content, known piracy sites, and image and video search.',
-      'Social Blocking: Instagram and Facebook Reels, YouTube Shorts, Instagram search, Snapchat videos and search, WhatsApp channels, and X videos.',
+      'Content Blocking: adult content, and image and video search.',
+      'Social Blocking: Instagram and Facebook Reels, YouTube Shorts, Instagram search, Snapchat videos and search, WhatsApp and Telegram channels, and X videos.',
       'Advanced Blocking: unsupported browsers, newly installed apps, and Focus Mode protection.',
     ],
     screenshot: '/assets/screenshots/01-blocking.png',
