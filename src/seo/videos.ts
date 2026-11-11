@@ -123,7 +123,7 @@ const DATA = {
   pornBlockerGuide: {
     src: '/assets/videos/porn-blocker-guide.mp4',
     poster: '/assets/videos/porn-blocker-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/BPCc4TpBKLE',
+    youtube: 'https://www.youtube.com/shorts/xxRhEs6lURk',
     name: 'How to block porn on Android with Blockerflow',
     description:
       'A narrated walkthrough: the three setup tasks including Autostart, Protection active, add image and video search blocking, keep unsupported browsers blocked and switch on Uninstall Protection.',
@@ -178,7 +178,7 @@ const DATA = {
   setupGuide: {
     src: '/assets/videos/setup-guide.mp4',
     poster: '/assets/videos/setup-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/R8nNmBJKg5U',
+    youtube: 'https://www.youtube.com/shorts/fr-ovzpfRcg',
     name: 'How to use Blockerflow in six steps',
     description:
       'A narrated walkthrough of the six setup steps: the setup screen, choosing what to block, your own Blocklist, an accountability partner, Uninstall Protection and a Focus session.',
