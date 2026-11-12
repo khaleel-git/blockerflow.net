@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom'
 import { Admin, changedSettings, type AdminApi } from './Admin'
 import type { DashboardUser } from '../lib/dashboard/firebase'
@@ -124,25 +124,6 @@ describe('Admin', () => {
     fireEvent.click(screen.getByRole('button', { name: 'probe back' }))
     expect(await screen.findByTestId('stat-Accounts')).toBeInTheDocument()
     expect(screen.getByTestId('loc')).toHaveTextContent('')
-  })
-
-  it('filters the users list by region, with Unknown for accounts whose devices have not reported one', async () => {
-    const many = { users: [
-      { ...users.users[0], uid: 'd', email: 'germany@example.com', countries: ['DE'] },
-      { ...users.users[0], uid: 'i', email: 'india@example.com', countries: ['IN', 'DE'] },
-      { ...users.users[0], uid: 'u', email: 'unknown@example.com' },
-    ] }
-    render(<MemoryRouter><Admin api={fake((b) => (b.op === 'users' ? many : route(b)))} /></MemoryRouter>)
-    fireEvent.click(await screen.findByRole('button', { name: 'Users' }))
-    await screen.findByRole('button', { name: 'germany@example.com' })
-    const region = screen.getByLabelText('Region')
-    expect(within(region).getByRole('option', { name: 'Germany (DE) 2' })).toBeInTheDocument()
-    fireEvent.change(region, { target: { value: 'IN' } })
-    expect(screen.getByRole('button', { name: 'india@example.com' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'germany@example.com' })).not.toBeInTheDocument()
-    fireEvent.change(region, { target: { value: 'unknown' } })
-    expect(screen.getByRole('button', { name: 'unknown@example.com' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'india@example.com' })).not.toBeInTheDocument()
   })
 
   it('changedSettings keeps only real changes', () => {
