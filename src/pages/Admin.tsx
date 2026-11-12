@@ -37,11 +37,15 @@ interface UserRow {
   uid: string; email: string; name: string; disabled: boolean; createdMs: number; lastSignInMs: number | null
   platforms: string[]; devices: number; lastSeenMs: number | null
   seenBy?: 'device' | 'settings' | 'sign-in' | null; kind?: 'user' | 'reviewer' | 'owner'; synced?: boolean
+  /** Two-letter codes of the countries this account's devices connect from; absent or empty when none reported one. */
+  countries?: string[]
 }
 interface AdminDevice {
   id: string; platform: string; model: string; osVersion: string; appVersion: string; firstSeenMs: number | null; lastSeenMs: number | null
   settings: Record<string, unknown>; adminOverride: { id: string; atMs: number | null } | null
   stats: { date: string; total: number; counts: Record<string, number> }[]
+  /** Two-letter code of the country the device connects from, when it has reported one. */
+  country?: string | null
   /** Installs merged into this device (each reinstall makes a new record); 1 or absent for one. */
   installs?: number; earlierIds?: string[]
 }
@@ -410,6 +414,7 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
           <p className="text-sm text-ink-muted">
             {d.osVersion}, app {d.appVersion}, last seen {seenText(d.lastSeenMs ? new Date(d.lastSeenMs) : null, new Date())},
             blocks in 30 days: {d.stats.reduce((n, s) => n + s.total, 0)}
+            {d.country && `, connects from ${regionName(d.country)}`}
             {d.adminOverride && `, last support change ${fmtDate(d.adminOverride.atMs)}`}
             {(d.installs ?? 1) > 1 && `, ${d.installs} installs on this device (counts added up)`}
           </p>
@@ -448,6 +453,13 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
 }
 
 const KIND_LABELS = { user: 'People', reviewer: 'Likely test accounts', owner: 'Yours' } as const
+
+/** "Germany (DE)" from "DE"; the bare code when the browser does not know the name. */
+const REGION_NAMES = typeof Intl !== 'undefined' && 'DisplayNames' in Intl ? new Intl.DisplayNames(['en'], { type: 'region' }) : null
+export const regionName = (code: string): string => {
+  const name = (() => { try { return REGION_NAMES?.of(code) } catch { return undefined } })()
+  return name && name !== code ? `${name} (${code})` : code
+}
 const SEEN_BY: Record<string, string> = { device: 'device record', settings: 'settings sync', 'sign-in': 'sign-in' }
 
 function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; onOpen: (uid: string) => void }) {
@@ -456,15 +468,25 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
   const [kind, setKind] = useState<'all' | 'user' | 'reviewer' | 'owner'>('all')
   // Which kind of device the account has (an account with a phone and a Mac counts under both).
   const [device, setDevice] = useState<'all' | 'android' | 'mac' | 'windows' | 'none'>('all')
+  // The country the account's devices connect from ('all', a two-letter code, or 'unknown').
+  const [region, setRegion] = useState('all')
   const [err, setErr] = useState<string | null>(null)
   useEffect(() => { api.adminApi<{ users: UserRow[] }>(user, { op: 'users' }).then((r) => setRows(r.users)).catch((e) => setErr(String(e.message))) }, [api, user])
   const count = (k: string) => (rows ?? []).filter((r) => (r.kind ?? 'user') === k).length
   const hasDevice = (r: UserRow, d: typeof device) => d === 'all' || (d === 'none' ? r.platforms.length === 0 : r.platforms.includes(d))
   // The device counts follow the account filter beside them, so the two always add up.
   const ofKind = useMemo(() => (rows ?? []).filter((r) => kind === 'all' || (r.kind ?? 'user') === kind), [rows, kind])
-  const shown = useMemo(() => ofKind
-    .filter((r) => hasDevice(r, device))
-    .filter((r) => !q || r.email.toLowerCase().includes(q.toLowerCase()) || r.uid.includes(q)), [ofKind, q, device])
+  const inRegion = (r: UserRow, c: string) => c === 'all' || (c === 'unknown' ? !(r.countries?.length) : !!r.countries?.includes(c))
+  const ofDevice = useMemo(() => ofKind.filter((r) => hasDevice(r, device)), [ofKind, device])
+  // Every country any listed account reported, most accounts first.
+  const regions = useMemo(() => {
+    const n = new Map<string, number>()
+    for (const r of ofDevice) for (const c of r.countries ?? []) n.set(c, (n.get(c) ?? 0) + 1)
+    return [...n.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  }, [ofDevice])
+  const shown = useMemo(() => ofDevice
+    .filter((r) => inRegion(r, region))
+    .filter((r) => !q || r.email.toLowerCase().includes(q.toLowerCase()) || r.uid.includes(q)), [ofDevice, q, region])
   if (err) return <p role="alert" className="mt-4 text-red-700">{err}</p>
   if (!rows) return <p className="mt-4 text-ink-muted">Loading users…</p>
   const now = new Date()
@@ -487,6 +509,13 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
             </button>
           ))}
         </div>
+        <label className="block text-sm text-ink">Region
+          <select className="mt-1 block rounded-xl border border-outline bg-surface px-3 py-2" value={region} onChange={(e) => setRegion(e.target.value)}>
+            <option value="all">{`Any region ${ofDevice.length}`}</option>
+            {regions.map(([c, n]) => <option key={c} value={c}>{`${regionName(c)} ${n}`}</option>)}
+            <option value="unknown">{`Unknown ${ofDevice.filter((r) => inRegion(r, 'unknown')).length}`}</option>
+          </select>
+        </label>
         <label className="block w-full max-w-xs text-sm text-ink">Search by email
           <input className="mt-1 w-full rounded-xl border border-outline bg-surface px-3 py-2" value={q} onChange={(e) => setQ(e.target.value)} />
         </label>
