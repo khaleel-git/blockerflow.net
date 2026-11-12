@@ -49,10 +49,10 @@ export interface Article {
 /**
  * Every instruction here is written against the shipped app, not from memory.
  *
- * The layout these guides describe: four tabs at the bottom (Blocking, Blocklist, Focus,
- * Settings). Blocking is the screen the app opens on and holds every feature switch, grouped
- * into the Content Blocking, Social Blocking, Uninstall Protection and Advanced Blocking cards,
- * with the Accountability Partner card above them. The Blocklist tab is only for apps and sites
+ * The layout these guides describe (Android 1.0.30): four tabs at the bottom (Blocking, Blocklist,
+ * Focus, Progress) and Settings behind the gear at the top. Blocking is the screen the app opens on
+ * and holds every feature switch, grouped into Content, Social and Advanced, with the
+ * Accountability partner row above them; Uninstall protection is in Settings. The Blocklist tab is only for apps and sites
  * the user adds themselves. An earlier version of these guides sent people to the Blocklist tab
  * to switch features on, which is not where any of them live.
  */
@@ -91,14 +91,14 @@ export const ARTICLES: Article[] = [
         heading: 'Check the switches on the Blocking tab',
         paragraphs: [
           'Blockerflow opens on the Blocking tab, and every feature switch lives there, not in the Blocklist tab. The card at the very top is the status card: it should read Protection active, with the detail line Blocklists loaded and checks are running. If it reads Starting protection the lists are still loading, and if it reads Protection is impaired or Protection stopped then nothing is being blocked yet.',
-          'Under the Content Blocking card you will find Block adult content, which is on by default. The same card has Block image & video search. Further down, the Advanced Blocking card has Block unsupported browsers, which is on by default and matters more than it sounds. Leave it on.',
+          'Under Content you will find Block adult content, which is on by default. The same group has Block image & video search. Further down, the Advanced group has Block unsupported browsers, which is on by default and matters more than it sounds. Leave it on.',
         ],
         steps: [
           'Open the Blocking tab, the screen the app starts on.',
-          'In the Content Blocking card, confirm Block adult content is on.',
+          'In the Content group, confirm Block adult content is on.',
           'Switch on Block image & video search in the same card to close the image and video tabs of the search engines.',
-          'In the Advanced Blocking card, leave Block unsupported browsers on.',
-          'On the Accountability Partner card near the top, tap Edit and pick who holds the off switch.',
+          'In the Advanced group, leave Block unsupported browsers on.',
+          'Next to Accountability partner near the top, tap Edit and pick who holds the off switch.',
           'Switch on Uninstall Protection and approve the Device Admin request from Android.',
         ],
       },
@@ -167,7 +167,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Instagram Reels on Android',
     intro:
       'Plenty of people want Instagram for messages and friends but lose an hour to Reels without noticing. Deleting the app is blunt, and Instagram offers no switch to turn Reels off. Here is how to block Reels and keep the rest.',
-    media: { kind: 'video', video: 'reelsGuide', caption: 'The three switches in the Social Blocking card, and what keeps working afterwards.' },
+    media: { kind: 'video', video: 'reelsGuide', caption: 'The three switches in the Social group, and what keeps working afterwards.' },
     sections: [
       {
         heading: 'Why you cannot turn Reels off in Instagram',
@@ -178,11 +178,11 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Switch Reels off in Blockerflow',
         paragraphs: [
-          'These switches are on the Blocking tab, the screen Blockerflow opens on. Scroll to the Social Blocking card, which carries all the per platform switches. The Blocklist tab is a different thing: it is for apps and sites you add yourself.',
+          'These switches are on the Blocking tab, the screen Blockerflow opens on. Scroll to the Social group, which carries all the per platform switches. The Blocklist tab is a different thing: it is for apps and sites you add yourself.',
         ],
         steps: [
           'Install Blockerflow and complete setup, which includes granting the Accessibility Service permission.',
-          'Stay on the Blocking tab and scroll down to the Social Blocking card.',
+          'Stay on the Blocking tab and scroll down to the Social group.',
           'Switch on Block Instagram reels.',
           'Switch on Block Facebook reels in the same card if Facebook is part of the problem.',
           'Switch on Block Instagram search as well if the Explore tab is where your scrolling usually starts.',
@@ -275,7 +275,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Block only Reels and keep your messages',
         paragraphs: [
-          'On the Blocking tab, the Social Blocking card has Block Instagram reels. It recognises the Reels player and puts a Content Blocked screen in front of it, while direct messages, the feed, Stories and profiles keep working. Block Instagram search in the same card closes the Explore tab as well.',
+          'On the Blocking tab, the Social group has Block Instagram reels. It recognises the Reels player and puts a Content Blocked screen in front of it, while direct messages, the feed, Stories and profiles keep working. Block Instagram search in the same card closes the Explore tab as well.',
         ],
       },
       {
@@ -322,7 +322,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block YouTube Shorts on Android',
     intro:
       'You open YouTube for one tutorial and surface forty minutes later, deep in Shorts. YouTube does not let you remove the Shorts shelf. Blockerflow does, and it leaves ordinary videos alone.',
-    media: { kind: 'video', video: 'shortsGuide', caption: 'One switch in the Social Blocking card closes Shorts and leaves normal videos alone.' },
+    media: { kind: 'video', video: 'shortsGuide', caption: 'One switch in the Social group closes Shorts and leaves normal videos alone.' },
     sections: [
       {
         heading: 'Why Shorts is hard to avoid',
@@ -333,11 +333,11 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Switch Shorts off in Blockerflow',
         paragraphs: [
-          'The switch is on the Blocking tab, the screen the app opens on, in the Social Blocking card. You do not need to add YouTube to any list. The Blocklist tab is for apps and sites you choose to add yourself, which is a separate feature.',
+          'The switch is on the Blocking tab, the screen the app opens on, in the Social group. You do not need to add YouTube to any list. The Blocklist tab is for apps and sites you choose to add yourself, which is a separate feature.',
         ],
         steps: [
           'Install Blockerflow and complete setup, including the Accessibility Service permission.',
-          'Stay on the Blocking tab and scroll to the Social Blocking card.',
+          'Stay on the Blocking tab and scroll to the Social group.',
           'Switch on Block Youtube Shorts.',
         ],
       },
@@ -351,7 +351,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'If Shorts is not the only feed pulling at you',
         paragraphs: [
-          'The same Social Blocking card has switches for Instagram Reels, Facebook Reels, Snapchat videos and search, WhatsApp and Telegram channels, and X videos. Each is a separate switch, so you can close exactly the doors that are a problem for you and leave the rest alone.',
+          'The same Social group has switches for Instagram Reels, Facebook Reels, Snapchat videos and search, WhatsApp and Telegram channels, and X videos. Each is a separate switch, so you can close exactly the doors that are a problem for you and leave the rest alone.',
           'For a time boxed version instead, the Focus tab blocks the main social apps and sites completely for the length of a session. YouTube is deliberately not in that default list, since it is often needed for work or study, but you can add youtube.com under Also block during Focus.',
         ],
       },
@@ -404,11 +404,11 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Switch it off in Blockerflow',
         paragraphs: [
-          'Both Snapchat switches live on the Blocking tab, in the Social Blocking card. They are separate, so you can block the feed without blocking search, or both.',
+          'Both Snapchat switches live on the Blocking tab, in the Social group. They are separate, so you can block the feed without blocking search, or both.',
         ],
         steps: [
           'Install Blockerflow and complete setup, including the Accessibility Service permission.',
-          'Stay on the Blocking tab and scroll to the Social Blocking card.',
+          'Stay on the Blocking tab and scroll to the Social group.',
           'Switch on Block Snapchat videos to block the Spotlight feed.',
           'Switch on Block Snapchat search if searching inside Snapchat is how your scrolling tends to start.',
         ],
@@ -481,7 +481,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Block only Spotlight and keep your chats',
         paragraphs: [
-          'On the Blocking tab, the Social Blocking card has Block Snapchat videos, which blocks the Spotlight feed, and Block Snapchat search for in-app search. Chats, the camera, Stories and the map keep working, and you can still accept friend requests with search blocked.',
+          'On the Blocking tab, the Social group has Block Snapchat videos, which blocks the Spotlight feed, and Block Snapchat search for in-app search. Chats, the camera, Stories and the map keep working, and you can still accept friend requests with search blocked.',
         ],
       },
       {
@@ -522,16 +522,16 @@ export const ARTICLES: Article[] = [
     h1: 'How to block WhatsApp and Telegram channels on Android',
     intro:
       'Channels are public feeds that sit right next to your chats: WhatsApp puts them under Updates, Telegram mixes them into the chat list. Neither app lets you turn them off. Blockerflow can block the channels and leave your conversations alone.',
-    media: { kind: 'video', video: 'channelsGuide', caption: 'Two switches in the Social Blocking card: one for WhatsApp, one for Telegram.' },
+    media: { kind: 'video', video: 'channelsGuide', caption: 'Two switches in the Social group: one for WhatsApp, one for Telegram.' },
     sections: [
       {
         heading: 'Switch channels off in Blockerflow',
         paragraphs: [
-          'Both switches are on the Blocking tab, the screen the app opens on, in the Social Blocking card. You do not need to add WhatsApp or Telegram to any list.',
+          'Both switches are on the Blocking tab, the screen the app opens on, in the Social group. You do not need to add WhatsApp or Telegram to any list.',
         ],
         steps: [
           'Install Blockerflow and complete setup, including the Accessibility Service permission.',
-          'Stay on the Blocking tab and scroll to the Social Blocking card.',
+          'Stay on the Blocking tab and scroll to the Social group.',
           'Switch on Block WhatsApp channels. It covers WhatsApp and WhatsApp Business.',
           'Switch on Block Telegram channels. It covers Telegram and Telegram X.',
         ],
@@ -574,16 +574,16 @@ export const ARTICLES: Article[] = [
     h1: 'How to block X (Twitter) videos on Android',
     intro:
       'On X, one tap on a video starts a stream of them, and there is no setting to stop it. Blockerflow can block the videos and keep the rest of X, so you can still read posts.',
-    media: { kind: 'video', video: 'xVideosGuide', caption: 'One switch in the Social Blocking card blocks videos on X.' },
+    media: { kind: 'video', video: 'xVideosGuide', caption: 'One switch in the Social group blocks videos on X.' },
     sections: [
       {
         heading: 'Switch X videos off in Blockerflow',
         paragraphs: [
-          'The switch is on the Blocking tab, the screen the app opens on, in the Social Blocking card.',
+          'The switch is on the Blocking tab, the screen the app opens on, in the Social group.',
         ],
         steps: [
           'Install Blockerflow and complete setup, including the Accessibility Service permission.',
-          'Stay on the Blocking tab and scroll to the Social Blocking card.',
+          'Stay on the Blocking tab and scroll to the Social group.',
           'Switch on Block X / Twitter Videos.',
         ],
       },
@@ -637,7 +637,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Start a session',
         paragraphs: [
-          'Focus Mode has its own tab at the bottom of the app. There is also a round button in the bottom right of the Blocking tab, which jumps straight to the start dialog.',
+          'Focus Mode has its own tab at the bottom of the app. Tap the red button there to start a session.',
         ],
         steps: [
           'Open the Focus tab, or tap the round Focus button on the Blocking tab.',
@@ -656,7 +656,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Stop yourself from cutting a session short',
         paragraphs: [
-          'By default you can stop a session whenever you like. If that is too easy, switch on Protect Focus Mode in the Advanced Blocking card on the Blocking tab. Stopping then needs your accountability partner, so a session you committed to cannot be abandoned on an impulse.',
+          'By default you can stop a session whenever you like. If that is too easy, switch on Protect Focus Mode in the Advanced group on the Blocking tab. Stopping then needs your accountability partner, so a session you committed to cannot be abandoned on an impulse.',
           'While a session runs, a red banner sits at the top of every tab and a notification stays in your shade, so you always know it is on and can get back to it in one tap.',
         ],
       },
@@ -714,11 +714,11 @@ export const ARTICLES: Article[] = [
       {
         heading: 'The four options',
         paragraphs: [
-          'Open the Blocking tab, find the Accountability Partner card near the top, and tap Edit. Choose Save Partner when you are done.',
+          'Open the Blocking tab, find Accountability partner near the top, and tap Edit. Choose Save Partner when you are done.',
         ],
         steps: [
           'Friend: a trusted person gets an email with approve and deny links and a six digit PIN. You either wait for them to approve or type in the PIN they read out to you. Your phone never knows the PIN, so it cannot be found on the device. Needs you to be signed in.',
-          'Myself: a typing challenge. You retype a sentence exactly as shown, with accuracy and progress displayed as you go, and the Verify button stays disabled until it matches.',
+          'Myself: a typing challenge. You type a long list of random words shown on screen, with accuracy and progress displayed as you go. Small typos are OK, and the Verify button stays disabled until you are done.',
           'Time Delay: every change waits 24 hours. You start the timer, the countdown runs, and only then can you unlock. Urges rarely last that long.',
           'AI Coach: you type your reason and a strict coach decides. It is free, with ten checks a day, and needs you to be signed in. If it cannot be reached, it offers you the 24 hour timer instead rather than letting you through.',
         ],
@@ -790,10 +790,10 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Turn on Uninstall Protection',
         paragraphs: [
-          'There is a card for it on the Blocking tab, and the same switch appears under General in the Settings tab. Either one works.',
+          'The switch is in Settings: tap the gear at the top of the app and find Uninstall protection under Protection.',
         ],
         steps: [
-          'Open the Blocking tab and scroll to the Uninstall Protection card, or open Settings and find it under General.',
+          'Tap the gear at the top of the app to open Settings, and find Uninstall protection under Protection.',
           'Switch it on. Android will ask you to approve Blockerflow as a device admin.',
           'Approve the request. The switch only shows as on once Android confirms it, so you cannot end up with a switch that says protected while nothing is.',
         ],
@@ -802,20 +802,20 @@ export const ARTICLES: Article[] = [
         heading: 'How it holds',
         paragraphs: [
           'While device admin is active, Android refuses to uninstall the app. Turning device admin off is itself guarded by your accountability partner, which is the step that gives the protection its weight. Removing it is graded Strict, the same level as turning off the adult content blocker.',
-          'If you genuinely want the app gone, there is a clean route in Settings under Danger Zone. Uninstall App runs the challenge, removes device admin for you once you pass, and hands you to the Android uninstaller. You are never stuck with an app you cannot remove.',
+          'If you genuinely want the app gone, there is a clean route in Settings under Reset and delete. Uninstall App runs the challenge, removes device admin for you once you pass, and hands you to the Android uninstaller. You are never stuck with an app you cannot remove.',
         ],
       },
       {
         heading: 'What the typing challenge looks like',
         paragraphs: [
-          'If your partner is set to Myself, you retype this sentence exactly as shown: I acknowledge that I am trying to disable a core productivity feature. I accept the consequences of my actions and will not blame Blockerflow.',
+          'If your partner is set to Myself, you type a long list of random words shown on screen. Small typos are OK.',
           'Accuracy and progress are shown as you type, and the Verify button stays disabled until the text matches. The effort and the pause are the point, and for many people that is enough to change their mind before the end of the sentence.',
         ],
       },
       {
         heading: 'Close the other side doors too',
         paragraphs: [
-          'Uninstalling is not the only shortcut. Two switches in the Advanced Blocking card cover the rest. Block unsupported browsers stops a second browser being installed to get around address checking. Block newly installed apps blocks anything installed after you set Blockerflow up, so a fresh app downloaded in a weak moment is stopped on first launch rather than discovered later.',
+          'Uninstalling is not the only shortcut. Two switches in the Advanced group cover the rest. Block unsupported browsers stops a second browser being installed to get around address checking. Block newly installed apps blocks anything installed after you set Blockerflow up, so a fresh app downloaded in a weak moment is stopped on first launch rather than discovered later.',
           'Apps caught that way appear in your Blocklist tab marked Auto blocked on install, so you can see exactly what was caught and allow anything that was innocent.',
         ],
       },
@@ -830,7 +830,7 @@ export const ARTICLES: Article[] = [
       {
         question: 'Can I still uninstall Blockerflow when I no longer need it?',
         answer:
-          'Yes. Use Uninstall App under Danger Zone in Settings. It runs your accountability check, removes device admin for you, then opens the Android uninstaller.',
+          'Yes. Use Uninstall App under Reset and delete in Settings. It runs your accountability check, removes device admin for you, then opens the Android uninstaller.',
       },
       {
         question: 'Why does the app need Device Admin?',
@@ -941,7 +941,7 @@ export const ARTICLES: Article[] = [
         heading: 'Friction beats willpower',
         paragraphs: [
           'Planning to be strong in the moment is planning with the resource you have least of. Making the harmful choice slower works better, because a pause is usually all an urge needs to fade.',
-          'With Myself as your partner, turning any protection off means retyping a full sentence exactly, with accuracy and progress shown as you go. Every mistake costs time. By the end, plenty of people have decided it is not worth it.',
+          'With Myself as your partner, turning any protection off means typing a long list of random words first, with accuracy and progress shown as you go. It takes time, on purpose. By the end, plenty of people have decided it is not worth it.',
         ],
       },
       {
@@ -950,10 +950,10 @@ export const ARTICLES: Article[] = [
           'The right time to choose your friction is a calm afternoon, not the moment you need it. Everything here is on the Blocking tab.',
         ],
         steps: [
-          'Open the Blocking tab and tap Edit on the Accountability Partner card.',
+          'Open the Blocking tab and tap Edit next to Accountability partner.',
           'Choose Myself for the typing challenge, or Time Delay if you want a 24 hour wait that no amount of determination can type through.',
           'Switch on Uninstall Protection so deleting the app is not the easy way out.',
-          'In the Advanced Blocking card, leave Block unsupported browsers on so a second browser is not either.',
+          'In the Advanced group, leave Block unsupported browsers on so a second browser is not either.',
           'Charge the phone away from your bed.',
         ],
       },
@@ -1002,7 +1002,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block image and video search on Android',
     intro:
       'Search engines are the front door. You do not need to find a site when the image tab shows you the same thing in a grid, and SafeSearch is one toggle away from being off. Blocking image and video search closes that door properly.',
-    media: { kind: 'video', video: 'imageSearchGuide', caption: 'One switch in the Content Blocking card closes the image and video tabs.' },
+    media: { kind: 'video', video: 'imageSearchGuide', caption: 'One switch in the Content group closes the image and video tabs.' },
     sections: [
       {
         heading: 'Why SafeSearch is not enough',
@@ -1014,12 +1014,12 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Switch it on',
         paragraphs: [
-          'The switch is on the Blocking tab, in the Content Blocking card, next to Block adult content.',
+          'The switch is on the Blocking tab, in the Content group, next to Block adult content.',
         ],
         steps: [
           'Install Blockerflow and complete setup, including the Accessibility Service permission.',
           'Stay on the Blocking tab, the screen the app opens on.',
-          'In the Content Blocking card, switch on Block image & video search.',
+          'In the Content group, switch on Block image & video search.',
         ],
       },
       {
@@ -1039,7 +1039,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Close the browser loophole',
         paragraphs: [
-          'None of this matters if you can open a browser the blocker cannot read. Chrome and Firefox are confirmed to work. Everything else is blocked outright while Block unsupported browsers is on in the Advanced Blocking card, which is where the real protection against a second browser comes from. Leave it on.',
+          'None of this matters if you can open a browser the blocker cannot read. Chrome and Firefox are confirmed to work. Everything else is blocked outright while Block unsupported browsers is on in the Advanced group, which is where the real protection against a second browser comes from. Leave it on.',
         ],
       },
     ],
@@ -1104,7 +1104,7 @@ export const ARTICLES: Article[] = [
       {
         heading: 'Catch apps installed later',
         paragraphs: [
-          'A blocklist you wrote today says nothing about an app you install at midnight tomorrow. Block newly installed apps, in the Advanced Blocking card on the Blocking tab, blocks anything installed after you set Blockerflow up, from its first launch.',
+          'A blocklist you wrote today says nothing about an app you install at midnight tomorrow. Block newly installed apps, in the Advanced group on the Blocking tab, blocks anything installed after you set Blockerflow up, from its first launch.',
           'Anything caught that way shows in your Blocklist tab tagged Auto blocked on install, and the block screen explains why rather than leaving you staring at a refusal for an app you do not remember adding. Apps that were already on the phone before you set the blocker up are never touched by this.',
         ],
       },

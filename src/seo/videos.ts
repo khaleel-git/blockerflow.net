@@ -69,34 +69,34 @@ const DATA = {
   reelsGuide: {
     src: '/assets/videos/reels-guide.mp4',
     poster: '/assets/videos/reels-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/Rp4gRsZDPCI',
+    youtube: 'https://www.youtube.com/shorts/7vdufIGIdlw',
     name: 'How to block Instagram Reels on Android with Blockerflow',
     description:
       'A narrated walkthrough: open the Blocking tab, scroll to Social Blocking and switch on Block Instagram reels, while messages, feed and Stories keep working.',
-    durationSeconds: 39,
+    durationSeconds: 38,
   },
   shortsGuide: {
     src: '/assets/videos/shorts-guide.mp4',
     poster: '/assets/videos/shorts-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/6kg7aoPwlYE',
+    youtube: 'https://www.youtube.com/shorts/UOP-dEVHJAA',
     name: 'How to block YouTube Shorts on Android with Blockerflow',
     description:
       'A narrated walkthrough: open the Blocking tab, scroll to Social Blocking and switch on Block Youtube Shorts, while normal videos and subscriptions keep working.',
-    durationSeconds: 37,
+    durationSeconds: 36,
   },
   spotlightGuide: {
     src: '/assets/videos/spotlight-guide.mp4',
     poster: '/assets/videos/spotlight-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/dn8op88MZaw',
+    youtube: 'https://www.youtube.com/shorts/s_Z3CSWiZRw',
     name: 'How to block Snapchat Spotlight on Android with Blockerflow',
     description:
       'A narrated walkthrough: switch on Block Snapchat videos and Block Snapchat search in the Social Blocking card, while chats, the camera and Stories from your friends keep working.',
-    durationSeconds: 38,
+    durationSeconds: 36,
   },
   imageSearchGuide: {
     src: '/assets/videos/image-search-guide.mp4',
     poster: '/assets/videos/image-search-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/zRLGRGfj600',
+    youtube: 'https://www.youtube.com/shorts/xK5uf7npzt0',
     name: 'How to block image and video search on Android with Blockerflow',
     description:
       'A narrated walkthrough: switch on Block image & video search in the Content Blocking card to close the image and video tabs on five search engines.',
@@ -105,34 +105,34 @@ const DATA = {
   blocklistGuide: {
     src: '/assets/videos/blocklist-guide.mp4',
     poster: '/assets/videos/blocklist-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/ktwgQWaUrSQ',
+    youtube: 'https://www.youtube.com/shorts/TCh0ClEM7HY',
     name: 'How to block any app or website on Android with Blockerflow',
     description:
       'A narrated walkthrough of the Blocklist tab: add an installed app with the plus button, add a domain under Websites, and block apps installed later.',
-    durationSeconds: 41,
+    durationSeconds: 40,
   },
   focusGuide: {
     src: '/assets/videos/focus-guide.mp4',
     poster: '/assets/videos/focus-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/aQhhbdzvA8Y',
+    youtube: 'https://www.youtube.com/shorts/pZkgEt9GyOI',
     name: 'How to start a Focus Mode session in Blockerflow',
     description:
       'A narrated walkthrough of Focus Mode: pick a session name and length, press Start, see what is blocked, and switch on Protect Focus Mode.',
-    durationSeconds: 50,
+    durationSeconds: 51,
   },
   pornBlockerGuide: {
     src: '/assets/videos/porn-blocker-guide.mp4',
     poster: '/assets/videos/porn-blocker-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/xxRhEs6lURk',
+    youtube: 'https://www.youtube.com/shorts/NLotArZy3x0',
     name: 'How to block porn on Android with Blockerflow',
     description:
       'A narrated walkthrough: the three setup tasks including Autostart, Protection active, add image and video search blocking, keep unsupported browsers blocked and switch on Uninstall Protection.',
-    durationSeconds: 68,
+    durationSeconds: 67,
   },
   accountabilityGuide: {
     src: '/assets/videos/accountability-guide.mp4',
     poster: '/assets/videos/accountability-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/IgCEBtCeDDc',
+    youtube: 'https://www.youtube.com/shorts/cgyca5vwLpE',
     name: 'How to choose an accountability partner in Blockerflow',
     description:
       'A narrated walkthrough of the four accountability partners, Friend, Myself, Time Delay and AI Coach, and what each challenge looks like.',
@@ -141,7 +141,7 @@ const DATA = {
   uninstallGuide: {
     src: '/assets/videos/uninstall-protection-guide.mp4',
     poster: '/assets/videos/uninstall-protection-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/idOy58HhoBU',
+    youtube: 'https://www.youtube.com/shorts/hOCtsJCCVTA',
     name: 'How to turn on Uninstall Protection in Blockerflow',
     description:
       'A narrated walkthrough: switch on Uninstall Protection, approve the device admin request, and see the typing challenge and the clean way to uninstall.',
@@ -150,16 +150,16 @@ const DATA = {
   privacyGuide: {
     src: '/assets/videos/privacy-guide.mp4',
     poster: '/assets/videos/privacy-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/OQ0Dnfn3xy0',
+    youtube: 'https://www.youtube.com/shorts/e6EmAHuOpjU',
     name: 'Is a porn blocker private? How Blockerflow checks sites on your phone',
     description:
       'A narrated explainer: server checks versus on device checks, what stays on your phone, and the three optional features that use a server.',
-    durationSeconds: 59,
+    durationSeconds: 61,
   },
   nightUrgesGuide: {
     src: '/assets/videos/night-urges-guide.mp4',
     poster: '/assets/videos/night-urges-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/iDobTCgmETk',
+    youtube: 'https://www.youtube.com/shorts/p9Qb0kMcBr8',
     name: 'How to add friction before a late night urge with Blockerflow',
     description:
       'A narrated walkthrough: choose Myself or Time Delay as your partner, switch on Uninstall Protection and keep unsupported browsers blocked.',
@@ -178,11 +178,20 @@ const DATA = {
   setupGuide: {
     src: '/assets/videos/setup-guide.mp4',
     poster: '/assets/videos/setup-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/fr-ovzpfRcg',
+    youtube: 'https://www.youtube.com/shorts/SvjD9XxNSek',
     name: 'How to use Blockerflow in six steps',
     description:
       'A narrated walkthrough of the six setup steps: the setup screen, choosing what to block, your own Blocklist, an accountability partner, Uninstall Protection and a Focus session.',
-    durationSeconds: 77,
+    durationSeconds: 73,
+  },
+  progressGuide: {
+    src: '/assets/videos/progress-guide.mp4',
+    poster: '/assets/videos/progress-guide.jpg',
+    name: 'Blockerflow Progress: clean streak and screen time on Android',
+    description:
+      'A narrated walkthrough of the Progress tab: the clean streak and how it counts, milestones, Not on purpose, a personal streak with a relapse note, and screen time for today and the week. Everything stays on the phone.',
+    durationSeconds: 51,
+    youtube: 'https://www.youtube.com/shorts/lg3SRZbI_Ic',
   },
   homePitch: {
     src: '/assets/videos/hero-demo.mp4',
@@ -191,6 +200,7 @@ const DATA = {
     description:
       'A narrated overview of Blockerflow: adult content blocking, the four accountability partners, Uninstall Protection, on device privacy, feed blocking and Focus Mode.',
     durationSeconds: 77,
+    youtube: 'https://www.youtube.com/shorts/w1gjC6uNl4M',
   },
   instagramGuide: {
     src: '/assets/videos/instagram-guide.mp4',
@@ -199,6 +209,7 @@ const DATA = {
     description:
       'A narrated walkthrough: block the Instagram app and instagram.com from the Blocklist, block it during a Focus session, or block only Reels and keep messages.',
     durationSeconds: 49,
+    youtube: 'https://www.youtube.com/shorts/h1QGm7nCGSQ',
   },
   snapchatGuide: {
     src: '/assets/videos/snapchat-guide.mp4',
@@ -207,24 +218,25 @@ const DATA = {
     description:
       'A narrated walkthrough: block the Snapchat app and snapchat.com from the Blocklist, block it during a Focus session, or block only Spotlight and keep chats.',
     durationSeconds: 42,
+    youtube: 'https://www.youtube.com/shorts/bAhTpydoxnA',
   },
   channelsGuide: {
     src: '/assets/videos/channels-guide.mp4',
     poster: '/assets/videos/channels-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/Ha6KQajesc4',
+    youtube: 'https://www.youtube.com/shorts/8sQgM4sSoHw',
     name: 'How to block WhatsApp and Telegram channels on Android with Blockerflow',
     description:
       'A narrated walkthrough: switch on Block WhatsApp channels and Block Telegram channels in the Social Blocking card, while chats, groups, Status and calls keep working.',
-    durationSeconds: 44,
+    durationSeconds: 43,
   },
   xVideosGuide: {
     src: '/assets/videos/x-videos-guide.mp4',
     poster: '/assets/videos/x-videos-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/zfeFxRiWJzQ',
+    youtube: 'https://www.youtube.com/shorts/oITDp5f3uPw',
     name: 'How to block X (Twitter) videos on Android with Blockerflow',
     description:
       'A narrated walkthrough: switch on Block X / Twitter Videos in the Social Blocking card, while text posts and pictures keep opening.',
-    durationSeconds: 36,
+    durationSeconds: 35,
   },
 } satisfies Record<string, DemoVideoInfo>
 

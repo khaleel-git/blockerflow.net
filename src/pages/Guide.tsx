@@ -40,9 +40,9 @@ const STEPS: Step[] = [
     description:
       'Everything is on the Blocking tab, the screen the app opens on. The card at the top should read Protection active before you go further.',
     bullets: [
-      'Content Blocking: adult content, and image and video search.',
-      'Social Blocking: Instagram and Facebook Reels, YouTube Shorts, Instagram search, Snapchat videos and search, WhatsApp and Telegram channels, and X videos.',
-      'Advanced Blocking: unsupported browsers, newly installed apps, and Focus Mode protection.',
+      'Content: adult content, and image and video search.',
+      'Social: Instagram and Facebook Reels, YouTube Shorts, Instagram search, Snapchat videos and search, WhatsApp and Telegram channels, and X videos.',
+      'Advanced: unsupported browsers, newly installed apps, and Focus Mode protection.',
     ],
     screenshot: '/assets/screenshots/01-blocking.png',
   },
@@ -61,10 +61,10 @@ const STEPS: Step[] = [
     number: 4,
     title: 'Set an Accountability Partner',
     description:
-      'Tap Edit on the Accountability Partner card on the Blocking tab, then pick who holds the off switch. Every change that weakens protection goes through it.',
+      'Tap Edit next to Accountability partner on the Blocking tab, then pick who holds the off switch. Every change that weakens protection goes through it.',
     bullets: [
       'Friend: a trusted person gets approve and deny links and a six digit PIN by email. Needs you to be signed in.',
-      'Myself: retype a sentence exactly before anything turns off.',
+      'Myself: type a long list of random words before anything turns off (small typos are OK).',
       'Time Delay: every change waits 24 hours.',
       'AI Coach: convince a strict coach first. Free, ten checks a day, needs you to be signed in.',
     ],
@@ -77,7 +77,7 @@ const STEPS: Step[] = [
       'Switch it on from the Blocking tab or from Settings, then approve the Device Admin request. Android will then refuse to uninstall the app, and turning that off needs your partner.',
     bullets: [
       'The switch only shows as on once Android confirms it, so it can never claim protection you do not have.',
-      'When you genuinely want the app gone, Uninstall App under Danger Zone runs the check and removes Device Admin for you.',
+      'When you genuinely want the app gone, Uninstall App under Reset and delete in Settings runs the check and removes Device Admin for you.',
     ],
     screenshot: '/assets/screenshots/05-uninstall-protection.png',
   },
@@ -159,6 +159,15 @@ export function Guide() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-6 pb-20 text-center">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-ink">Track your progress</h2>
+        <p className="mt-4 text-ink-muted">
+          The Progress tab counts your clean streak, celebrates milestones and shows your screen time. It all stays on
+          your phone.
+        </p>
+        <DemoVideo video="progressGuide" caption="Clean streak, milestones, Not on purpose, a personal streak and screen time." className="mt-8" />
       </section>
 
       <section className="mx-auto max-w-3xl px-6 pb-24 text-center">

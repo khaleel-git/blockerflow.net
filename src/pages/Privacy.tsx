@@ -410,7 +410,7 @@ export function Privacy() {
       <p className="mt-3 text-ink-muted">
         If you've signed in with Google, you can permanently delete your account and everything
         stored in the cloud (your profile, every device record with its settings, and all block
-        counts) in the app (Settings, Danger Zone, Delete Account) or on{' '}
+        counts) in the app (Settings, Reset and delete, Delete Account) or on{' '}
         <a href="/dashboard/" className="text-primary hover:underline">
           blockerflow.net/dashboard
         </a>
