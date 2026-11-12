@@ -93,12 +93,12 @@ function Btn({ tone = 'solid', className, ...p }: ButtonHTMLAttributes<HTMLButto
     outline: 'border border-outline bg-surface text-ink hover:bg-primary-bg',
     danger: 'bg-red-600 text-white hover:bg-red-700',
   }[tone]
-  return <button type="button" {...p} className={cx('rounded-xl px-4 py-2 text-sm font-semibold disabled:opacity-40', look, className)} />
+  return <button type="button" {...p} className={cx('rounded-full px-4 py-2 text-sm font-semibold disabled:opacity-40', look, className)} />
 }
 const PLATFORM_COLORS: Record<string, string> = { android: '#16A34A', windows: '#0284C7', mac: '#64748B', none: '#CBD5E1' }
 
 const Panel = ({ title, hint, children, className }: { title: string; hint?: string; children: ReactNode; className?: string }) => (
-  <section className={cx('min-w-0 rounded-2xl border border-outline bg-surface p-4 shadow-sm sm:p-5', className)} aria-label={title}>
+  <section className={cx('min-w-0 rounded-3xl bg-surface p-5 sm:p-6', className)} aria-label={title}>
     <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
       <h3 className="text-sm font-semibold text-ink">{title}</h3>
       {hint && <span className="text-xs text-ink-muted">{hint}</span>}
@@ -113,10 +113,10 @@ const Big = ({ label, value }: { label: string; value: number | string }) => (
   </div>
 )
 
-/** One headline number on a card with a coloured top edge. */
+/** One headline number on a card, with a small dot in its colour. */
 const Kpi = ({ label, value, sub, color = 'var(--color-primary)' }: { label: string; value: number | string; sub?: string; color?: string }) => (
-  <div className="relative min-w-0 overflow-hidden rounded-2xl border border-outline bg-surface p-4 shadow-sm sm:p-5">
-    <span className="absolute inset-x-0 top-0 h-1" style={{ background: color }} aria-hidden="true" />
+  <div className="relative min-w-0 overflow-hidden rounded-3xl bg-surface p-5 sm:p-6">
+    <span className="absolute right-5 top-5 h-2 w-2 rounded-full" style={{ background: color }} aria-hidden="true" />
     <dl>
       <Big label={label} value={value} />
     </dl>
@@ -229,7 +229,7 @@ function OverviewTab({ o, store }: { o: Overview; store: Store | null }) {
 function InstallsPanel({ o, store }: { o: Overview; store: Store | null }) {
   const est = o.platformEstimate
   const card = (p: string, title: string, main: ReactNode, lines: string[], extra?: ReactNode) => (
-    <div className="rounded-xl border border-outline p-4" style={{ borderTop: `4px solid ${PLATFORM_COLORS[p]}` }}>
+    <div className="rounded-2xl bg-bg p-4">
       <p className="flex items-center gap-2 text-sm font-semibold text-ink"><PlatformDot p={p} />{title}</p>
       <div className="mt-2">{main}</div>
       <ul className="mt-2 space-y-0.5 text-xs text-ink-muted">{lines.map((l) => <li key={l}>{l}</li>)}</ul>
@@ -403,7 +403,7 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
       {msg && <p role="status" className="rounded-xl bg-primary-bg px-4 py-2 text-sm text-ink">{msg}</p>}
       {u.devices.length === 0 && <p className="text-ink-muted">No devices.</p>}
       {u.devices.map((d) => (
-        <section key={d.id} className="min-w-0 rounded-2xl border border-outline bg-surface p-4 sm:p-5" aria-label={`${PLATFORM_NAMES[d.platform] ?? d.platform} ${d.model}`}>
+        <section key={d.id} className="min-w-0 rounded-3xl bg-surface p-5 sm:p-6" aria-label={`${PLATFORM_NAMES[d.platform] ?? d.platform} ${d.model}`}>
           <h3 className="text-lg font-semibold text-ink">{PLATFORM_NAMES[d.platform] ?? d.platform} <span className="font-normal text-ink-muted">{d.model}</span></h3>
           <p className="text-sm text-ink-muted">
             {d.osVersion}, app {d.appVersion}, last seen {seenText(d.lastSeenMs ? new Date(d.lastSeenMs) : null, new Date())},
@@ -468,7 +468,7 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
         </label>
       </div>
       {/* One list for every width: stacked cards on phones, table columns from sm. */}
-      <div className="mt-4 rounded-2xl border border-outline bg-surface shadow-sm">
+      <div className="mt-4 overflow-hidden rounded-3xl bg-surface">
         <div className="hidden grid-cols-[minmax(0,2.2fr)_minmax(0,1.4fr)_4rem_minmax(0,1.2fr)_minmax(0,1fr)] gap-4 border-b border-outline bg-bg px-4 py-3 text-xs font-medium uppercase tracking-wide text-ink-muted sm:grid" aria-hidden="true">
           <span>Account</span><span>Platforms</span><span>Devices</span><span>Last seen</span><span>Joined</span>
         </div>
@@ -547,9 +547,9 @@ function ReportsTab({ api, user, onOpenUser }: { api: AdminApi; user: DashboardU
           ))}
         </div>
       </div>
-      {shown.length === 0 && <p className="rounded-2xl border border-outline bg-surface p-6 text-center text-ink-muted">No reports to review.</p>}
+      {shown.length === 0 && <p className="rounded-3xl bg-surface p-6 text-center text-ink-muted">No reports to review.</p>}
       {shown.map((r) => (
-        <article key={r.id} className="min-w-0 rounded-2xl border border-outline bg-surface p-4 shadow-sm sm:p-5" aria-label={`Report ${r.detail || r.message}`}>
+        <article key={r.id} className="min-w-0 rounded-3xl bg-surface p-5 sm:p-6" aria-label={`Report ${r.detail || r.message}`}>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="break-words font-semibold text-ink">{r.detail || r.message}</p>
@@ -681,7 +681,9 @@ export function Admin({ api: given }: { api?: AdminApi }) {
     api.adminApi<Store>(user, { op: 'store' }).then(setStore).catch(() => undefined)
   }, [api, user])
 
+  // The same look as the apps (2026-11-12): borderless white cards on a soft grey page.
   return (
+    <div className="bg-[#F2F2F7]">
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h1 className="font-display text-4xl font-semibold tracking-tight text-ink">Admin</h1>
@@ -693,10 +695,10 @@ export function Admin({ api: given }: { api?: AdminApi }) {
       )}
       {api && user && !error && (
         <>
-          <nav className="mt-6 flex flex-wrap gap-2" aria-label="Admin sections">
+          <nav className="mt-6 inline-flex flex-wrap gap-1 rounded-full bg-black/5 p-1" aria-label="Admin sections">
             {(['overview', 'users', 'reports', 'analytics'] as const).map((t) => (
               <button key={t} type="button" onClick={() => { setTab(t); setOpenUid(null) }}
-                className={cx('rounded-full px-4 py-1.5 text-sm font-semibold', tab === t ? 'bg-ink text-white' : 'text-ink-muted hover:bg-primary-bg')}>
+                className={cx('rounded-full px-4 py-1.5 text-sm font-semibold', tab === t ? 'bg-surface text-ink shadow-sm' : 'text-ink-muted hover:text-ink')}>
                 {{ overview: 'Overview', users: 'Users', reports: 'Reports', analytics: 'Analytics' }[t]}
               </button>
             ))}
@@ -709,6 +711,7 @@ export function Admin({ api: given }: { api?: AdminApi }) {
           {tab === 'reports' && <ReportsTab api={api} user={user} onOpenUser={(uid) => { setOpenUid(uid); setTab('users') }} />}
         </>
       )}
+    </div>
     </div>
   )
 }

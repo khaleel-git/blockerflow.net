@@ -55,7 +55,7 @@ const loadApi = (): Promise<DashboardApi> => import('../lib/dashboard/firebase')
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(' ')
 
 const Card = ({ className, children }: { className?: string; children: ReactNode }) => (
-  <section className={cx('rounded-2xl border border-outline bg-surface p-5 shadow-sm', className)}>{children}</section>
+  <section className={cx('rounded-3xl bg-surface p-6', className)}>{children}</section>
 )
 
 function Btn({ tone = 'solid', className, ...p }: ButtonHTMLAttributes<HTMLButtonElement> & { tone?: 'solid' | 'outline' | 'danger' }) {
@@ -64,7 +64,7 @@ function Btn({ tone = 'solid', className, ...p }: ButtonHTMLAttributes<HTMLButto
     outline: 'border border-outline bg-surface text-ink hover:bg-primary-bg',
     danger: 'bg-red-600 text-white hover:bg-red-700',
   }[tone]
-  return <button type="button" {...p} className={cx('rounded-xl px-4 py-2 text-sm font-semibold disabled:opacity-40', look, className)} />
+  return <button type="button" {...p} className={cx('rounded-full px-4 py-2 text-sm font-semibold disabled:opacity-40', look, className)} />
 }
 
 /** The account's memorable view: one bar per day for the last 30 days, today on the right. */
@@ -146,7 +146,7 @@ function DeviceCard({ device, now, onRemove }: { device: Device; now: Date; onRe
   const summary = summarize(device.stats, now)
   const name = `${PLATFORM_NAMES[device.platform] ?? 'Device'}${device.model ? `: ${device.model}` : ''}`
   return (
-    <article aria-label={name} className="rounded-2xl border border-outline bg-surface p-5">
+    <article aria-label={name} className="rounded-3xl bg-surface p-6">
       <div className="flex items-start gap-4">
         <PlatformIcon platform={device.platform} />
         <div className="min-w-0 flex-1">
@@ -313,7 +313,9 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
 
   const accountTotals = devices ? summarize(allDays(devices), now) : null
 
+  // The same look as the apps (2026-11-12): borderless white cards on a soft grey page.
   return (
+    <div className="bg-[#F2F2F7]">
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
       {!(api && user) && <h1 className="font-display text-4xl font-semibold tracking-tight text-ink">Dashboard</h1>}
 
@@ -374,7 +376,7 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
           {devices === null && !error && <p className="mt-6 text-ink-muted">Loading your devices…</p>}
 
           {accountTotals && devices && devices.length > 0 && (
-            <section aria-labelledby="blocks-heading" className="mt-8 rounded-3xl bg-surface p-6 shadow-[0_1px_0_var(--color-outline),0_12px_32px_-16px_rgb(79_70_229/0.25)] sm:p-8">
+            <section aria-labelledby="blocks-heading" className="mt-8 rounded-3xl bg-surface p-6 sm:p-8">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h2 id="blocks-heading" className="text-lg font-semibold text-ink">Blocks on all your devices</h2>
                 <p className="text-xs text-ink-muted">Updates live. Counts only, never what was blocked. Kept 30 days.</p>
@@ -514,6 +516,7 @@ export function Dashboard({ api: given, now: nowProp }: { api?: DashboardApi; no
           )}
         </>
       )}
+    </div>
     </div>
   )
 }
