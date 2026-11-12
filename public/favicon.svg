@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#4F46E5"/>
-  <text x="16" y="23" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">B</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="27" fill="#4F46E5"/><g transform="translate(12.0 11.2) scale(0.8)"><path fill="#fff" fill-rule="evenodd" d="M60 15 C72 22 84 25 97 26 V58 C97 83 81 98 60 107 C39 98 23 83 23 58 V26 C36 25 48 22 60 15 Z M43 34 H64 A13.5 13.5 0 0 1 73 58 A15 15 0 0 1 66 86 H43 Z M56 45 V54 H62 A4.500 4.500 0 0 0 62 45 Z M56 64 V75 H64 A5.500 5.500 0 0 0 64 64 Z"/></g></svg>

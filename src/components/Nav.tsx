@@ -7,11 +7,11 @@ import { WindowsBadge } from './WindowsBadge'
 export function Nav() {
   return (
     <header className="sticky top-0 z-10 border-b border-outline bg-surface/80 backdrop-blur">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Link to="/" aria-label="Blockerflow home">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-4 sm:gap-4 sm:px-6">
+        <Link to="/" aria-label="Blockerflow home" className="shrink-0">
           <Wordmark />
         </Link>
-        <div className="flex items-center gap-2 text-sm font-medium text-ink-muted sm:gap-6">
+        <div className="flex min-w-0 items-center gap-2 text-sm font-medium text-ink-muted sm:gap-4">
           <Link to="/guides/" className="hidden hover:text-ink sm:inline">
             Guides
           </Link>
