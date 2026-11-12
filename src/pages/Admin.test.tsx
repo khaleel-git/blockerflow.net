@@ -71,6 +71,25 @@ describe('Admin', () => {
     expect(screen.queryByText(/installs on this device/)).not.toBeInTheDocument()
   })
 
+  it('filters the users list by device type', async () => {
+    const many = { users: [
+      { ...users.users[0], uid: 'a', email: 'android@example.com', platforms: ['android'] },
+      { ...users.users[0], uid: 'm', email: 'mac@example.com', platforms: ['mac', 'android'] },
+      { ...users.users[0], uid: 'n', email: 'nodevice@example.com', platforms: [], devices: 0 },
+    ] }
+    render(<MemoryRouter><Admin api={fake((b) => (b.op === 'users' ? many : route(b)))} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Users' }))
+    await screen.findByRole('button', { name: 'android@example.com' })
+    fireEvent.click(screen.getByRole('button', { name: 'Mac 1' }))
+    expect(screen.getByRole('button', { name: 'mac@example.com' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'android@example.com' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'No device 1' }))
+    expect(screen.getByRole('button', { name: 'nodevice@example.com' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'mac@example.com' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Any device 3' }))
+    expect(screen.getByRole('button', { name: 'android@example.com' })).toBeInTheDocument()
+  })
+
   it('changedSettings keeps only real changes', () => {
     expect(changedSettings({ a: true, l: ['x'] }, { a: true, l: ['x', 'y'] })).toEqual({ l: ['x', 'y'] })
   })

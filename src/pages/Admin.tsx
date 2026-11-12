@@ -443,12 +443,17 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
   const [rows, setRows] = useState<UserRow[] | null>(null)
   const [q, setQ] = useState('')
   const [kind, setKind] = useState<'all' | 'user' | 'reviewer' | 'owner'>('all')
+  // Which kind of device the account has (an account with a phone and a Mac counts under both).
+  const [device, setDevice] = useState<'all' | 'android' | 'mac' | 'windows' | 'none'>('all')
   const [err, setErr] = useState<string | null>(null)
   useEffect(() => { api.adminApi<{ users: UserRow[] }>(user, { op: 'users' }).then((r) => setRows(r.users)).catch((e) => setErr(String(e.message))) }, [api, user])
   const count = (k: string) => (rows ?? []).filter((r) => (r.kind ?? 'user') === k).length
-  const shown = useMemo(() => (rows ?? [])
-    .filter((r) => kind === 'all' || (r.kind ?? 'user') === kind)
-    .filter((r) => !q || r.email.toLowerCase().includes(q.toLowerCase()) || r.uid.includes(q)), [rows, q, kind])
+  const hasDevice = (r: UserRow, d: typeof device) => d === 'all' || (d === 'none' ? r.platforms.length === 0 : r.platforms.includes(d))
+  // The device counts follow the account filter beside them, so the two always add up.
+  const ofKind = useMemo(() => (rows ?? []).filter((r) => kind === 'all' || (r.kind ?? 'user') === kind), [rows, kind])
+  const shown = useMemo(() => ofKind
+    .filter((r) => hasDevice(r, device))
+    .filter((r) => !q || r.email.toLowerCase().includes(q.toLowerCase()) || r.uid.includes(q)), [ofKind, q, device])
   if (err) return <p role="alert" className="mt-4 text-red-700">{err}</p>
   if (!rows) return <p className="mt-4 text-ink-muted">Loading users…</p>
   const now = new Date()
@@ -460,6 +465,14 @@ function UsersTab({ api, user, onOpen }: { api: AdminApi; user: DashboardUser; o
             <button key={k} type="button" onClick={() => setKind(k)} aria-pressed={kind === k}
               className={cx('rounded-full border px-3 py-1 text-sm', kind === k ? 'border-ink bg-ink text-white' : 'border-outline bg-surface text-ink-muted hover:bg-primary-bg')}>
               {k === 'all' ? `All ${rows.length}` : `${KIND_LABELS[k]} ${count(k)}`}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Show devices">
+          {(['all', 'android', 'mac', 'windows', 'none'] as const).map((d) => (
+            <button key={d} type="button" onClick={() => setDevice(d)} aria-pressed={device === d}
+              className={cx('rounded-full border px-3 py-1 text-sm', device === d ? 'border-ink bg-ink text-white' : 'border-outline bg-surface text-ink-muted hover:bg-primary-bg')}>
+              {`${d === 'all' ? 'Any device' : d === 'none' ? 'No device' : PLATFORM_NAMES[d] ?? d} ${ofKind.filter((r) => hasDevice(r, d)).length}`}
             </button>
           ))}
         </div>
