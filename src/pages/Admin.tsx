@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { CATEGORY_NAMES, PLATFORM_NAMES, seenText } from '../lib/dashboard/model'
 import type { DashboardUser } from '../lib/dashboard/firebase'
@@ -385,18 +386,19 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
   if (!u) return <p className="mt-6 text-ink-muted">{msg ?? 'Loading…'}</p>
   return (
     <div className="mt-6 space-y-4">
-      <Btn tone="outline" onClick={onBack}>Back to users</Btn>
+      {/* The way back stands alone. "Block" used to sit a few pixels away and was hit by mistake
+          (owner, 2026-11-12); it is now at the bottom of the page and asks first. */}
+      <div>
+        <button type="button" onClick={onBack} aria-label="Back to users" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+          <span aria-hidden="true">‹</span> Users
+        </button>
+      </div>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="break-all text-2xl font-semibold text-ink">{u.email || u.uid}</h2>
           <p className="text-sm text-ink-muted">
             {u.name && `${u.name}, `}joined {fmtDate(u.createdMs)}, last sign-in {fmtDate(u.lastSignInMs)}, Friend confirmed: {u.partnerConfirmed ? 'yes' : 'no'}
           </p>
-        </div>
-        <div className="flex gap-2">
-          {u.disabled
-            ? <Btn tone="outline" disabled={busy} onClick={() => act({ op: 'unblock' }, 'Unblocked.')}>Unblock</Btn>
-            : <Btn tone="outline" disabled={busy} onClick={() => act({ op: 'block' }, 'Blocked: sign-in disabled.')}>Block</Btn>}
         </div>
       </header>
       {u.disabled && <p className="rounded-xl bg-amber-50 px-4 py-2 text-sm text-amber-900">Blocked: this account cannot sign in.</p>}
@@ -422,6 +424,15 @@ function UserPage({ api, user, uid, onBack }: { api: AdminApi; user: DashboardUs
           </ul>
         )}
       </Panel>
+      <section className="border-t border-outline pt-5" aria-label="Block user">
+        <h3 className="font-semibold text-ink">{u.disabled ? 'This user is blocked' : 'Block this user'}</h3>
+        <p className="mt-1 text-sm text-ink-muted">A blocked account cannot sign in. Its devices keep blocking as before. You can unblock it here at any time.</p>
+        <div className="mt-3">
+          {u.disabled
+            ? <Btn tone="outline" disabled={busy} onClick={() => act({ op: 'unblock' }, 'Unblocked.')}>Unblock this user</Btn>
+            : <Btn tone="outline" disabled={busy} onClick={() => { if (window.confirm(`Block ${u.email || u.uid}? They will not be able to sign in.`)) act({ op: 'block' }, 'Blocked: sign-in disabled.') }}>Block this user</Btn>}
+        </div>
+      </section>
       <section className="border-t border-outline pt-5" aria-label="Delete user">
         <h3 className="font-semibold text-red-700">Delete this user</h3>
         <p className="mt-1 text-sm text-ink-muted">Deletes the account, every device record and all block counts. Cannot be undone.</p>
@@ -679,11 +690,17 @@ export function Admin({ api: given }: { api?: AdminApi }) {
   usePageMeta('/admin')
   const [api, setApi] = useState<AdminApi | null>(given ?? null)
   const [user, setUser] = useState<DashboardUser | null | undefined>(undefined)
-  const [tab, setTab] = useState<'overview' | 'users' | 'reports' | 'analytics'>('overview')
+  // The section and the open user are in the address (?tab=users&user=...), so the browser's Back
+  // button steps back through them like pages; it used to leave the admin (owner, 2026-11-12).
+  const [params, setParams] = useSearchParams()
+  const TABS = ['overview', 'users', 'reports', 'analytics'] as const
+  type Tab = typeof TABS[number]
+  const tab: Tab = (TABS as readonly string[]).includes(params.get('tab') ?? '') ? (params.get('tab') as Tab) : 'overview'
+  const openUid = tab === 'users' ? params.get('user') : null
+  const go = (t: Tab, uid?: string | null) => setParams(t === 'overview' ? {} : uid ? { tab: t, user: uid } : { tab: t })
   const [overview, setOverview] = useState<Overview | null>(null)
   const [store, setStore] = useState<Store | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [openUid, setOpenUid] = useState<string | null>(null)
 
   useEffect(() => { if (!api) loadApi().then(setApi).catch(() => setError('Could not load sign in.')) }, [api])
   useEffect(() => (api ? api.watchUser(setUser) : undefined), [api])
@@ -710,7 +727,7 @@ export function Admin({ api: given }: { api?: AdminApi }) {
         <>
           <nav className="mt-6 inline-flex flex-wrap gap-1 rounded-full bg-black/5 p-1" aria-label="Admin sections">
             {(['overview', 'users', 'reports', 'analytics'] as const).map((t) => (
-              <button key={t} type="button" onClick={() => { setTab(t); setOpenUid(null) }}
+              <button key={t} type="button" onClick={() => go(t)}
                 className={cx('rounded-full px-4 py-1.5 text-sm font-semibold', tab === t ? 'bg-surface text-ink shadow-sm' : 'text-ink-muted hover:text-ink')}>
                 {{ overview: 'Overview', users: 'Users', reports: 'Reports', analytics: 'Analytics' }[t]}
               </button>
@@ -718,10 +735,10 @@ export function Admin({ api: given }: { api?: AdminApi }) {
           </nav>
           {tab === 'overview' && (overview ? <div className="mt-6"><OverviewTab o={overview} store={store} /></div> : <p className="mt-6 text-ink-muted">Loading…</p>)}
           {tab === 'users' && (openUid
-            ? <UserPage api={api} user={user} uid={openUid} onBack={() => setOpenUid(null)} />
-            : <UsersTab api={api} user={user} onOpen={setOpenUid} />)}
+            ? <UserPage api={api} user={user} uid={openUid} onBack={() => go('users')} />
+            : <UsersTab api={api} user={user} onOpen={(uid) => go('users', uid)} />)}
           {tab === 'analytics' && <AnalyticsTab api={api} user={user} />}
-          {tab === 'reports' && <ReportsTab api={api} user={user} onOpenUser={(uid) => { setOpenUid(uid); setTab('users') }} />}
+          {tab === 'reports' && <ReportsTab api={api} user={user} onOpenUser={(uid) => go('users', uid)} />}
         </>
       )}
     </div>

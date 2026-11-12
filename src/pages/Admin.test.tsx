@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom'
 import { Admin, changedSettings, type AdminApi } from './Admin'
 import type { DashboardUser } from '../lib/dashboard/firebase'
 import { getRouteMeta } from '../seo/routes'
@@ -88,6 +88,42 @@ describe('Admin', () => {
     expect(screen.queryByRole('button', { name: 'mac@example.com' })).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Any device 3' }))
     expect(screen.getByRole('button', { name: 'android@example.com' })).toBeInTheDocument()
+  })
+
+  it('blocking a user asks first, and the button is not next to the way back', async () => {
+    const api = fake(route)
+    const ask = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    render(<MemoryRouter><Admin api={api} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Users' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'a@example.com' }))
+    const block = await screen.findByRole('button', { name: 'Block this user' })
+    // It sits in its own section at the bottom, with the other action that cannot be taken lightly.
+    expect(screen.getByRole('region', { name: 'Block user' })).toContainElement(block)
+    expect(screen.getByRole('button', { name: 'Back to users' }).parentElement).not.toContainElement(block)
+    fireEvent.click(block)
+    expect(ask).toHaveBeenCalledWith(expect.stringContaining('a@example.com'))
+    expect(api.adminApi).not.toHaveBeenCalledWith(owner, expect.objectContaining({ op: 'block' }))
+    ask.mockReturnValue(true)
+    fireEvent.click(block)
+    await waitFor(() => expect(api.adminApi).toHaveBeenCalledWith(owner, { op: 'block', uid: 'u1' }))
+  })
+
+  it('the section and the open user are in the address, so the browser Back button steps through them', async () => {
+    function Probe() {
+      const loc = useLocation(); const nav = useNavigate()
+      return <><output data-testid="loc">{loc.search}</output><button type="button" onClick={() => nav(-1)}>probe back</button></>
+    }
+    render(<MemoryRouter initialEntries={['/admin']}><Probe /><Admin api={fake(route)} /></MemoryRouter>)
+    fireEvent.click(await screen.findByRole('button', { name: 'Users' }))
+    expect(screen.getByTestId('loc')).toHaveTextContent('?tab=users')
+    fireEvent.click(await screen.findByRole('button', { name: 'a@example.com' }))
+    expect(screen.getByTestId('loc')).toHaveTextContent('?tab=users&user=u1')
+    await screen.findByRole('heading', { level: 2, name: 'a@example.com' })
+    fireEvent.click(screen.getByRole('button', { name: 'probe back' }))
+    expect(await screen.findByRole('button', { name: 'a@example.com' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'probe back' }))
+    expect(await screen.findByTestId('stat-Accounts')).toBeInTheDocument()
+    expect(screen.getByTestId('loc')).toHaveTextContent('')
   })
 
   it('changedSettings keeps only real changes', () => {
