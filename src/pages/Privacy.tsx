@@ -189,6 +189,51 @@ export function Privacy() {
         (ECDSA P 256) and every file's SHA 256 hash check out, and otherwise keeps the lists it has.
       </p>
 
+      <h2 className="mt-10 font-display text-xl font-semibold text-ink">Streaks and screen time (Android)</h2>
+      <p className="mt-3 text-ink-muted">
+        From version 1.0.30 the Android app has a Progress tab with your clean streak, your own
+        personal streak and your screen time. It is off until you agree to it, at setup or in a one
+        time notice. Everything it keeps stays on your phone:
+      </p>
+      <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-muted">
+        <li>
+          <strong className="text-ink">Clean streak:</strong> the day it started, the days an adult
+          search or site was blocked, how many blocked attempts there were per day, and the days you
+          marked a break as not on purpose. Kept for the last 400 break days and 60 days of
+          attempts, in the app's settings store.
+        </li>
+        <li>
+          <strong className="text-ink">Personal streak:</strong> its name, start day, relapse days,
+          what set a relapse off and the resolution you wrote. Kept in one private file until you
+          delete it.
+        </li>
+        <li>
+          <strong className="text-ink">Screen time:</strong> how many seconds each app was open per
+          day. Kept in one private file per day for 30 days. Delete screen time on the Progress tab
+          removes all of it.
+        </li>
+      </ul>
+      <p className="mt-3 text-ink-muted">
+        Never a time of day, a site, a search or a picture: days and counts only. To celebrate a
+        milestone only once, the app also remembers on your phone the last day number it showed you
+        and the highest milestone it celebrated. The app has Android backup switched off, and these
+        files are left out of a phone to phone transfer. None of it appears in logs, analytics or
+        crash reports, and Blockerflow's support team cannot see it. Nothing of it is sent
+        anywhere.
+      </p>
+
+      <h3 className="mt-6 font-display text-lg font-semibold text-ink">Backup file</h3>
+      <p className="mt-3 text-ink-muted">
+        On the Progress tab you can save your streaks as a file and restore them later, for example
+        after a reinstall. You choose where it goes through Android's own file picker: the phone's
+        storage, Google Drive or any other storage app. Blockerflow never receives it and never
+        talks to a storage service itself. The file always holds the clean streak's days and counts
+        and the personal streak's days; the streak's name, what set a relapse off and your
+        resolutions only if you tick Include my resolutions. Screen time, settings and anything
+        about your account or device are never in it. The file is not encrypted, so anyone who has
+        it can read it; a copy in Google Drive is kept by Google under your Google account.
+      </p>
+
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">What leaves your device</h2>
       <p className="mt-3 text-ink-muted">
         Apart from the anonymous usage statistics below, the block list downloads described above

@@ -19,6 +19,19 @@ describe('Privacy', () => {
     expect(screen.getByRole('heading', { name: 'Permissions' })).toBeInTheDocument()
   })
 
+  it('explains streaks, screen time and the backup file, and that none of it is sent', () => {
+    render(
+      <MemoryRouter>
+        <Privacy />
+      </MemoryRouter>,
+    )
+    expect(screen.getByRole('heading', { name: 'Streaks and screen time (Android)' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Backup file' })).toBeInTheDocument()
+    expect(screen.getByText(/Nothing of it is sent anywhere/)).toBeInTheDocument()
+    expect(screen.getByText(/Blockerflow never receives it/)).toBeInTheDocument()
+    expect(screen.queryByText(/country your device connects from/i)).not.toBeInTheDocument()
+  })
+
   it('sets the document title', () => {
     render(
       <MemoryRouter>
