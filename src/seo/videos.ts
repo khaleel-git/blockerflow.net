@@ -87,11 +87,29 @@ const DATA = {
   spotlightGuide: {
     src: '/assets/videos/spotlight-guide.mp4',
     poster: '/assets/videos/spotlight-guide.jpg',
-    youtube: 'https://www.youtube.com/shorts/s_Z3CSWiZRw',
+    youtube: 'https://www.youtube.com/shorts/-YkOHVd3i5M',
     name: 'How to block Snapchat Spotlight on Android with Blockerflow',
     description:
-      'A narrated walkthrough: switch on Block Snapchat videos and Block Snapchat search in the Social Blocking card, while chats, the camera and Stories from your friends keep working.',
-    durationSeconds: 36,
+      'A narrated walkthrough: switch on Block Snapchat videos in the Social group, and Spotlight opens to Content Blocked while chats, the camera and Stories from your friends keep working.',
+    durationSeconds: 31,
+  },
+  snapchatSearchGuide: {
+    src: '/assets/videos/snapchat-search-guide.mp4',
+    poster: '/assets/videos/snapchat-search-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/1JbkCEQdZfg',
+    name: 'How to block Snapchat search on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Block Snapchat search in the Social group, and the search page opens to Content Blocked while chats, the camera and Stories from your friends keep working.',
+    durationSeconds: 33,
+  },
+  instagramSearchGuide: {
+    src: '/assets/videos/instagram-search-guide.mp4',
+    poster: '/assets/videos/instagram-search-guide.jpg',
+    youtube: 'https://www.youtube.com/shorts/gsoEEweQ3aA',
+    name: 'How to block Instagram search on Android with Blockerflow',
+    description:
+      'A narrated walkthrough: switch on Block Instagram search in the Social group, and the search and Explore page opens to Content Blocked while messages, feed and Stories keep working.',
+    durationSeconds: 37,
   },
   imageSearchGuide: {
     src: '/assets/videos/image-search-guide.mp4',

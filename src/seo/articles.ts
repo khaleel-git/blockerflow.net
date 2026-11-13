@@ -237,6 +237,52 @@ export const ARTICLES: Article[] = [
     ],
   },
   {
+    slug: 'block-instagram-search-on-android',
+    title: 'Block Instagram Search and Explore on Android (Free)',
+    description:
+      'Block Instagram search and the Explore page on Android with one switch, while messages, feed and Stories keep working. Covers Instagram Lite. Step by step.',
+    h1: 'How to block Instagram search on Android',
+    intro:
+      'For many people the scrolling does not start in Reels but in Instagram search: one tap on the magnifying glass opens an endless grid of Explore posts. Instagram has no setting to hide it. Blockerflow can block the search page and leave the rest of Instagram alone.',
+    media: { kind: 'video', video: 'instagramSearchGuide', caption: 'One switch in the Social group, and what keeps working afterwards.' },
+    sections: [
+      {
+        heading: 'Switch it on in Blockerflow',
+        paragraphs: [
+          'The switch is on the Blocking tab, the screen Blockerflow opens on, in the Social group with the other per app switches.',
+        ],
+        steps: [
+          'Install Blockerflow and complete setup, which includes granting the Accessibility Service permission.',
+          'Stay on the Blocking tab and scroll down to the Social group.',
+          'Switch on Block Instagram search.',
+          'Switch on Block Instagram reels as well if Reels are part of the problem.',
+        ],
+      },
+      {
+        heading: 'What it blocks, and what it leaves alone',
+        paragraphs: [
+          'When Instagram\'s search and Explore page opens, Blockerflow puts a Content Blocked screen in front of it. Instagram Lite is covered too, and in the browser instagram.com/explore is blocked as well.',
+          'Your direct messages, feed, Stories and profiles keep working. Searching for a friend in the send sheet, when you share a post, is a different screen and keeps working too.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Can I still message people with Instagram search blocked?',
+        answer: 'Yes. Direct messages keep working, and you can still pick a friend when you send a post.',
+      },
+      {
+        question: 'Does it block Reels too?',
+        answer: 'No, that is a separate switch, Block Instagram reels, in the same Social group.',
+      },
+    ],
+    related: [
+      'block-instagram-reels-on-android',
+      'how-to-block-instagram-on-android',
+      'focus-mode-block-social-media-android',
+    ],
+  },
+  {
     slug: 'how-to-block-instagram-on-android',
     title: 'How to Block Instagram on Android: App, Website or Just Reels',
     description:
@@ -386,6 +432,51 @@ export const ARTICLES: Article[] = [
     ],
   },
   {
+    slug: 'block-snapchat-search-on-android',
+    title: 'Block Snapchat Search on Android (Free)',
+    description:
+      'Block Snapchat search on Android with one switch, while chats, the camera, snaps and Stories from your friends keep working. Step by step.',
+    h1: 'How to block Snapchat search on Android',
+    intro:
+      'Snapchat search is full of strangers and popular videos, and it is often where the scrolling starts. Snapchat has no setting to remove it. Blockerflow can block the search page and keep your chats.',
+    media: { kind: 'video', video: 'snapchatSearchGuide', caption: 'One switch in the Social group, and what keeps working afterwards.' },
+    sections: [
+      {
+        heading: 'Switch it on in Blockerflow',
+        paragraphs: [
+          'The switch is on the Blocking tab, in the Social group, next to Block Snapchat videos for the Spotlight feed. The two are separate, so you can block either or both.',
+        ],
+        steps: [
+          'Install Blockerflow and complete setup, including the Accessibility Service permission.',
+          'Stay on the Blocking tab and scroll to the Social group.',
+          'Switch on Block Snapchat search.',
+        ],
+      },
+      {
+        heading: 'What stays working',
+        paragraphs: [
+          'When Snapchat\'s search page opens, Blockerflow puts a Content Blocked screen in front of it. Chats, the camera, and snaps and Stories from your friends keep working.',
+          'The add friends screen reuses the same search field, so it is recognised separately and allowed: you can still accept a friend request with Snapchat search blocked.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Can I still send and receive snaps?',
+        answer: 'Yes. Chats, the camera and your friends\' snaps and Stories keep working.',
+      },
+      {
+        question: 'Does it block Spotlight too?',
+        answer: 'No, that is a separate switch, Block Snapchat videos, in the same Social group.',
+      },
+    ],
+    related: [
+      'block-snapchat-spotlight-on-android',
+      'how-to-block-snapchat-on-android',
+      'focus-mode-block-social-media-android',
+    ],
+  },
+  {
     slug: 'block-snapchat-spotlight-on-android',
     title: 'Snapchat Spotlight Blocker: Block Spotlight on Android (Free)',
     description:
@@ -393,7 +484,7 @@ export const ARTICLES: Article[] = [
     h1: 'How to block Snapchat Spotlight on Android',
     intro:
       'Snapchat is a messaging app with a short video feed bolted on. Spotlight scrolls like any other endless feed, and Snapchat gives you no way to remove it. You can block the feed and keep the messaging.',
-    media: { kind: 'video', video: 'spotlightGuide', caption: 'Two switches for Snapchat: one for the Spotlight feed, one for search.' },
+    media: { kind: 'video', video: 'spotlightGuide', caption: 'Block Snapchat videos stops the Spotlight feed; chats keep working.' },
     sections: [
       {
         heading: 'Spotlight is the part that eats the time',
@@ -410,7 +501,7 @@ export const ARTICLES: Article[] = [
           'Install Blockerflow and complete setup, including the Accessibility Service permission.',
           'Stay on the Blocking tab and scroll to the Social group.',
           'Switch on Block Snapchat videos to block the Spotlight feed.',
-          'Switch on Block Snapchat search if searching inside Snapchat is how your scrolling tends to start.',
+          'Switch on Block Snapchat search if searching inside Snapchat is how your scrolling tends to start (see How to block Snapchat search).',
         ],
       },
       {
