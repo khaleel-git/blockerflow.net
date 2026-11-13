@@ -122,6 +122,15 @@ export function Privacy() {
         and calculators are left out too.
       </p>
 
+      <h2 className="mt-10 font-display text-xl font-semibold text-ink">Posts on X</h2>
+      <p className="mt-3 text-ink-muted">
+        On Android, with Block adult content on, Blockerflow reads the posts on your screen in the X
+        app: the author&apos;s name and handle, the text and the descriptions of its pictures. A post
+        with clear adult words, or from an account named that way, is blocked. Posts about quitting
+        or recovery are left open. This happens on your phone; post text is not saved or sent. On
+        Mac and Windows, X posts are only looked at by the picture check.
+      </p>
+
       <h2 className="mt-10 font-display text-xl font-semibold text-ink">Telegram and WhatsApp</h2>
       <p className="mt-3 text-ink-muted">
         To block Telegram channels and chats that keep showing explicit pictures, Blockerflow reads
