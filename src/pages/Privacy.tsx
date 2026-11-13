@@ -363,7 +363,13 @@ export function Privacy() {
         <tbody>
           <tr className="border-b border-outline">
             <td className="py-2 pr-4">Accessibility Service</td>
-            <td className="py-2">Read on-screen content to detect and block</td>
+            <td className="py-2">
+              Read on-screen content to detect and block, on the phone only: web addresses and,
+              on sites it does not know, page text; what you type in search boxes in browsers and
+              apps (in-app search history); which app is open and for how long (screen time); the
+              names of groups and channels you open; the names and text of posts in X; pictures
+              on screen (Android 11 and newer); and the Settings screens you open during setup
+            </td>
           </tr>
           <tr className="border-b border-outline">
             <td className="py-2 pr-4">Internet</td>
