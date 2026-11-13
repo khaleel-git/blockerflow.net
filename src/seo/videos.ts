@@ -194,14 +194,15 @@ const DATA = {
     youtube: 'https://www.youtube.com/shorts/lg3SRZbI_Ic',
   },
   homePitch: {
-    src: '/assets/videos/hero-demo.mp4',
-    poster: '/assets/videos/hero-demo.jpg',
-    name: 'Blockerflow: block porn and distracting feeds, and stay accountable',
+    src: '/assets/videos/home-demo.mp4',
+    poster: '/assets/videos/home-demo.jpg',
+    name: 'Blockerflow: your streak, protected',
     description:
-      'A narrated overview of Blockerflow: adult content blocking, the four accountability partners, Uninstall Protection, on device privacy, feed blocking and Focus Mode.',
-    durationSeconds: 77,
-    youtube: 'https://www.youtube.com/shorts/w1gjC6uNl4M',
+      'A 90 second overview of Blockerflow for Android: adult searches and over a million sites blocked, explicit pictures checked on the phone, Reels and Shorts gone, your own Blocklist and Focus, the urge timer, accountability partners, Uninstall Protection, the clean streak with milestones, screen time, and the Accessibility permission explained.',
+    durationSeconds: 90,
+    youtube: 'https://www.youtube.com/watch?v=6ffx2L_8qys',
   },
+
   instagramGuide: {
     src: '/assets/videos/instagram-guide.mp4',
     poster: '/assets/videos/instagram-guide.jpg',
