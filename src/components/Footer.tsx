@@ -37,7 +37,6 @@ export function Footer() {
           <li><Link to="/guide/" className={linkClass}>Setup</Link></li>
           <li><Link to="/guides/" className={linkClass}>Guides</Link></li>
           <li><Link to="/dashboard/" className={linkClass}>Dashboard</Link></li>
-          <li><a href="/status.html" className={linkClass}>Status</a></li>
           <li><a href="mailto:support@blockerflow.net" className={linkClass}>Contact support</a></li>
         </Group>
         <Group title="Legal">

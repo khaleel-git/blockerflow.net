@@ -686,6 +686,72 @@ function AnalyticsTab({ api, user }: { api: AdminApi; user: DashboardUser }) {
   )
 }
 
+/** A chosen file's text (FileReader, which every browser and the test DOM have). */
+const readText = (file: File) => new Promise<string>((ok, fail) => {
+  const r = new FileReader()
+  r.onload = () => ok(String(r.result ?? ''))
+  r.onerror = () => fail(new Error('Could not read the file'))
+  r.readAsText(file)
+})
+
+interface Docs { html: string | null; version?: string; updatedMs?: number | null; by?: string }
+
+/**
+ * The Android live docs (android/docs/android-app-live-docs.html in the app repo), admin only
+ * (owner, 2026-11-13: it used to be public at /status.html). The server keeps the page; this tab
+ * shows it in a sandboxed frame and takes a new version as a file.
+ */
+function DocsTab({ api, user }: { api: AdminApi; user: DashboardUser }) {
+  const [docs, setDocs] = useState<Docs | null>(null)
+  const [err, setErr] = useState<string | null>(null)
+  const [msg, setMsg] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const load = useCallback(() => api.adminApi<Docs>(user, { op: 'docs' }).then(setDocs).catch((e) => setErr(String(e.message))), [api, user])
+  useEffect(() => { void load() }, [load])
+  // A blob address rather than srcdoc: the page moves between its sections with #anchors.
+  const url = useMemo(() => {
+    if (!docs?.html || typeof URL.createObjectURL !== 'function') return null
+    return URL.createObjectURL(new Blob([docs.html], { type: 'text/html' }))
+  }, [docs])
+  useEffect(() => () => { if (url) URL.revokeObjectURL(url) }, [url])
+
+  async function upload(file: File | undefined) {
+    if (!file) return
+    setBusy(true); setMsg(null); setErr(null)
+    try {
+      const r = await api.adminApi<{ version: string }>(user, { op: 'setDocs', html: await readText(file) })
+      setMsg(`Uploaded${r.version ? `: Android ${r.version}` : ''}.`)
+      await load()
+    } catch (e) { setErr(String((e as Error).message)) } finally { setBusy(false) }
+  }
+
+  return (
+    <div className="mt-6 space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-surface px-5 py-4">
+        <div className="text-sm text-ink-muted">
+          {docs === null ? 'Loading…' : docs.html
+            ? <>Android live docs{docs.version ? <> for <b className="text-ink">{docs.version}</b></> : null}{docs.updatedMs ? `, uploaded ${new Date(docs.updatedMs).toLocaleString('en-GB')}` : ''}. Only admins can open it.</>
+            : 'No docs uploaded yet.'}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {url && <a href={url} target="_blank" rel="noopener noreferrer" className="rounded-full border border-outline px-4 py-1.5 text-sm font-semibold text-ink hover:bg-black/5">Open full screen</a>}
+          <label className={cx('cursor-pointer rounded-full bg-primary px-4 py-1.5 text-sm font-semibold text-white', busy && 'opacity-60')}>
+            {busy ? 'Uploading…' : 'Upload new version'}
+            <input type="file" accept=".html,text/html" className="sr-only" disabled={busy} aria-label="Upload new version"
+              onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = '' }} />
+          </label>
+        </div>
+      </div>
+      {msg && <p role="status" className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{msg}</p>}
+      {err && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{err}</p>}
+      {url && (
+        <iframe title="Android live docs" src={url} sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"
+          className="h-[calc(100vh-220px)] min-h-[600px] w-full rounded-2xl border-0 bg-surface shadow-sm" />
+      )}
+    </div>
+  )
+}
+
 export function Admin({ api: given }: { api?: AdminApi }) {
   usePageMeta('/admin')
   const [api, setApi] = useState<AdminApi | null>(given ?? null)
@@ -693,7 +759,7 @@ export function Admin({ api: given }: { api?: AdminApi }) {
   // The section and the open user are in the address (?tab=users&user=...), so the browser's Back
   // button steps back through them like pages; it used to leave the admin (owner, 2026-11-12).
   const [params, setParams] = useSearchParams()
-  const TABS = ['overview', 'users', 'reports', 'analytics'] as const
+  const TABS = ['overview', 'users', 'reports', 'analytics', 'docs'] as const
   type Tab = typeof TABS[number]
   const tab: Tab = (TABS as readonly string[]).includes(params.get('tab') ?? '') ? (params.get('tab') as Tab) : 'overview'
   const openUid = tab === 'users' ? params.get('user') : null
@@ -726,10 +792,10 @@ export function Admin({ api: given }: { api?: AdminApi }) {
       {api && user && !error && (
         <>
           <nav className="mt-6 inline-flex flex-wrap gap-1 rounded-full bg-black/5 p-1" aria-label="Admin sections">
-            {(['overview', 'users', 'reports', 'analytics'] as const).map((t) => (
+            {TABS.map((t) => (
               <button key={t} type="button" onClick={() => go(t)}
                 className={cx('rounded-full px-4 py-1.5 text-sm font-semibold', tab === t ? 'bg-surface text-ink shadow-sm' : 'text-ink-muted hover:text-ink')}>
-                {{ overview: 'Overview', users: 'Users', reports: 'Reports', analytics: 'Analytics' }[t]}
+                {{ overview: 'Overview', users: 'Users', reports: 'Reports', analytics: 'Analytics', docs: 'Docs' }[t]}
               </button>
             ))}
           </nav>
@@ -739,6 +805,7 @@ export function Admin({ api: given }: { api?: AdminApi }) {
             : <UsersTab api={api} user={user} onOpen={(uid) => go('users', uid)} />)}
           {tab === 'analytics' && <AnalyticsTab api={api} user={user} />}
           {tab === 'reports' && <ReportsTab api={api} user={user} onOpenUser={(uid) => go('users', uid)} />}
+          {tab === 'docs' && <DocsTab api={api} user={user} />}
         </>
       )}
     </div>

@@ -15,6 +15,11 @@ const CANONICAL_HOST = 'blockerflow.net'
 // site. Redirecting carries its old links and any ranking over to blockerflow.net.
 const REDIRECT_HOSTS = new Set(['www.blockerflow.net', 'blockerflow.khaleel.eu'])
 
+// The Android live docs used to be public at /status.html. Since 2026-11-13 they are admin only and
+// live in the admin page's Docs tab (the file is no longer in this public repo), so old links and
+// bookmarks go there; the admin page asks for the owner's Google sign-in.
+const MOVED_TO_ADMIN = new Set(['/status', '/status/', '/status.html'])
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
@@ -26,6 +31,10 @@ export default {
       // 301, not 302: this move is permanent, and search engines only pass ranking on for a
       // permanent redirect.
       return Response.redirect(url.toString(), 301)
+    }
+
+    if (MOVED_TO_ADMIN.has(url.pathname)) {
+      return Response.redirect(`${url.origin}/admin/?tab=docs`, 302)
     }
 
     return env.ASSETS.fetch(request)

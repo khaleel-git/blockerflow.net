@@ -212,4 +212,21 @@ describe('Admin', () => {
     expect(bars.className).toContain('grid-cols-[minmax(0,9rem)_minmax(2rem,1fr)_auto]')
     expect(bars.querySelector('li')!.className).toBe('contents')
   })
+
+  it('shows the live docs only through adminApi, and uploads a new version', async () => {
+    const page = '<!doctype html><title>docs</title>'
+    const api = fake((b) => (b.op === 'docs' ? { html: page, version: '1.0.30 (37)', updatedMs: 0 } : b.op === 'setDocs' ? { ok: true, version: '1.0.30 (37)' } : route(b)))
+    render(<MemoryRouter initialEntries={['/admin?tab=docs']}><Admin api={api} /></MemoryRouter>)
+    expect(await screen.findByText('1.0.30 (37)')).toBeInTheDocument()
+    expect(api.adminApi).toHaveBeenCalledWith(owner, { op: 'docs' })
+    const file = new File([page], 'android-app-live-docs.html', { type: 'text/html' })
+    fireEvent.change(screen.getByLabelText('Upload new version'), { target: { files: [file] } })
+    await waitFor(() => expect(api.adminApi).toHaveBeenCalledWith(owner, { op: 'setDocs', html: page }))
+    expect(await screen.findByRole('status')).toHaveTextContent('Uploaded: Android 1.0.30 (37)')
+  })
+
+  it('says when no docs have been uploaded', async () => {
+    render(<MemoryRouter initialEntries={['/admin?tab=docs']}><Admin api={fake((b) => (b.op === 'docs' ? { html: null } : route(b)))} /></MemoryRouter>)
+    expect(await screen.findByText('No docs uploaded yet.')).toBeInTheDocument()
+  })
 })
