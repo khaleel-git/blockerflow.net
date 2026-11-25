@@ -101,7 +101,12 @@ describe('guide articles', () => {
     expect(screen.getByRole('heading', { name: 'Quitting, and if the internet stops' })).toBeInTheDocument()
     const net = screen.getAllByRole('note').filter((n) => n.textContent?.includes('networksetup -setwebproxystate Wi-Fi off'))
     expect(net).toHaveLength(1)
-    expect(document.body.textContent).toContain('Version 1.2.8')
+    expect(document.body.textContent).toContain('Version 1.2.9')
+  })
+
+  it('explains the macOS 14 startup fix of Mac 1.2.9', () => {
+    renderAt(MAC_GUIDE_PATH)
+    expect(document.body.textContent).toContain('Version 1.2.9 fixes a startup problem on macOS 14 and older')
   })
 
   it('explains Force SafeSearch of Mac 1.2.8', () => {
